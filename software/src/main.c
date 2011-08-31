@@ -52,6 +52,7 @@ void vApplicationStackOverflowHook(xTaskHandle *pxTask, signed char *pcTaskName)
 }
 
 int main() {
+	SLEEP_MS(5);
 	brick_init();
 
     if(usb_is_connected()) {
