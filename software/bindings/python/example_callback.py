@@ -29,7 +29,7 @@ def cb_reached(position):
     stepper.set_steps(steps)
 
 if __name__ == "__main__":
-    ipcon = IPConnection(HOST, PORT) # Create ip connection to brick
+    ipcon = IPConnection(HOST, PORT) # Create ip connection to brickd
 
     stepper = Stepper(UID) # Create device object
     ipcon.add_device(stepper) # Add device to ip connection

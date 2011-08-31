@@ -9,7 +9,7 @@ from ip_connection import IPConnection
 from brick_stepper import Stepper
 
 if __name__ == "__main__":
-    ipcon = IPConnection(HOST, PORT) # Create ip connection to brick
+    ipcon = IPConnection(HOST, PORT) # Create ip connection to brickd
 
     stepper = Stepper(UID) # Create device object
     ipcon.add_device(stepper) # Add device to ip connection
