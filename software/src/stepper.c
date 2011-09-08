@@ -68,7 +68,7 @@ int8_t stepper_direction = STEPPER_DIRECTION_FORWARD;
 
 int32_t stepper_step_counter = 0;
 int32_t stepper_acceleration_counter = 0;
-int32_t stepper_acceleration_steps = 0;
+uint32_t stepper_acceleration_steps = 0;
 int32_t stepper_deceleration_steps = 0;
 int32_t stepper_delay = 0;
 int32_t stepper_last_delay = 0;
@@ -195,7 +195,7 @@ void stepper_make_step_speedramp(int32_t steps) {
 		stepper_acceleration_steps = 1;
 	}
 
-	int32_t acceleration_limit = (steps*deceleration)/
+	int32_t acceleration_limit = (((int64_t)steps)*((int64_t)deceleration))/
 	                             (acceleration + deceleration);
 	if(acceleration_limit == 0) {
 		acceleration_limit = 1;
@@ -204,9 +204,9 @@ void stepper_make_step_speedramp(int32_t steps) {
 	if(acceleration_limit <= stepper_acceleration_steps) {
 		stepper_deceleration_steps = acceleration_limit - steps;
 	} else {
-		stepper_deceleration_steps = -stepper_acceleration_steps *
-									  acceleration /
-		                              deceleration;
+		stepper_deceleration_steps = -(((int64_t)stepper_acceleration_steps) *
+									   ((int64_t)acceleration) /
+		                               deceleration);
 	}
 	if(stepper_deceleration_steps == 0) {
 		stepper_deceleration_steps = -1;
@@ -439,6 +439,10 @@ void stepper_drive_speedramp(void) {
 			stepper_running = false;
 			tc_channel_stop(&STEPPER_TC_CHANNEL);
 			stepper_state = STEPPER_STATE_STOP;
+			stepper_velocity = 0;
+			stepper_step_counter = 0;
+			stepper_acceleration_counter = 0;
+			stepper_delay_rest = 0;
 			rest = 0;
 			return;
 		} else if(stepper_speedramp_state != stepper_direction) {

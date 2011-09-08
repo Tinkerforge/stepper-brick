@@ -74,7 +74,7 @@ void get_current_velocity(uint8_t com, const GetCurrentVelocity *data) {
 	gcvr.stack_address = data->stack_address;
 	gcvr.type          = data->type;
 	gcvr.length        = sizeof(GetCurrentVelocityReturn);
-	gcvr.velocity      = stepper_velocity;
+	gcvr.velocity      = stepper_velocity > 0xFFFF ? 0xFFFF : stepper_velocity;
 
 	send_blocking_with_timeout(&gcvr, sizeof(GetCurrentVelocityReturn), com);
 }

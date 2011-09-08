@@ -33,8 +33,8 @@
 #define STEPPER_MINIMUM_VOLTAGE_DEFAULT    8000
 #define STEPPER_VOLTAGE_EPSILON            1000
 
-#define VELOCITY_TO_DELAY(vel) (1000000/(vel))
-#define DELAY_TO_VELOCITY(del) (1000000/(del))
+#define VELOCITY_TO_DELAY(vel) ((2147483647/2)/(vel))
+#define DELAY_TO_VELOCITY(del) ((2147483647/2)/(del))
 
 #define MAX_TIMER_VALUE 0xFFFF
 
