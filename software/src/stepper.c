@@ -298,7 +298,7 @@ void stepper_init(void) {
 	tc_channel_start(&SINGLE_SHOT_TC_CHANNEL);
 
     stepper_set_output_current(VREF_DEFAULT_CURRENT);
-    stepper_set_step_mode(STEP_MODE_FULL);
+    stepper_set_step_mode(STEP_MODE_EIGTH);
     stepper_set_decay(DECAY_DEFAULT_VALUE);
 
 	adc_channel_enable(VOLTAGE_EXTERN_CHANNEL);
