@@ -227,7 +227,7 @@ void tick_task(void) {
 	stepper_tick_counter++;
 
 	// Switch Output Voltage between extern and stack
-	if(adc_channel_get_data(VOLTAGE_EXTERN_CHANNEL) < MIN_EXTERN_VALUE) {
+	if(stepper_get_stack_voltage() < STEPPER_VOLTAGE_EPSILON) {
 		PIO_Set(&pin_voltage_switch);
 	} else {
 		PIO_Clear(&pin_voltage_switch);
