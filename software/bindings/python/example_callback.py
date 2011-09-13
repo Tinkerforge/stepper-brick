@@ -19,9 +19,9 @@ def cb_reached(position):
         steps = random.randint(-5000, -1000) # steps (backward)
         print('Driving backward: ' + str(steps) + ' steps')
 
-    vel   = random.randint(200, 2000) # steps/s
-    acc   = random.randint(100, 1000) # steps/s^2
-    dec   = random.randint(100, 1000) # steps/s^2
+    vel = random.randint(200, 2000) # steps/s
+    acc = random.randint(100, 1000) # steps/s^2
+    dec = random.randint(100, 1000) # steps/s^2
     print('Configuration (vel, acc, dec): ' + str((vel, acc, dec)))
 
     stepper.set_speed_ramping(acc, dec)
