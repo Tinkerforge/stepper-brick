@@ -5,8 +5,8 @@ HOST = "localhost"
 PORT = 4223
 UID = "a4LCLTYxDK9" # Change to your UID
 
-from ip_connection import IPConnection
-from brick_stepper import Stepper
+from tinkerforge.ip_connection import IPConnection
+from tinkerforge.brick_stepper import Stepper
 
 if __name__ == "__main__":
     ipcon = IPConnection(HOST, PORT) # Create ip connection to brickd

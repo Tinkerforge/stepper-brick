@@ -5,8 +5,8 @@ HOST = "localhost"
 PORT = 4223
 UID = "a4LCLTYxDK9" # Change to your UID
 
-from ip_connection import IPConnection
-from brick_stepper import Stepper
+from tinkerforge.ip_connection import IPConnection
+from tinkerforge.brick_stepper import Stepper
 
 import random
 
