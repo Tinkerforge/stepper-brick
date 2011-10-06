@@ -28,9 +28,10 @@
 
 #define at91sam3s2b
 
-
-#define BOARD_VERSION "1.0"
-#define BOARD_NAME    "Stepper Brick"
+#define BRICK_HARDWARE_NAME "Stepper Brick 1.0"
+#define BRICK_FIRMWARE_VERSION_MAJOR 1
+#define BRICK_FIRMWARE_VERSION_MINOR 0
+#define BRICK_FIRMWARE_VERSION_REVISION 0
 
 // ************** DEBUG SETTINGS **************
 #define DEBUG_SPI_STACK 1
