@@ -1,7 +1,3 @@
-// tested with 
-// gcc -lpthread -lrt -o example_configuration brick_stepper.c 
-//     ip_connection.c example_configuration.c
-// on Ubuntu
 
 #include <stdio.h>
 
