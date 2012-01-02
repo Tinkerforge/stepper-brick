@@ -1,0 +1,2 @@
+1.0.0: Initial version
+1.0.1: Add code for voltage divider to allow motor current below 100mA
