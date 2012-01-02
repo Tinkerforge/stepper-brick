@@ -192,10 +192,11 @@
 #define PIN_HOME        {1 << 5,  PIOA, ID_PIOA, PIO_INPUT,    PIO_DEFAULT}
 #define PIN_VREF        {1 << 13, PIOB, ID_PIOB, PIO_INPUT,    PIO_DEFAULT}
 #define PIN_DECAY       {1 << 14, PIOB, ID_PIOB, PIO_INPUT,    PIO_DEFAULT}
+#define PIN_PWR_DAC     {1 << 8,  PIOA, ID_PIOA, PIO_INPUT,    PIO_DEFAULT}
 
 #define PINS_STEPPER    PIN_ENABLE, PIN_SLEEP, PIN_STEP, PIN_DIRECTION, \
                         PIN_USM0, PIN_USM1, PIN_RESET, PIN_SYNC_RECT, \
-                        PIN_HOME, PIN_VREF, PIN_DECAY
+                        PIN_HOME, PIN_VREF, PIN_DECAY, PIN_PWR_DAC
 
 
 // ************** POWER MANAGEMENT **************
@@ -235,5 +236,9 @@
 // 5/6: Maximim value for DAC
 #define VREF_MIN_CURRENT (330000/(6*8*15))
 #define VREF_MAX_CURRENT (330000*5/(6*8*15))
+
+// 2.7k voltage divider
+#define VREF_RES_MIN_CURRENT ((330000*27/127)/(6*8*15))
+#define VREF_RES_MAX_CURRENT ((330000*27/127)*5/(6*8*15))
 
 #define DECAY_CHANNEL 1

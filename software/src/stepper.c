@@ -546,15 +546,30 @@ void stepper_disable(void) {
 }
 
 void stepper_set_output_current(const uint16_t current) {
-	const uint16_t new_current = BETWEEN(VREF_MIN_CURRENT,
+	Pin pin = PIN_PWR_DAC;
+	const uint16_t new_current = BETWEEN(VREF_RES_MIN_CURRENT,
 	                                     current,
 	                                     VREF_MAX_CURRENT);
 
-	DACC_SetConversionData(DACC, SCALE(new_current,
-	                                   VREF_MIN_CURRENT,
-	                                   VREF_MAX_CURRENT,
-	                                   VOLTAGE_MIN_VALUE,
-	                                   VOLTAGE_MAX_VALUE));
+	if(new_current < VREF_RES_MAX_CURRENT) {
+		pin.type = PIO_OUTPUT_0;
+		pin.attribute = PIO_DEFAULT;
+		PIO_Configure(&pin, 1);
+		DACC_SetConversionData(DACC, SCALE(new_current,
+		                                   VREF_RES_MIN_CURRENT,
+	                                       VREF_RES_MAX_CURRENT,
+	                                       VOLTAGE_MIN_VALUE,
+	                                       VOLTAGE_MAX_VALUE));
+	} else {
+		DACC_SetConversionData(DACC, SCALE(new_current,
+		                                   VREF_MIN_CURRENT,
+	                                       VREF_MAX_CURRENT,
+	                                       VOLTAGE_MIN_VALUE,
+	                                       VOLTAGE_MAX_VALUE));
+		pin.type = PIO_INPUT;;
+		pin.attribute = PIO_DEFAULT;
+		PIO_Configure(&pin, 1);
+	}
 
 	stepper_output_current = new_current;
 }
