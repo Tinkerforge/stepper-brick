@@ -36,6 +36,7 @@
 #include "bricklib/drivers/pwmc/pwmc.h"
 #include "bricklib/utility/util_definitions.h"
 #include "bricklib/utility/led.h"
+#include "bricklib/utility/init.h"
 #include <stdio.h>
 
 Pin pin_enable =  PIN_ENABLE;
@@ -223,22 +224,24 @@ void stepper_make_step_speedramp(int32_t steps) {
 	TC0_IrqHandler();
 }
 
-void tick_task(void) {
-	stepper_tick_counter++;
+void tick_task(uint8_t tick_type) {
+	if(tick_type == TICK_TASK_TYPE_CALCULATION) {
+		// Switch Output Voltage between extern and stack
+		if(stepper_get_external_voltage() < STEPPER_VOLTAGE_EPSILON) {
+			PIO_Set(&pin_voltage_switch);
+		} else {
+			PIO_Clear(&pin_voltage_switch);
+		}
+	} else if(tick_type == TICK_TASK_TYPE_MESSAGE) {
+		stepper_tick_counter++;
 
-	// Switch Output Voltage between extern and stack
-	if(stepper_get_external_voltage() < STEPPER_VOLTAGE_EPSILON) {
-		PIO_Set(&pin_voltage_switch);
-	} else {
-		PIO_Clear(&pin_voltage_switch);
+		if(stepper_position_reached) {
+			stepper_position_reached = false;
+			stepper_position_reached_signal();
+		}
+
+		stepper_check_error_signals();
 	}
-
-	if(stepper_position_reached) {
-		stepper_position_reached = false;
-		stepper_position_reached_signal();
-	}
-
-	stepper_check_error_signals();
 }
 
 void stepper_init(void) {

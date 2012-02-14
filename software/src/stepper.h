@@ -91,7 +91,7 @@ void stepper_disable(void);
 void stepper_update_tc_frequency(void);
 uint16_t stepper_get_external_voltage(void);
 uint16_t stepper_get_stack_voltage(void);
-void tick_task(void);
+void tick_task(uint8_t tick_type);
 void stepper_set_direction(int8_t direction);
 void TC1_IrqHandler(void);
 void stepper_position_reached_signal(void);
