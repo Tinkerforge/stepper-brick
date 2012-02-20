@@ -1,4 +1,4 @@
-EESchema Schematic File Version 2  date Mon 13 Feb 2012 16:04:18 CET
+EESchema Schematic File Version 2  date Mon 20 Feb 2012 11:04:38 CET
 LIBS:power
 LIBS:device
 LIBS:transistors
@@ -30,13 +30,14 @@ LIBS:atmel
 LIBS:contrib
 LIBS:valves
 LIBS:tinkerforge
+LIBS:stepper-cache
 EELAYER 25  0
 EELAYER END
 $Descr A4 11700 8267
 encoding utf-8
 Sheet 3 5
 Title ""
-Date "12 jan 2012"
+Date "20 feb 2012"
 Rev "1.1"
 Comp "Tinkerforge GmbH"
 Comment1 "Licensed under CERN OHL v.1.1"

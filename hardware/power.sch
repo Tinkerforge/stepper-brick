@@ -1,4 +1,4 @@
-EESchema Schematic File Version 2  date Mon 13 Feb 2012 16:04:18 CET
+EESchema Schematic File Version 2  date Mon 20 Feb 2012 11:04:38 CET
 LIBS:power
 LIBS:device
 LIBS:transistors
@@ -30,13 +30,14 @@ LIBS:atmel
 LIBS:contrib
 LIBS:valves
 LIBS:tinkerforge
+LIBS:stepper-cache
 EELAYER 25  0
 EELAYER END
 $Descr A4 11700 8267
 encoding utf-8
 Sheet 2 5
 Title ""
-Date "12 jan 2012"
+Date "20 feb 2012"
 Rev "1.1"
 Comp "Tinkerforge GmbH"
 Comment1 "Licensed under CERN OHL v.1.1"
@@ -571,7 +572,7 @@ L CP1 C10
 U 1 1 4D130A62
 P 6400 1500
 F 0 "C10" H 6450 1600 50  0000 L CNN
-F 1 "220µF/50V" H 6450 1400 50  0000 L CNN
+F 1 "330µF/50V" H 6450 1400 50  0000 L CNN
 F 2 "ELKO_103" H 6400 1500 60  0001 C CNN
 	1    6400 1500
 	1    0    0    -1  
@@ -581,7 +582,7 @@ L CP1 C9
 U 1 1 4D130A47
 P 5900 1500
 F 0 "C9" H 5950 1600 50  0000 L CNN
-F 1 "220µF/50V" H 5950 1400 50  0000 L CNN
+F 1 "330µF/50V" H 5950 1400 50  0000 L CNN
 F 2 "ELKO_103" H 5900 1500 60  0001 C CNN
 	1    5900 1500
 	1    0    0    -1  
