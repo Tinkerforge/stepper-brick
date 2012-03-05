@@ -1,3 +1,4 @@
 1.0.0: Initial version
 1.0.1: Add code for voltage divider to allow motor current below 100mA
 1.1.0: Add support for tick types
+1.1.1: Fix bug with timeouts on windows (through bricklib)
