@@ -76,9 +76,13 @@ int32_t stepper_last_delay = 0;
 int32_t stepper_delay_rest = 0;
 int32_t stepper_deceleration_start = 0;
 uint32_t stepper_tick_counter = 0;
+uint32_t stepper_tick_calc_counter = 0;
 
 bool stepper_running = false;
 bool stepper_position_reached = false;
+
+uint32_t stepper_current_sum = 0;
+uint32_t stepper_current = 0;
 
 const uint32_t stepper_timer_frequency[] = {BOARD_MCK/2,
                                             BOARD_MCK/8,
@@ -226,6 +230,12 @@ void stepper_make_step_speedramp(int32_t steps) {
 
 void tick_task(uint8_t tick_type) {
 	if(tick_type == TICK_TASK_TYPE_CALCULATION) {
+		stepper_tick_calc_counter++;
+		stepper_current_sum += adc_channel_get_data(STEPPER_CURRENT_CHANNEL);
+		if(stepper_tick_calc_counter % 100 == 0) {
+			stepper_current = stepper_current_sum/100;
+			stepper_current_sum = 0;
+		}
 		// Switch Output Voltage between extern and stack
 		if(stepper_get_external_voltage() < STEPPER_VOLTAGE_EPSILON) {
 			PIO_Set(&pin_voltage_switch);
@@ -639,8 +649,8 @@ uint16_t stepper_get_stack_voltage(void) {
 }
 
 uint16_t stepper_get_current(void) {
-	return adc_channel_get_data(STEPPER_CURRENT_CHANNEL) *
-	                            STEPPER_CURRENT_REFERENCE *
-	                            STEPPER_CURRENT_MULTIPLIER /
-	                            VOLTAGE_MAX_VALUE;
+	return stepper_current *
+	       STEPPER_CURRENT_REFERENCE *
+	       STEPPER_CURRENT_MULTIPLIER /
+	       VOLTAGE_MAX_VALUE;
 }
