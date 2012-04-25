@@ -29,12 +29,11 @@ def cb_reached(position):
     stepper.set_steps(steps)
 
 if __name__ == "__main__":
-    ipcon = IPConnection(HOST, PORT) # Create ip connection to brickd
+    ipcon = IPConnection(HOST, PORT) # Create IP connection to brickd
 
     stepper = Stepper(UID) # Create device object
-    ipcon.add_device(stepper) # Add device to ip connection
+    ipcon.add_device(stepper) # Add device to IP connection
     # Don't use device before it is added to a connection
-
 
     # Register "position reached callback" to cb_reached
     # cb_reached will be called every time a position set with

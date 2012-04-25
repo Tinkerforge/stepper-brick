@@ -33,7 +33,7 @@ void cb_reached(int16_t velocity) {
 }
 
 int main() {
-	// Create ip connection to brickd
+	// Create IP connection to brickd
 	IPConnection ipcon;
 	if(ipcon_create(&ipcon, HOST, PORT) < 0) {
 		fprintf(stderr, "Could not create connection\n");
@@ -43,25 +43,24 @@ int main() {
 	// Create device object
 	stepper_create(&stepper, UID); 
 
-	// Add device to ip connection
+	// Add device to IP connection
 	if(ipcon_add_device(&ipcon, &stepper) < 0) {
 		fprintf(stderr, "Could not connect to Brick\n");
 		exit(1);
 	}
 	// Don't use device before it is added to a connection
 
-
 	// Register "position reached callback" to cb_reached
 	// cb_reached will be called every time a position set with
 	// set_steps or set_target_position is reached
 	stepper_register_callback(&stepper, 
 	                          STEPPER_CALLBACK_POSITION_REACHED,
-							  cb_reached);
+	                          cb_reached);
 
 	stepper_enable(&stepper);
 	// Drive one step forward to get things going
 	stepper_set_steps(&stepper, 1);
 
 	printf("Press ctrl+c to close\n");
-	ipcon_join_thread(&ipcon); // Join mainloop of ip connection
+	ipcon_join_thread(&ipcon); // Join mainloop of IP connection
 }

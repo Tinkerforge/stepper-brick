@@ -9,12 +9,11 @@ from tinkerforge.ip_connection import IPConnection
 from tinkerforge.brick_stepper import Stepper
 
 if __name__ == "__main__":
-    ipcon = IPConnection(HOST, PORT) # Create ip connection to brickd
+    ipcon = IPConnection(HOST, PORT) # Create IP connection to brickd
 
     stepper = Stepper(UID) # Create device object
-    ipcon.add_device(stepper) # Add device to ip connection
+    ipcon.add_device(stepper) # Add device to IP connection
     # Don't use device before it is added to a connection
-
 
     stepper.set_motor_current(800) # 800mA
     stepper.set_step_mode(8) # 1/8 step mode

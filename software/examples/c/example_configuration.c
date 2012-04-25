@@ -9,7 +9,7 @@
 #define UID "a4LCLTYxDK9" // Change to your UID
 
 int main() {
-	// Create ip connection to brickd
+	// Create IP connection to brickd
 	IPConnection ipcon;
 	if(ipcon_create(&ipcon, HOST, PORT) < 0) {
 		fprintf(stderr, "Could not create connection\n");
@@ -20,13 +20,12 @@ int main() {
 	Stepper stepper;
 	stepper_create(&stepper, UID); 
 
-	// Add device to ip connection
+	// Add device to IP connection
 	if(ipcon_add_device(&ipcon, &stepper) < 0) {
 		fprintf(stderr, "Could not connect to Brick\n");
 		exit(1);
 	}
 	// Don't use device before it is added to a connection
-
 
 	stepper_set_motor_current(&stepper, 800); // 800mA
 	stepper_set_step_mode(&stepper, 8); // 1/8 step mode
@@ -41,5 +40,5 @@ int main() {
 	stepper_set_steps(&stepper, 60000); // Drive 60000 steps forward
 
 	printf("Press ctrl+c to close\n");
-	ipcon_join_thread(&ipcon); // Join mainloop of ip connection
+	ipcon_join_thread(&ipcon); // Join mainloop of IP connection
 }
