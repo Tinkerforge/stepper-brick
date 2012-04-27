@@ -58,6 +58,8 @@
 #define TYPE_GET_MINIMUM_VOLTAGE 30
 #define TYPE_UNDER_VOLTAGE 31
 #define TYPE_POSITION_REACHED 32
+#define TYPE_SET_SYNC_RECT 33
+#define TYPE_IS_SYNC_RECT 34
 
 #define COM_MESSAGES_USER \
 	{TYPE_SET_MAX_VELOCITY, (message_handler_func_t)set_max_velocity}, \
@@ -89,7 +91,11 @@
 	{TYPE_SET_DECAY, (message_handler_func_t)set_decay}, \
 	{TYPE_GET_DECAY, (message_handler_func_t)get_decay}, \
 	{TYPE_SET_MINIMUM_VOLTAGE, (message_handler_func_t)set_minimum_voltage}, \
-	{TYPE_GET_MINIMUM_VOLTAGE, (message_handler_func_t)get_minimum_voltage},
+	{TYPE_GET_MINIMUM_VOLTAGE, (message_handler_func_t)get_minimum_voltage}, \
+	{TYPE_UNDER_VOLTAGE, (message_handler_func_t)NULL}, \
+	{TYPE_POSITION_REACHED, (message_handler_func_t)NULL}, \
+	{TYPE_SET_SYNC_RECT, (message_handler_func_t)set_sync_rect}, \
+	{TYPE_IS_SYNC_RECT, (message_handler_func_t)is_sync_rect},
 
 
 typedef struct {
@@ -402,6 +408,25 @@ typedef struct {
 	int32_t position;
 } __attribute__((__packed__)) PositionReachedSignal;
 
+typedef struct {
+	uint8_t stack_address;
+	uint8_t type;
+	uint16_t length;
+	bool sync_rect;
+} __attribute__((__packed__)) SetSyncRect;
+
+typedef struct {
+	uint8_t stack_address;
+	uint8_t type;
+	uint16_t length;
+} __attribute__((__packed__)) IsSyncRect;
+
+typedef struct {
+	uint8_t stack_address;
+	uint8_t type;
+	uint16_t length;
+	bool sync_rect;
+} __attribute__((__packed__)) IsSyncRectReturn;
 
 void set_max_velocity(uint8_t com, const SetMaxVelocity *data);
 void get_max_velocity(uint8_t com, const GetMaxVelocity *data);
@@ -433,5 +458,7 @@ void disable(uint8_t com, const Disable *data);
 void is_enabled(uint8_t com, const IsEnabled *data);
 void set_minimum_voltage(uint8_t com, const SetMinimumVoltage *data);
 void get_minimum_voltage(uint8_t com, const GetMinimumVoltage *data);
+void set_sync_rect(uint8_t com, const SetSyncRect *data);
+void is_sync_rect(uint8_t com, const IsSyncRect *data);
 
 #endif

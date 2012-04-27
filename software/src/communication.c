@@ -53,6 +53,8 @@ extern int8_t stepper_state;
 extern int8_t stepper_speedramp_state;
 extern int32_t stepper_step_counter;
 
+extern bool stepper_sync_rect;
+
 void set_max_velocity(uint8_t com, const SetMaxVelocity *data) {
 	stepper_velocity_goal = data->velocity;
 }
@@ -317,4 +319,20 @@ void get_minimum_voltage(uint8_t com, const GetMinimumVoltage *data) {
 	gmvr.voltage       = stepper_minimum_voltage;
 
 	send_blocking_with_timeout(&gmvr, sizeof(GetMinimumVoltageReturn), com);
+}
+
+void set_sync_rect(uint8_t com, const SetSyncRect *data) {
+	stepper_sync_rect = data->sync_rect;
+	stepper_set_sync_rect(stepper_sync_rect);
+}
+
+void is_sync_rect(uint8_t com, const IsSyncRect *data) {
+	IsSyncRectReturn isrr;
+
+	isrr.stack_address = data->stack_address;
+	isrr.type          = data->type;
+	isrr.length        = sizeof(IsSyncRectReturn);
+	isrr.sync_rect     = stepper_sync_rect;
+
+	send_blocking_with_timeout(&isrr, sizeof(IsSyncRectReturn), com);
 }

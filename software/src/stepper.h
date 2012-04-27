@@ -105,6 +105,7 @@ void stepper_drive_speedramp(void);
 void stepper_full_brake(void);
 void stepper_check_error_signals(void);
 uint16_t stepper_get_current(void);
+void stepper_set_sync_rect(bool sr);
 
 void TC0_IrqHandler(void);
 #endif

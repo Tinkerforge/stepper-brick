@@ -84,6 +84,8 @@ bool stepper_position_reached = false;
 uint32_t stepper_current_sum = 0;
 uint32_t stepper_current = 0;
 
+bool stepper_sync_rect = false;
+
 const uint32_t stepper_timer_frequency[] = {BOARD_MCK/2,
                                             BOARD_MCK/8,
                                             BOARD_MCK/32,
@@ -653,4 +655,13 @@ uint16_t stepper_get_current(void) {
 	       STEPPER_CURRENT_REFERENCE *
 	       STEPPER_CURRENT_MULTIPLIER /
 	       VOLTAGE_MAX_VALUE;
+}
+
+void stepper_set_sync_rect(bool sr) {
+	Pin srpin = PIN_SYNC_RECT;
+	if(sr) {
+		PIO_Clear(&srpin);
+	} else {
+		PIO_Set(&srpin);
+	}
 }

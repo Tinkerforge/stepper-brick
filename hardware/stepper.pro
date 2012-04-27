@@ -1,4 +1,4 @@
-update=Mi 25 Jan 2012 14:48:18 CET
+update=Do 15 Mär 2012 14:17:32 CET
 version=1
 last_client=pcbnew
 [general]
@@ -77,6 +77,7 @@ PadDrlX=551
 PadDimH=945
 PadDimV=945
 BoardThickness=630
+SgPcb45=1
 TxtPcbV=118
 TxtPcbH=118
 TxtModV=236
