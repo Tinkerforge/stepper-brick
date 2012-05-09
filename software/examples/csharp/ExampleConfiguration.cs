@@ -15,9 +15,8 @@ class Example
 
 		stepper.SetMotorCurrent(800); // 800mA
 		stepper.SetStepMode(8); // 1/8 step mode
-		stepper.SetDecay(12000); // Mixed decay mode
-
 		stepper.SetMaxVelocity(2000); // Velocity 2000 steps/s
+
 		// Slow acceleration (500 steps/s^2), 
 		// Fast deacceleration (5000 steps/s^2)
 		stepper.SetSpeedRamping(500, 5000);

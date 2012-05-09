@@ -29,9 +29,8 @@ int main() {
 
 	stepper_set_motor_current(&stepper, 800); // 800mA
 	stepper_set_step_mode(&stepper, 8); // 1/8 step mode
-	stepper_set_decay(&stepper, 12000); // Mixed decay mode
-
 	stepper_set_max_velocity(&stepper, 2000); // Velocity 2000 steps/s
+
 	// Slow acceleration (500 steps/s^2), 
 	// Fast deacceleration (5000 steps/s^2)
 	stepper_set_speed_ramping(&stepper, 500, 5000);

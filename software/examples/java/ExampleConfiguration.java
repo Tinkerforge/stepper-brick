@@ -19,7 +19,6 @@ public class ExampleConfiguration {
 
 		stepper.setMotorCurrent(800); // 800mA
 		stepper.setStepMode((short)8); // 1/8 step mode
-		stepper.setDecay(12000); // Mixed decay mode
 		stepper.setMaxVelocity(2000); // Velocity 2000 steps/s
 
 		// Slow acceleration (500 steps/s^2), 
