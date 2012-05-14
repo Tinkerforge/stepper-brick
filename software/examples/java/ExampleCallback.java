@@ -4,9 +4,9 @@ import com.tinkerforge.IPConnection;
 import java.util.Random;
 
 public class ExampleCallback {
-	private static final String host = new String("localhost");
+	private static final String host = "localhost";
 	private static final int port = 4223;
-	private static final String UID = new String("9yEBJVAgcoj"); // Change to your UID
+	private static final String UID = "9yEBJVAgcoj"; // Change to your UID
 
 	// Declare stepper static, so the listener can use it. In a real program you probably
 	// want to make a real listener class (not the anonym inner class) and pass the stepper
