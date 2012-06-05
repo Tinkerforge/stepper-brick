@@ -16,7 +16,7 @@ ipcon.add_device stepper # Add device to IP connection
 # Don't use device before it is added to a connection
 
 # Use position reached callback to program random movement
-stepper.register_callback BrickStepper::CALLBACK_POSITION_REACHED, do |position|
+stepper.register_callback(BrickStepper::CALLBACK_POSITION_REACHED) do |position|
   if rand(1) == 0
     steps = 1000 + rand(4000) # steps (forward)
     puts "Driving forward: #{steps} steps"
