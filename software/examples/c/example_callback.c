@@ -61,6 +61,7 @@ int main() {
 	// Drive one step forward to get things going
 	stepper_set_steps(&stepper, 1);
 
-	printf("Press ctrl+c to close\n");
-	ipcon_join_thread(&ipcon); // Join mainloop of IP connection
+	printf("Press key to exit\n");
+	getchar();
+	ipcon_destroy(&ipcon);
 }

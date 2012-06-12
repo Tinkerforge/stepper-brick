@@ -50,7 +50,8 @@ class Example
 		stepper.Enable();
 		stepper.SetSteps(1); // Drive one step forward to get things going
 
-		System.Console.WriteLine("Press ctrl+c to exit");
-		ipcon.JoinThread();
+		System.Console.WriteLine("Press key to exit");
+		System.Console.ReadKey();
+		ipcon.Destroy();
 	}
 }

@@ -38,6 +38,7 @@ int main() {
 	stepper_enable(&stepper);
 	stepper_set_steps(&stepper, 60000); // Drive 60000 steps forward
 
-	printf("Press ctrl+c to close\n");
-	ipcon_join_thread(&ipcon); // Join mainloop of IP connection
+	printf("Press key to exit\n");
+	getchar();
+	ipcon_destroy(&ipcon);
 }

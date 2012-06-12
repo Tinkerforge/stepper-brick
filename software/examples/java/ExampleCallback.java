@@ -53,7 +53,7 @@ public class ExampleCallback {
 		stepper.enable();
 		stepper.setSteps(1); // Drive one step forward to get things going
 
-		System.out.println("Press ctrl+c to exit");
-		ipcon.joinThread();
+		System.console().readLine("Press key to exit\n");
+		ipcon.destroy();
 	}
 }
