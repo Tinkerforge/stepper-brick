@@ -4,3 +4,4 @@
 1.1.1: Fix bug with timeouts on windows (through bricklib)
 1.1.2: Fix bug with ADC calibration readout (through bricklib)
 1.1.3: Add averaging for current measurement
+1.1.4: Add get_temperature and reset function
