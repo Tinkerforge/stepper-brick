@@ -24,7 +24,8 @@ class Example
 		stepper.Enable();
 		stepper.SetSteps(60000); // Drive 60000 steps forward
 
-		System.Console.WriteLine("Press ctrl+c to exit");
-		ipcon.JoinThread();
+		System.Console.WriteLine("Press key to exit");
+		System.Console.ReadKey();
+		ipcon.Destroy();
 	}
 }
