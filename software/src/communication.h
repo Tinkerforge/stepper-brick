@@ -60,6 +60,8 @@
 #define TYPE_POSITION_REACHED 32
 #define TYPE_SET_SYNC_RECT 33
 #define TYPE_IS_SYNC_RECT 34
+#define TYPE_SET_TIME_BASE 35
+#define TYPE_GET_TIME_BASE 36
 
 #define COM_MESSAGES_USER \
 	{TYPE_SET_MAX_VELOCITY, (message_handler_func_t)set_max_velocity}, \
@@ -95,7 +97,9 @@
 	{TYPE_UNDER_VOLTAGE, (message_handler_func_t)NULL}, \
 	{TYPE_POSITION_REACHED, (message_handler_func_t)NULL}, \
 	{TYPE_SET_SYNC_RECT, (message_handler_func_t)set_sync_rect}, \
-	{TYPE_IS_SYNC_RECT, (message_handler_func_t)is_sync_rect},
+	{TYPE_IS_SYNC_RECT, (message_handler_func_t)is_sync_rect}, \
+	{TYPE_SET_TIME_BASE, (message_handler_func_t)set_time_base}, \
+	{TYPE_GET_TIME_BASE, (message_handler_func_t)get_time_base},
 
 
 typedef struct {
@@ -428,6 +432,26 @@ typedef struct {
 	bool sync_rect;
 } __attribute__((__packed__)) IsSyncRectReturn;
 
+typedef struct {
+	uint8_t stack_address;
+	uint8_t type;
+	uint16_t length;
+	uint32_t time_base;
+} __attribute__((__packed__)) SetTimeBase;
+
+typedef struct {
+	uint8_t stack_address;
+	uint8_t type;
+	uint16_t length;
+} __attribute__((__packed__)) GetTimeBase;
+
+typedef struct {
+	uint8_t stack_address;
+	uint8_t type;
+	uint16_t length;
+	uint32_t time_base;
+} __attribute__((__packed__)) GetTimeBaseReturn;
+
 void set_max_velocity(uint8_t com, const SetMaxVelocity *data);
 void get_max_velocity(uint8_t com, const GetMaxVelocity *data);
 void get_current_velocity(uint8_t com, const GetCurrentVelocity *data);
@@ -460,5 +484,7 @@ void set_minimum_voltage(uint8_t com, const SetMinimumVoltage *data);
 void get_minimum_voltage(uint8_t com, const GetMinimumVoltage *data);
 void set_sync_rect(uint8_t com, const SetSyncRect *data);
 void is_sync_rect(uint8_t com, const IsSyncRect *data);
+void set_time_base(uint8_t com, const SetTimeBase *data);
+void get_time_base(uint8_t com, const GetTimeBase *data);
 
 #endif

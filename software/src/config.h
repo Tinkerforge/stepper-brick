@@ -31,7 +31,7 @@
 #define BRICK_HARDWARE_NAME "Stepper Brick 1.0"
 #define BRICK_FIRMWARE_VERSION_MAJOR 1
 #define BRICK_FIRMWARE_VERSION_MINOR 1
-#define BRICK_FIRMWARE_VERSION_REVISION 5
+#define BRICK_FIRMWARE_VERSION_REVISION 6
 
 // ************** DEBUG SETTINGS **************
 #define DEBUG_SPI_STACK 1
@@ -90,13 +90,15 @@
 #define PIN_USB_DETECT  {1 << 26, PIOA, ID_PIOA, PIO_INPUT, PIO_DEFAULT}
 // USB product descriptor (name of brick)
 #define PRODUCT_DESCRIPTOR { \
-	USBStringDescriptor_LENGTH(11), \
+	USBStringDescriptor_LENGTH(13), \
     USBGenericDescriptor_STRING, \
     USBStringDescriptor_UNICODE('S'), \
+    USBStringDescriptor_UNICODE('t'), \
+    USBStringDescriptor_UNICODE('e'), \
+    USBStringDescriptor_UNICODE('p'), \
+    USBStringDescriptor_UNICODE('p'), \
     USBStringDescriptor_UNICODE('e'), \
     USBStringDescriptor_UNICODE('r'), \
-    USBStringDescriptor_UNICODE('v'), \
-    USBStringDescriptor_UNICODE('o'), \
     USBStringDescriptor_UNICODE(' '), \
     USBStringDescriptor_UNICODE('B'), \
     USBStringDescriptor_UNICODE('r'), \

@@ -52,6 +52,7 @@ extern uint16_t stepper_output_current;
 extern int8_t stepper_state;
 extern int8_t stepper_speedramp_state;
 extern int32_t stepper_step_counter;
+extern uint32_t stepper_time_base;
 
 extern bool stepper_sync_rect;
 
@@ -335,4 +336,19 @@ void is_sync_rect(uint8_t com, const IsSyncRect *data) {
 	isrr.sync_rect     = stepper_sync_rect;
 
 	send_blocking_with_timeout(&isrr, sizeof(IsSyncRectReturn), com);
+}
+
+void set_time_base(uint8_t com, const SetTimeBase *data) {
+	stepper_time_base = data->time_base;
+}
+
+void get_time_base(uint8_t com, const GetTimeBase *data) {
+	GetTimeBaseReturn gtbr;
+
+	gtbr.stack_address = data->stack_address;
+	gtbr.type          = data->type;
+	gtbr.length        = sizeof(GetTimeBaseReturn);
+	gtbr.time_base     = stepper_time_base;
+
+	send_blocking_with_timeout(&gtbr, sizeof(GetTimeBaseReturn), com);
 }

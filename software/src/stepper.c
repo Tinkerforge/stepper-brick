@@ -78,6 +78,9 @@ int32_t stepper_deceleration_start = 0;
 uint32_t stepper_tick_counter = 0;
 uint32_t stepper_tick_calc_counter = 0;
 
+uint32_t stepper_time_base = 1;
+uint32_t stepper_time_base_counter = 1;
+
 bool stepper_running = false;
 bool stepper_position_reached = false;
 
@@ -518,6 +521,14 @@ void stepper_drive_speedramp(void) {
 void TC0_IrqHandler(void) {
 	// acknowledge interrupt
 	tc_channel_interrupt_ack(&STEPPER_TC_CHANNEL);
+
+	stepper_time_base_counter--;
+	if(stepper_time_base_counter > 0) {
+		tc_channel_start(&STEPPER_TC_CHANNEL);
+		return;
+	}
+
+	stepper_time_base_counter = stepper_time_base;
 
 	if(stepper_state != STEPPER_STATE_STOP) {
 		stepper_set_next_timer(stepper_velocity);
