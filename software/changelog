@@ -6,4 +6,4 @@
 1.1.3: Add averaging for current measurement
 1.1.4: Add get_temperature and reset function
 1.1.5: Add USB hotplug support (through bricklib)
-1.1.6: Add time base API
+1.1.6: Add time base API, add all data function and callback, add state callback

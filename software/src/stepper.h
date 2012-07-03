@@ -80,6 +80,13 @@
 #define STEPPER_DIRECTION_FORWARD   1
 #define STEPPER_DIRECTION_BACKWARD -1
 
+#define STEPPER_API_STATE_STOP 1
+#define STEPPER_API_STATE_ACCELERATION 2
+#define STEPPER_API_STATE_RUN 3
+#define STEPPER_API_STATE_DECELERATION 4
+#define STEPPER_API_STATE_DIR_CHANGE_FORWARD 5
+#define STEPPER_API_STATE_DIR_CHANGE_BACKWARD 6
+
 void new_connection(void);
 void stepper_init(void);
 void stepper_set_output_current(const uint16_t current);
@@ -106,6 +113,10 @@ void stepper_full_brake(void);
 void stepper_check_error_signals(void);
 uint16_t stepper_get_current(void);
 void stepper_set_sync_rect(bool sr);
+int32_t stepper_get_remaining_steps(void);
+void stepper_all_data_signal(void);
+void stepper_state_signal(void);
+void stepper_set_new_api_state(uint8_t new_state);
 
 void TC0_IrqHandler(void);
 #endif

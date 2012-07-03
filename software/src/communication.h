@@ -62,6 +62,11 @@
 #define TYPE_IS_SYNC_RECT 34
 #define TYPE_SET_TIME_BASE 35
 #define TYPE_GET_TIME_BASE 36
+#define TYPE_GET_ALL_DATA 37
+#define TYPE_SET_ALL_DATA_PERIOD 38
+#define TYPE_GET_ALL_DATA_PERIOD 39
+#define TYPE_ALL_DATA 40
+#define TYPE_NEW_STATE 41
 
 #define COM_MESSAGES_USER \
 	{TYPE_SET_MAX_VELOCITY, (message_handler_func_t)set_max_velocity}, \
@@ -99,7 +104,12 @@
 	{TYPE_SET_SYNC_RECT, (message_handler_func_t)set_sync_rect}, \
 	{TYPE_IS_SYNC_RECT, (message_handler_func_t)is_sync_rect}, \
 	{TYPE_SET_TIME_BASE, (message_handler_func_t)set_time_base}, \
-	{TYPE_GET_TIME_BASE, (message_handler_func_t)get_time_base},
+	{TYPE_GET_TIME_BASE, (message_handler_func_t)get_time_base}, \
+	{TYPE_GET_ALL_DATA, (message_handler_func_t)get_all_data}, \
+	{TYPE_SET_ALL_DATA_PERIOD, (message_handler_func_t)set_all_data_period}, \
+	{TYPE_GET_ALL_DATA_PERIOD, (message_handler_func_t)get_all_data_period}, \
+	{TYPE_ALL_DATA, (message_handler_func_t)NULL}, \
+	{TYPE_NEW_STATE, (message_handler_func_t)NULL},
 
 
 typedef struct {
@@ -452,6 +462,64 @@ typedef struct {
 	uint32_t time_base;
 } __attribute__((__packed__)) GetTimeBaseReturn;
 
+typedef struct {
+	uint8_t stack_address;
+	uint8_t type;
+	uint16_t length;
+} __attribute__((__packed__)) GetAllData;
+
+typedef struct {
+	uint8_t stack_address;
+	uint8_t type;
+	uint16_t length;
+	uint16_t current_velocity;
+	int32_t current_position;
+	int32_t remaining_steps;
+	uint16_t stack_voltage;
+	uint16_t external_voltage;
+	uint16_t current_consumption;
+} __attribute__((__packed__)) GetAllDataReturn;
+
+typedef struct {
+	uint8_t stack_address;
+	uint8_t type;
+	uint16_t length;
+	uint32_t period;
+} __attribute__((__packed__)) SetAllDataPeriod;
+
+typedef struct {
+	uint8_t stack_address;
+	uint8_t type;
+	uint16_t length;
+} __attribute__((__packed__)) GetAllDataPeriod;
+
+typedef struct {
+	uint8_t stack_address;
+	uint8_t type;
+	uint16_t length;
+	uint32_t period;
+} __attribute__((__packed__)) GetAllDataPeriodReturn;
+
+typedef struct {
+	uint8_t stack_address;
+	uint8_t type;
+	uint16_t length;
+	uint16_t current_velocity;
+	int32_t current_position;
+	int32_t remaining_steps;
+	uint16_t stack_voltage;
+	uint16_t external_voltage;
+	uint16_t current_consumption;
+} __attribute__((__packed__)) AllDataSignal;
+
+typedef struct {
+	uint8_t stack_address;
+	uint8_t type;
+	uint16_t length;
+	uint8_t state_new;
+	uint8_t state_previous;
+} __attribute__((__packed__)) NewStateSignal;
+
 void set_max_velocity(uint8_t com, const SetMaxVelocity *data);
 void get_max_velocity(uint8_t com, const GetMaxVelocity *data);
 void get_current_velocity(uint8_t com, const GetCurrentVelocity *data);
@@ -486,5 +554,8 @@ void set_sync_rect(uint8_t com, const SetSyncRect *data);
 void is_sync_rect(uint8_t com, const IsSyncRect *data);
 void set_time_base(uint8_t com, const SetTimeBase *data);
 void get_time_base(uint8_t com, const GetTimeBase *data);
+void get_all_data(uint8_t com, const GetAllData *data);
+void set_all_data_period(uint8_t com, const SetAllDataPeriod *data);
+void get_all_data_period(uint8_t com, const GetAllDataPeriod *data);
 
 #endif

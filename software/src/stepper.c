@@ -80,6 +80,8 @@ uint32_t stepper_tick_calc_counter = 0;
 
 uint32_t stepper_time_base = 1;
 uint32_t stepper_time_base_counter = 1;
+uint32_t stepper_all_data_period = 0;
+uint32_t stepper_all_data_period_counter = 0;
 
 bool stepper_running = false;
 bool stepper_position_reached = false;
@@ -88,6 +90,10 @@ uint32_t stepper_current_sum = 0;
 uint32_t stepper_current = 0;
 
 bool stepper_sync_rect = false;
+
+uint8_t stepper_api_state = STEPPER_API_STATE_STOP;
+uint8_t stepper_api_prev_state = STEPPER_API_STATE_STOP;
+bool stepper_api_state_send = false;
 
 const uint32_t stepper_timer_frequency[] = {BOARD_MCK/2,
                                             BOARD_MCK/8,
@@ -152,6 +158,13 @@ void stepper_check_error_signals(void) {
 void stepper_make_drive_speedramp(uint8_t state) {
 	stepper_state = STEPPER_STATE_DRIVE;
 	stepper_speedramp_state = state;
+
+	if(state == STEPPER_SPEEDRAMP_STATE_STOP) {
+		stepper_set_new_api_state(STEPPER_API_STATE_DECELERATION);
+	} else if(state == STEPPER_SPEEDRAMP_STATE_BACKWARD ||
+	          state == STEPPER_SPEEDRAMP_STATE_FORWARD) {
+		stepper_set_new_api_state(STEPPER_API_STATE_ACCELERATION);
+	}
 
 	if(!stepper_is_currently_running()) {
 		// call drive speedramp one time, to get it going
@@ -229,6 +242,7 @@ void stepper_make_step_speedramp(int32_t steps) {
 	stepper_step_counter = 0;
 	stepper_acceleration_counter = 0;
 	stepper_speedramp_state = STEPPER_SPEEDRAMP_STATE_ACCELERATION;
+	stepper_set_new_api_state(STEPPER_API_STATE_ACCELERATION);
 
 	TC0_IrqHandler();
 }
@@ -247,6 +261,8 @@ void tick_task(uint8_t tick_type) {
 		} else {
 			PIO_Clear(&pin_voltage_switch);
 		}
+
+		stepper_all_data_period_counter++;
 	} else if(tick_type == TICK_TASK_TYPE_MESSAGE) {
 		stepper_tick_counter++;
 
@@ -255,8 +271,54 @@ void tick_task(uint8_t tick_type) {
 			stepper_position_reached_signal();
 		}
 
+		if(stepper_api_state_send) {
+			stepper_api_state_send = false;
+			stepper_state_signal();
+		}
+
 		stepper_check_error_signals();
+
+		if((stepper_all_data_period != 0) &&
+		   (stepper_all_data_period <= stepper_all_data_period_counter)) {
+			// Test if we are totally out of time (lost a whole
+			// period), in this case we don't send the signal again.
+			// This is needed for the wireless extensions.
+			if(stepper_all_data_period*2 <= stepper_all_data_period_counter) {
+				stepper_all_data_period_counter = stepper_all_data_period;
+			}
+			stepper_all_data_signal();
+		}
 	}
+}
+
+void stepper_state_signal(void) {
+	NewStateSignal nss = {
+		com_stack_id,
+		TYPE_NEW_STATE,
+		sizeof(NewStateSignal),
+		stepper_api_state,
+		stepper_api_prev_state
+	};
+
+	send_blocking_with_timeout(&nss, sizeof(NewStateSignal), com_current);
+}
+
+void stepper_all_data_signal(void) {
+	stepper_all_data_period_counter -= stepper_all_data_period;
+
+	AllDataSignal ads = {
+		com_stack_id,
+		TYPE_ALL_DATA,
+		sizeof(AllDataSignal),
+		stepper_velocity > 0xFFFF ? 0xFFFF : stepper_velocity,
+		stepper_position,
+		stepper_get_remaining_steps(),
+		stepper_get_stack_voltage(),
+		stepper_get_external_voltage(),
+		stepper_get_current()
+	};
+
+	send_blocking_with_timeout(&ads, sizeof(AllDataSignal), com_current);
 }
 
 void stepper_init(void) {
@@ -389,10 +451,12 @@ void stepper_step_speedramp(void) {
 			if(stepper_step_counter >= stepper_deceleration_start) {
 				stepper_acceleration_counter = stepper_deceleration_steps;
 				stepper_speedramp_state = STEPPER_SPEEDRAMP_STATE_DECELERATION;
+				stepper_set_new_api_state(STEPPER_API_STATE_DECELERATION);
 			} else if(new_delay <= VELOCITY_TO_DELAY(stepper_velocity_goal)) {
 				stepper_last_delay = new_delay;
 				new_delay = VELOCITY_TO_DELAY(stepper_velocity_goal);
 				stepper_speedramp_state = STEPPER_SPEEDRAMP_STATE_RUN;
+				stepper_set_new_api_state(STEPPER_API_STATE_RUN);
 			}
 			break;
 		}
@@ -403,6 +467,7 @@ void stepper_step_speedramp(void) {
 				stepper_acceleration_counter = stepper_deceleration_steps;
 				new_delay = stepper_last_delay;
 				stepper_speedramp_state = STEPPER_SPEEDRAMP_STATE_DECELERATION;
+				stepper_set_new_api_state(STEPPER_API_STATE_DECELERATION);
 			} else {
 				new_delay = VELOCITY_TO_DELAY(stepper_velocity_goal);
 			}
@@ -421,6 +486,7 @@ void stepper_step_speedramp(void) {
 			if(stepper_acceleration_counter >= 0) {
 				stepper_speedramp_state = STEPPER_SPEEDRAMP_STATE_STOP;
 				stepper_state = STEPPER_STATE_STOP;
+				stepper_set_new_api_state(STEPPER_API_STATE_STOP);
 				stepper_position_reached = true;
 				stepper_running = false;
 				tc_channel_stop(&STEPPER_TC_CHANNEL);
@@ -440,6 +506,7 @@ void stepper_full_brake(void) {
 	tc_channel_stop(&STEPPER_TC_CHANNEL);
 	stepper_state = STEPPER_STATE_STOP;
 	stepper_speedramp_state = STEPPER_SPEEDRAMP_STATE_STOP;
+	stepper_set_new_api_state(STEPPER_API_STATE_STOP);
 	stepper_velocity = 0;
 }
 
@@ -462,6 +529,7 @@ void stepper_drive_speedramp(void) {
 			stepper_acceleration_counter = 0;
 			stepper_delay_rest = 0;
 			rest = 0;
+			stepper_set_new_api_state(STEPPER_API_STATE_STOP);
 			return;
 		} else if(stepper_speedramp_state != stepper_direction) {
 			goal = stepper_velocity_goal;
@@ -512,6 +580,10 @@ void stepper_drive_speedramp(void) {
 	if(stepper_velocity < goal) {
 		stepper_velocity = MIN(stepper_velocity + delta,
 							   goal);
+
+		if(stepper_velocity == goal) {
+			stepper_set_new_api_state(STEPPER_API_STATE_RUN);
+		}
 	} else {
 		stepper_velocity = MAX(((int32_t)stepper_velocity) - delta,
 							   goal);
@@ -550,8 +622,14 @@ void stepper_set_direction(int8_t direction) {
 
 	stepper_direction = direction;
 	if(direction == STEPPER_DIRECTION_FORWARD) {
+		if(stepper_state == STEPPER_STATE_DRIVE) {
+			stepper_set_new_api_state(STEPPER_API_STATE_DIR_CHANGE_FORWARD);
+		}
 		PIO_Clear(&pin_direction);
 	} else {
+		if(stepper_state == STEPPER_STATE_DRIVE) {
+			stepper_set_new_api_state(STEPPER_API_STATE_DIR_CHANGE_BACKWARD);
+		}
 		PIO_Set(&pin_direction);
 	}
 }
@@ -562,11 +640,14 @@ void stepper_enable(void) {
 	PIO_Set(&pin_sleep);
 	stepper_state = STEPPER_STATE_STOP;
 	stepper_speedramp_state = STEPPER_SPEEDRAMP_STATE_STOP;
+	stepper_api_state = STEPPER_API_STATE_STOP;
+	stepper_api_prev_state = STEPPER_API_STATE_STOP;
 }
 
 void stepper_disable(void) {
 	stepper_state = STEPPER_STATE_OFF;
 	stepper_speedramp_state = STEPPER_SPEEDRAMP_STATE_STOP;
+	stepper_set_new_api_state(STEPPER_API_STATE_STOP);
 	PIO_Set(&pin_enable);
 	PIO_Clear(&pin_sleep);
 }
@@ -675,4 +756,24 @@ void stepper_set_sync_rect(bool sr) {
 	} else {
 		PIO_Set(&srpin);
 	}
+}
+
+int32_t stepper_get_remaining_steps(void) {
+	if(stepper_state == STEPPER_STATE_STEPS) {
+		if(stepper_steps > 0) {
+			return stepper_steps - stepper_step_counter;
+		} else {
+			return stepper_steps + stepper_step_counter;
+		}
+	} else if(stepper_state == STEPPER_STATE_TARGET) {
+		return stepper_target_position - stepper_position;
+	}
+
+	return 0;
+}
+
+void stepper_set_new_api_state(uint8_t new_state) {
+	stepper_api_prev_state = stepper_api_state;
+	stepper_api_state = new_state;
+	stepper_api_state_send = true;
 }

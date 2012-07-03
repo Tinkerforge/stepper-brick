@@ -53,6 +53,7 @@ extern int8_t stepper_state;
 extern int8_t stepper_speedramp_state;
 extern int32_t stepper_step_counter;
 extern uint32_t stepper_time_base;
+extern uint32_t stepper_all_data_period;
 
 extern bool stepper_sync_rect;
 
@@ -167,17 +168,7 @@ void get_remaining_steps(uint8_t com, const GetRemainingSteps *data) {
 	grsr.stack_address = data->stack_address;
 	grsr.type          = data->type;
 	grsr.length        = sizeof(GetRemainingStepsReturn);
-	if(stepper_state == STEPPER_STATE_STEPS) {
-		if(stepper_steps > 0) {
-			grsr.steps = stepper_steps - stepper_step_counter;
-		} else {
-			grsr.steps = stepper_steps + stepper_step_counter;
-		}
-	} else if(stepper_state == STEPPER_STATE_TARGET) {
-		grsr.steps     = stepper_target_position - stepper_position;
-	} else {
-		grsr.steps     = 0;
-	}
+	grsr.steps         = stepper_get_remaining_steps();
 
 	send_blocking_with_timeout(&grsr, sizeof(GetRemainingStepsReturn), com);
 }
@@ -351,4 +342,35 @@ void get_time_base(uint8_t com, const GetTimeBase *data) {
 	gtbr.time_base     = stepper_time_base;
 
 	send_blocking_with_timeout(&gtbr, sizeof(GetTimeBaseReturn), com);
+}
+
+void get_all_data(uint8_t com, const GetAllData *data) {
+	GetAllDataReturn gadr;
+
+	gadr.stack_address       = data->stack_address;
+	gadr.type                = data->type;
+	gadr.length              = sizeof(GetAllDataReturn);
+	gadr.current_velocity    = stepper_velocity > 0xFFFF ? 0xFFFF : stepper_velocity;
+	gadr.current_position    = stepper_position;
+	gadr.remaining_steps     = stepper_get_remaining_steps();
+	gadr.stack_voltage       = stepper_get_stack_voltage();
+	gadr.external_voltage    = stepper_get_external_voltage();
+	gadr.current_consumption = stepper_get_current();
+
+	send_blocking_with_timeout(&gadr, sizeof(GetAllDataReturn), com);
+}
+
+void set_all_data_period(uint8_t com, const SetAllDataPeriod *data) {
+	stepper_all_data_period = data->period;
+}
+
+void get_all_data_period(uint8_t com, const GetAllDataPeriod *data) {
+	GetAllDataPeriodReturn gadpr;
+
+	gadpr.stack_address = data->stack_address;
+	gadpr.type          = data->type;
+	gadpr.length        = sizeof(GetAllDataPeriodReturn);
+	gadpr.period        = stepper_all_data_period;
+
+	send_blocking_with_timeout(&gadpr, sizeof(GetAllDataPeriodReturn), com);
 }
