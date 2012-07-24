@@ -156,6 +156,10 @@ void stepper_check_error_signals(void) {
 }
 
 void stepper_make_drive_speedramp(uint8_t state) {
+	if(stepper_velocity_goal == 0) {
+		return;
+	}
+
 	stepper_state = STEPPER_STATE_DRIVE;
 	stepper_speedramp_state = state;
 
@@ -175,6 +179,10 @@ void stepper_make_drive_speedramp(uint8_t state) {
 }
 
 void stepper_make_step_speedramp(int32_t steps) {
+	if(stepper_velocity_goal == 0) {
+		return;
+	}
+
 	if(steps == 0) {
 		stepper_position_reached = true;
 		stepper_state = STEPPER_STATE_STOP;
@@ -647,9 +655,9 @@ void stepper_enable(void) {
 void stepper_disable(void) {
 	stepper_state = STEPPER_STATE_OFF;
 	stepper_speedramp_state = STEPPER_SPEEDRAMP_STATE_STOP;
-	stepper_set_new_api_state(STEPPER_API_STATE_STOP);
 	PIO_Set(&pin_enable);
 	PIO_Clear(&pin_sleep);
+	stepper_full_brake();
 }
 
 void stepper_set_output_current(const uint16_t current) {
