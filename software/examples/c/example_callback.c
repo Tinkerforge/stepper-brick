@@ -12,14 +12,14 @@
 Stepper stepper;
 
 // Use position reached callback to program random movement 
-void cb_reached(int16_t velocity) {
+void cb_reached(int32_t position) {
 	int32_t steps;
 	if(rand() % 2) {
 		steps = (rand() % 4000) + 1000; // steps (forward)
-		printf("Driving forward: %d  steps\n", steps);
+		printf("Driving forward: %d steps\n", steps);
 	} else {
 		steps = -((rand() % 4000) + 1000); // steps (backward)
-		printf("Driving backward: %d  steps\n", steps);
+		printf("Driving backward: %d steps\n", steps);
 	}
 
 	int16_t vel = (rand() % 1800) + 200; // steps/s
