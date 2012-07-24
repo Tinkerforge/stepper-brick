@@ -156,10 +156,6 @@ void stepper_check_error_signals(void) {
 }
 
 void stepper_make_drive_speedramp(uint8_t state) {
-	if(stepper_velocity_goal == 0) {
-		return;
-	}
-
 	stepper_state = STEPPER_STATE_DRIVE;
 	stepper_speedramp_state = state;
 
@@ -396,7 +392,7 @@ void stepper_init(void) {
 
 void stepper_set_next_timer(uint32_t velocity) {
 	if(velocity == 0) {
-		if(stepper_state == STEPPER_STATE_DRIVE) {
+		if(stepper_state == STEPPER_STATE_DRIVE && stepper_velocity_goal != 0) {
 			// In drive mode we have a transition from backward to forward here.
 			// Wait 10ms in that case
 			velocity = 100;

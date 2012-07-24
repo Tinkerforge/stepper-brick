@@ -58,7 +58,12 @@ extern uint32_t stepper_all_data_period;
 extern bool stepper_sync_rect;
 
 void set_max_velocity(uint8_t com, const SetMaxVelocity *data) {
+	uint32_t old_velocity_goal = stepper_velocity_goal;
 	stepper_velocity_goal = data->velocity;
+
+	if(stepper_state == STEPPER_STATE_DRIVE && old_velocity_goal == 0) {
+		TC0_IrqHandler();
+	}
 }
 
 void get_max_velocity(uint8_t com, const GetMaxVelocity *data) {
