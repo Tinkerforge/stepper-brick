@@ -26,8 +26,6 @@
 #include "bricklib/drivers/board/sam3s/SAM3S.h"
 #include "stepper.h"
 
-#define at91sam3s2b
-
 #define BRICK_HARDWARE_NAME "Stepper Brick 1.0"
 #define BRICK_FIRMWARE_VERSION_MAJOR 1
 #define BRICK_FIRMWARE_VERSION_MINOR 1
