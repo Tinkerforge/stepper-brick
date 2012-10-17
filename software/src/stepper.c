@@ -654,6 +654,7 @@ void stepper_disable(void) {
 	PIO_Set(&pin_enable);
 	PIO_Clear(&pin_sleep);
 	stepper_full_brake();
+	stepper_state = STEPPER_STATE_OFF;
 }
 
 void stepper_set_output_current(const uint16_t current) {

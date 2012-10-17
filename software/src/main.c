@@ -46,6 +46,8 @@
 #include "communication.h"
 #include "stepper.h"
 
+char brick_hardware_name[] = BRICK_HARDWARE_NAME;
+
 void vApplicationStackOverflowHook(xTaskHandle *pxTask, signed char *pcTaskName) {
 	logf("Stack Overflow\n\r");
 	while(true);
