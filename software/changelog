@@ -9,3 +9,4 @@
 1.1.6: Add time base API, add all data function and callback, add state callback
 1.1.7: Stop state machine after disable call, don't drive if max velocity = 0
 1.1.8: Stop completely if max velocity is set to 0 while in drive mode
+1.1.9: Change Bricklet Context size from 250 to 256 (through bricklib)
