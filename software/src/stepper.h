@@ -1,5 +1,5 @@
 /* stepper-brick
- * Copyright (C) 2010-2011 Olaf Lüke <olaf@tinkerforge.com>
+ * Copyright (C) 2010-2012 Olaf Lüke <olaf@tinkerforge.com>
  *
  * stepper.h: Implementation of Stepper-Brick specific functions
  *
@@ -98,16 +98,16 @@ void stepper_disable(void);
 void stepper_update_tc_frequency(void);
 uint16_t stepper_get_external_voltage(void);
 uint16_t stepper_get_stack_voltage(void);
-void tick_task(uint8_t tick_type);
-void stepper_set_direction(int8_t direction);
+void tick_task(const uint8_t tick_type);
+void stepper_set_direction(const int8_t direction);
 void TC1_IrqHandler(void);
 void stepper_position_reached_signal(void);
 bool stepper_is_currently_running(void);
-void stepper_set_next_timer(uint32_t velocity);
+void stepper_set_next_timer(const uint32_t velocity);
 void stepper_make_step(void);
-void stepper_make_step_speedramp(int32_t steps);
+void stepper_make_step_speedramp(const int32_t steps);
 void stepper_step_speedramp(void);
-void stepper_make_drive_speedramp(uint8_t state);
+void stepper_make_drive_speedramp(const uint8_t state);
 void stepper_drive_speedramp(void);
 void stepper_full_brake(void);
 void stepper_check_error_signals(void);
@@ -116,7 +116,7 @@ void stepper_set_sync_rect(bool sr);
 int32_t stepper_get_remaining_steps(void);
 void stepper_all_data_signal(void);
 void stepper_state_signal(void);
-void stepper_set_new_api_state(uint8_t new_state);
+void stepper_set_new_api_state(const uint8_t new_state);
 
 void TC0_IrqHandler(void);
 #endif

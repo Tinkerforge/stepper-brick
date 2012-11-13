@@ -1,5 +1,5 @@
 /* stepper-brick
- * Copyright (C) 2010-2011 Olaf Lüke <olaf@tinkerforge.com>
+ * Copyright (C) 2010-2012 Olaf Lüke <olaf@tinkerforge.com>
  *
  * stepper.c: Implementation of Stepper-Brick specific functions
  *
@@ -34,6 +34,7 @@
 #include "bricklib/drivers/pio/pio.h"
 #include "bricklib/drivers/usart/usart.h"
 #include "bricklib/drivers/pwmc/pwmc.h"
+#include "bricklib/drivers/usb/USBD_HAL.h"
 #include "bricklib/utility/util_definitions.h"
 #include "bricklib/utility/led.h"
 #include "bricklib/utility/init.h"
@@ -107,15 +108,12 @@ const uint32_t stepper_timer_velocity[]  = {BOARD_MCK/2   / MAX_TIMER_VALUE,
                                             32768         / MAX_TIMER_VALUE};
 
 extern ComType com_current;
-extern uint8_t com_stack_id;
+extern uint32_t com_brick_uid;
 
 void stepper_position_reached_signal(void) {
-	PositionReachedSignal prs = {
-		com_stack_id,
-		TYPE_POSITION_REACHED,
-		sizeof(PositionReachedSignal),
-		stepper_position
-	};
+	PositionReachedSignal prs;
+	com_make_default_header(&prs, com_brick_uid, sizeof(PositionReachedSignal), FID_POSITION_REACHED);
+	prs.position = stepper_position;
 
 	send_blocking_with_timeout(&prs,
 	                           sizeof(PositionReachedSignal),
@@ -139,12 +137,9 @@ void stepper_check_error_signals(void) {
 	   (external_voltage < STEPPER_VOLTAGE_EPSILON &&
 	    stack_voltage > STEPPER_VOLTAGE_EPSILON &&
 	    stack_voltage < stepper_minimum_voltage)) {
-		UnderVoltageSignal uvs = {
-			com_stack_id,
-			TYPE_UNDER_VOLTAGE,
-			sizeof(UnderVoltageSignal),
-			external_voltage < STEPPER_VOLTAGE_EPSILON ? stack_voltage : external_voltage
-		};
+		UnderVoltageSignal uvs;
+		com_make_default_header(&uvs, com_brick_uid, sizeof(UnderVoltageSignal), FID_POSITION_REACHED);
+		uvs.voltage = external_voltage < STEPPER_VOLTAGE_EPSILON ? stack_voltage : external_voltage;
 
 		send_blocking_with_timeout(&uvs,
 		                           sizeof(UnderVoltageSignal),
@@ -155,7 +150,7 @@ void stepper_check_error_signals(void) {
 	}
 }
 
-void stepper_make_drive_speedramp(uint8_t state) {
+void stepper_make_drive_speedramp(const uint8_t state) {
 	stepper_state = STEPPER_STATE_DRIVE;
 	stepper_speedramp_state = state;
 
@@ -174,24 +169,26 @@ void stepper_make_drive_speedramp(uint8_t state) {
 	}
 }
 
-void stepper_make_step_speedramp(int32_t steps) {
+void stepper_make_step_speedramp(const int32_t steps) {
 	if(stepper_velocity_goal == 0) {
 		return;
 	}
 
-	if(steps == 0) {
+	int32_t use_steps = steps;
+
+	if(use_steps == 0) {
 		stepper_position_reached = true;
 		stepper_state = STEPPER_STATE_STOP;
 		return;
 	}
-	if(steps < 0) {
+	if(use_steps < 0) {
 		stepper_set_direction(STEPPER_DIRECTION_BACKWARD);
-		steps = -steps;
+		use_steps = -steps;
 	} else {
 		stepper_set_direction(STEPPER_DIRECTION_FORWARD);
 	}
 
-	if(steps == 1) {
+	if(use_steps == 1) {
 		// Just make the single step, no need for TC IRQ
 		stepper_make_step();
 		stepper_position_reached = true;
@@ -222,14 +219,14 @@ void stepper_make_step_speedramp(int32_t steps) {
 		stepper_acceleration_steps = 1;
 	}
 
-	int32_t acceleration_limit = (((int64_t)steps)*((int64_t)deceleration))/
+	int32_t acceleration_limit = (((int64_t)use_steps)*((int64_t)deceleration))/
 	                             (acceleration + deceleration);
 	if(acceleration_limit == 0) {
 		acceleration_limit = 1;
 	}
 
 	if(acceleration_limit <= stepper_acceleration_steps) {
-		stepper_deceleration_steps = acceleration_limit - steps;
+		stepper_deceleration_steps = acceleration_limit - use_steps;
 	} else {
 		stepper_deceleration_steps = -(((int64_t)stepper_acceleration_steps) *
 									   ((int64_t)acceleration) /
@@ -242,7 +239,7 @@ void stepper_make_step_speedramp(int32_t steps) {
 	stepper_velocity = acceleration_sqrt;
 	stepper_delay = VELOCITY_TO_DELAY(acceleration_sqrt);
 
-	stepper_deceleration_start = steps + stepper_deceleration_steps;
+	stepper_deceleration_start = use_steps + stepper_deceleration_steps;
 	stepper_step_counter = 0;
 	stepper_acceleration_counter = 0;
 	stepper_speedramp_state = STEPPER_SPEEDRAMP_STATE_ACCELERATION;
@@ -251,7 +248,9 @@ void stepper_make_step_speedramp(int32_t steps) {
 	TC0_IrqHandler();
 }
 
-void tick_task(uint8_t tick_type) {
+void tick_task(const uint8_t tick_type) {
+	static int8_t message_counter = 0;
+
 	if(tick_type == TICK_TASK_TYPE_CALCULATION) {
 		stepper_tick_calc_counter++;
 		stepper_current_sum += adc_channel_get_data(STEPPER_CURRENT_CHANNEL);
@@ -268,6 +267,17 @@ void tick_task(uint8_t tick_type) {
 
 		stepper_all_data_period_counter++;
 	} else if(tick_type == TICK_TASK_TYPE_MESSAGE) {
+		if(message_counter != -1 && !usbd_hal_is_disabled(IN_EP)) {
+			message_counter++;
+			if(message_counter >= 100) {
+				message_counter = 0;
+				if(brick_init_enumeration(COM_USB)) {
+					com_current = COM_USB;
+					message_counter = -1;
+				}
+			}
+		}
+
 		stepper_tick_counter++;
 
 		if(stepper_position_reached) {
@@ -296,13 +306,10 @@ void tick_task(uint8_t tick_type) {
 }
 
 void stepper_state_signal(void) {
-	NewStateSignal nss = {
-		com_stack_id,
-		TYPE_NEW_STATE,
-		sizeof(NewStateSignal),
-		stepper_api_state,
-		stepper_api_prev_state
-	};
+	NewStateSignal nss;
+	com_make_default_header(&nss, com_brick_uid, sizeof(NewStateSignal), FID_NEW_STATE);
+	nss.state_new      = stepper_api_state;
+	nss.state_previous = stepper_api_prev_state;
 
 	send_blocking_with_timeout(&nss, sizeof(NewStateSignal), com_current);
 }
@@ -310,17 +317,14 @@ void stepper_state_signal(void) {
 void stepper_all_data_signal(void) {
 	stepper_all_data_period_counter -= stepper_all_data_period;
 
-	AllDataSignal ads = {
-		com_stack_id,
-		TYPE_ALL_DATA,
-		sizeof(AllDataSignal),
-		stepper_velocity > 0xFFFF ? 0xFFFF : stepper_velocity,
-		stepper_position,
-		stepper_get_remaining_steps(),
-		stepper_get_stack_voltage(),
-		stepper_get_external_voltage(),
-		stepper_get_current()
-	};
+	AllDataSignal ads;
+	com_make_default_header(&ads, com_brick_uid, sizeof(AllDataSignal), FID_ALL_DATA);
+	ads.current_velocity = stepper_velocity > 0xFFFF ? 0xFFFF : stepper_velocity;
+	ads.current_position = stepper_position;
+	ads.remaining_steps = stepper_get_remaining_steps();
+	ads.stack_voltage = stepper_get_stack_voltage();
+	ads.external_voltage = stepper_get_external_voltage();
+	ads.current_consumption = stepper_get_current();
 
 	send_blocking_with_timeout(&ads, sizeof(AllDataSignal), com_current);
 }
@@ -390,12 +394,13 @@ void stepper_init(void) {
 	adc_channel_enable(STEPPER_CURRENT_CHANNEL);
 }
 
-void stepper_set_next_timer(uint32_t velocity) {
+void stepper_set_next_timer(const uint32_t velocity) {
+	uint32_t velocity_use = velocity;
 	if(velocity == 0) {
 		if(stepper_state == STEPPER_STATE_DRIVE && stepper_velocity_goal != 0) {
 			// In drive mode we have a transition from backward to forward here.
 			// Wait 10ms in that case
-			velocity = 100;
+			velocity_use = 100;
 		} else {
 			// In step mode this should not happen, stop tc
 			stepper_running = false;
@@ -406,13 +411,13 @@ void stepper_set_next_timer(uint32_t velocity) {
 
 	int8_t i;
 	for(i = 4; i > 0; i--) {
-		if(velocity <= stepper_timer_velocity[i-1]) {
+		if(velocity_use <= stepper_timer_velocity[i-1]) {
 			break;
 		}
 	}
 
 	STEPPER_TC_CHANNEL.TC_CMR = i | TC_CMR_CPCTRG;
-	STEPPER_COUNTER = stepper_timer_frequency[i] / velocity;
+	STEPPER_COUNTER = stepper_timer_frequency[i] / velocity_use;
 	if(!stepper_is_currently_running()) {
 		stepper_running = true;
 		tc_channel_start(&STEPPER_TC_CHANNEL);
@@ -619,7 +624,7 @@ void TC0_IrqHandler(void) {
 	}
 }
 
-void stepper_set_direction(int8_t direction) {
+void stepper_set_direction(const int8_t direction) {
 	if(direction == stepper_direction) {
 		return;
 	}
@@ -777,7 +782,7 @@ int32_t stepper_get_remaining_steps(void) {
 	return 0;
 }
 
-void stepper_set_new_api_state(uint8_t new_state) {
+void stepper_set_new_api_state(const uint8_t new_state) {
 	stepper_api_prev_state = stepper_api_state;
 	stepper_api_state = new_state;
 	stepper_api_state_send = true;

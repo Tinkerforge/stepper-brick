@@ -1,5 +1,5 @@
 /* stepper-brick
- * Copyright (C) 2010-2011 Olaf Lüke <olaf@tinkerforge.com>
+ * Copyright (C) 2010-2012 Olaf Lüke <olaf@tinkerforge.com>
  *
  * config.h: Stepper-Brick specific configuration
  *
@@ -26,10 +26,15 @@
 #include "bricklib/drivers/board/sam3s/SAM3S.h"
 #include "stepper.h"
 
-#define BRICK_HARDWARE_NAME "Stepper Brick 1.0"
-#define BRICK_FIRMWARE_VERSION_MAJOR 1
-#define BRICK_FIRMWARE_VERSION_MINOR 1
-#define BRICK_FIRMWARE_VERSION_REVISION 9
+#define BRICK_FIRMWARE_VERSION_MAJOR 2
+#define BRICK_FIRMWARE_VERSION_MINOR 0
+#define BRICK_FIRMWARE_VERSION_REVISION 0
+
+#define BRICK_HARDWARE_VERSION_MAJOR 1
+#define BRICK_HARDWARE_VERSION_MINOR 1
+#define BRICK_HARDWARE_VERSION_REVISION 0
+
+#define BRICK_DEVICE_IDENTIFIER 15
 
 // ************** DEBUG SETTINGS **************
 #define DEBUG_SPI_STACK 1
