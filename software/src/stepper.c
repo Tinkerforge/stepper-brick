@@ -107,17 +107,16 @@ const uint32_t stepper_timer_velocity[]  = {BOARD_MCK/2   / MAX_TIMER_VALUE,
                                             BOARD_MCK/128 / MAX_TIMER_VALUE,
                                             32768         / MAX_TIMER_VALUE};
 
-extern ComType com_current;
-extern uint32_t com_brick_uid;
+extern ComInfo com_info;
 
 void stepper_position_reached_signal(void) {
 	PositionReachedSignal prs;
-	com_make_default_header(&prs, com_brick_uid, sizeof(PositionReachedSignal), FID_POSITION_REACHED);
+	com_make_default_header(&prs, com_info.uid, sizeof(PositionReachedSignal), FID_POSITION_REACHED);
 	prs.position = stepper_position;
 
 	send_blocking_with_timeout(&prs,
 	                           sizeof(PositionReachedSignal),
-	                           com_current);
+	                           com_info.current);
 }
 
 void stepper_check_error_signals(void) {
@@ -138,12 +137,12 @@ void stepper_check_error_signals(void) {
 	    stack_voltage > STEPPER_VOLTAGE_EPSILON &&
 	    stack_voltage < stepper_minimum_voltage)) {
 		UnderVoltageSignal uvs;
-		com_make_default_header(&uvs, com_brick_uid, sizeof(UnderVoltageSignal), FID_POSITION_REACHED);
+		com_make_default_header(&uvs, com_info.uid, sizeof(UnderVoltageSignal), FID_POSITION_REACHED);
 		uvs.voltage = external_voltage < STEPPER_VOLTAGE_EPSILON ? stack_voltage : external_voltage;
 
 		send_blocking_with_timeout(&uvs,
 		                           sizeof(UnderVoltageSignal),
-		                           com_current);
+		                           com_info.current);
 		led_on(LED_STD_RED);
 	} else {
 		led_off(LED_STD_RED);
@@ -272,7 +271,7 @@ void tick_task(const uint8_t tick_type) {
 			if(message_counter >= 100) {
 				message_counter = 0;
 				if(brick_init_enumeration(COM_USB)) {
-					com_current = COM_USB;
+					com_info.current = COM_USB;
 					message_counter = -1;
 				}
 			}
@@ -307,18 +306,18 @@ void tick_task(const uint8_t tick_type) {
 
 void stepper_state_signal(void) {
 	NewStateSignal nss;
-	com_make_default_header(&nss, com_brick_uid, sizeof(NewStateSignal), FID_NEW_STATE);
+	com_make_default_header(&nss, com_info.uid, sizeof(NewStateSignal), FID_NEW_STATE);
 	nss.state_new      = stepper_api_state;
 	nss.state_previous = stepper_api_prev_state;
 
-	send_blocking_with_timeout(&nss, sizeof(NewStateSignal), com_current);
+	send_blocking_with_timeout(&nss, sizeof(NewStateSignal), com_info.current);
 }
 
 void stepper_all_data_signal(void) {
 	stepper_all_data_period_counter -= stepper_all_data_period;
 
 	AllDataSignal ads;
-	com_make_default_header(&ads, com_brick_uid, sizeof(AllDataSignal), FID_ALL_DATA);
+	com_make_default_header(&ads, com_info.uid, sizeof(AllDataSignal), FID_ALL_DATA);
 	ads.current_velocity = stepper_velocity > 0xFFFF ? 0xFFFF : stepper_velocity;
 	ads.current_position = stepper_position;
 	ads.remaining_steps = stepper_get_remaining_steps();
@@ -326,7 +325,7 @@ void stepper_all_data_signal(void) {
 	ads.external_voltage = stepper_get_external_voltage();
 	ads.current_consumption = stepper_get_current();
 
-	send_blocking_with_timeout(&ads, sizeof(AllDataSignal), com_current);
+	send_blocking_with_timeout(&ads, sizeof(AllDataSignal), com_info.current);
 }
 
 void stepper_init(void) {
