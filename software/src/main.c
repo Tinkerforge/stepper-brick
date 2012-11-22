@@ -48,6 +48,7 @@
 #include "stepper.h"
 
 uint8_t brick_hardware_version[3];
+extern bool usb_first_connection;
 
 void vApplicationStackOverflowHook(xTaskHandle *pxTask, signed char *pcTaskName) {
 	logf("Stack Overflow\n\r");
@@ -73,6 +74,7 @@ int main() {
     				(xTaskHandle *)NULL);
     } else {
     	logi("Configure as Stack Participant (SPI)\n\r");
+    	usb_first_connection = false;
         spi_stack_slave_init();
 
     	xTaskCreate(spi_stack_slave_message_loop,

@@ -108,6 +108,7 @@ const uint32_t stepper_timer_velocity[]  = {BOARD_MCK/2   / MAX_TIMER_VALUE,
                                             32768         / MAX_TIMER_VALUE};
 
 extern ComInfo com_info;
+extern bool usb_first_connection;
 
 void stepper_position_reached_signal(void) {
 	PositionReachedSignal prs;
@@ -266,13 +267,14 @@ void tick_task(const uint8_t tick_type) {
 
 		stepper_all_data_period_counter++;
 	} else if(tick_type == TICK_TASK_TYPE_MESSAGE) {
-		if(message_counter != -1 && !usbd_hal_is_disabled(IN_EP)) {
+		if(usb_first_connection && !usbd_hal_is_disabled(IN_EP)) {
 			message_counter++;
 			if(message_counter >= 100) {
 				message_counter = 0;
 				if(brick_init_enumeration(COM_USB)) {
 					com_info.current = COM_USB;
-					message_counter = -1;
+					message_counter = 0;
+					usb_first_connection = false;
 				}
 			}
 		}
