@@ -10,10 +10,11 @@ HOST = 'localhost'
 PORT = 4223
 UID = '9eggGYnDtnd' # Change to your UID
 
-ipcon = IPConnection.new HOST, PORT # Create IP connection to brickd
-stepper = BrickStepper.new UID # Create device object
-ipcon.add_device stepper # Add device to IP connection
-# Don't use device before it is added to a connection
+ipcon = IPConnection.new # Create IP connection
+stepper = BrickStepper.new UID, ipcon # Create device object
+
+ipcon.connect HOST, PORT # Connect to brickd
+# Don't use device before ipcon is connected
 
 # Use position reached callback to program random movement
 stepper.register_callback(BrickStepper::CALLBACK_POSITION_REACHED) do |position|
@@ -40,4 +41,3 @@ stepper.set_steps 1 # Drive one step forward to get things going
 
 puts 'Press key to exit'
 $stdin.gets
-ipcon.destroy
