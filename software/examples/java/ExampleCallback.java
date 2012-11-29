@@ -14,16 +14,13 @@ public class ExampleCallback {
 	static BrickStepper stepper;
 
 	// Note: To make the example code cleaner we do not handle exceptions. Exceptions you
-	//       might normally want to catch are described in the commnents below
+	//       might normally want to catch are described in the documentation
 	public static void main(String args[]) throws Exception {
-		// Create connection to brickd
-		IPConnection ipcon = new IPConnection(host, port); // Can throw IOException
+		IPConnection ipcon = new IPConnection(); // Create IP connection
+		stepper = new BrickStepper(UID, ipcon); // Create device object
 
-		stepper = new BrickStepper(UID); // Create device object
-
-		// Add device to IP connection
-		ipcon.addDevice(stepper); // Can throw IPConnection.TimeoutException
-		// Don't use device before it is added to a connection
+		ipcon.connect(host, port); // Connect to brickd
+		// Don't use device before ipcon is connected
 
 		// Add and implement position reached listener 
 		// (called if position set by setSteps or setTargetPosition is reached)
@@ -54,6 +51,5 @@ public class ExampleCallback {
 		stepper.setSteps(1); // Drive one step forward to get things going
 
 		System.console().readLine("Press key to exit\n");
-		ipcon.destroy();
 	}
 }

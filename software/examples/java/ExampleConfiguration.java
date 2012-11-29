@@ -7,15 +7,13 @@ public class ExampleConfiguration {
 	private static final String UID = "9yEBJVAgcoj"; // Change to your UID
 
 	// Note: To make the example code cleaner we do not handle exceptions. Exceptions you
-	//       might normally want to catch are described in the commnents below
+	//       might normally want to catch are described in the documentation
 	public static void main(String args[]) throws Exception {
-		// Create connection to brickd
-		IPConnection ipcon = new IPConnection(host, port); // Can throw IOException
-		BrickStepper stepper = new BrickStepper(UID); // Create device object
+		IPConnection ipcon = new IPConnection(); // Create IP connection
+		BrickStepper stepper = new BrickStepper(UID, ipcon); // Create device object
 
-		// Add device to IP connection
-		ipcon.addDevice(stepper); // Can throw IPConnection.TimeoutException
-		// Don't use device before it is added to a connection
+		ipcon.connect(host, port); // Connect to brickd
+		// Don't use device before ipcon is connected
 
 		stepper.setMotorCurrent(800); // 800mA
 		stepper.setStepMode((short)8); // 1/8 step mode
@@ -29,6 +27,5 @@ public class ExampleConfiguration {
 		stepper.setSteps(60000); // Drive 60000 steps forward
 
 		System.console().readLine("Press key to exit\n");
-		ipcon.destroy();
 	}
 }
