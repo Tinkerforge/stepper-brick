@@ -12,7 +12,7 @@ type
     ipcon: TIPConnection;
     stepper: TBrickStepper;
   public
-    procedure ReachedCB(const position: longint);
+    procedure ReachedCB(sender: TObject; const position: longint);
     procedure Execute;
   end;
 
@@ -25,7 +25,7 @@ var
   e: TExample;
 
 { Use position reached callback to program random movement }
-procedure TExample.ReachedCB(const position: longint);
+procedure TExample.ReachedCB(sender: TObject; const position: longint);
 var steps: longint; vel: smallint; acc, dec: word;
 begin
   if (Random(2) = 0) then begin
@@ -49,15 +49,15 @@ end;
 
 procedure TExample.Execute;
 begin
-  { Create IP connection to brickd }
-  ipcon := TIPConnection.Create(HOST, PORT);
+  { Create IP connection }
+  ipcon := TIPConnection.Create();
 
   { Create device object }
-  stepper := TBrickStepper.Create(UID);
+  stepper := TBrickStepper.Create(UID, ipcon);
 
-  { Add device to IP connection }
-  ipcon.AddDevice(stepper);
-  { Don't use device before it is added to a connection }
+  { Connect to brickd }
+  ipcon.Connect(HOST, PORT);
+  { Don't use device before ipcon is connected }
 
   { Register "position reached callback" to procedure ReachedCB.
     ReachedCB will be called every time a position set with
@@ -71,7 +71,6 @@ begin
 
   WriteLn('Press key to exit');
   ReadLn;
-  ipcon.Destroy;
 end;
 
 begin
