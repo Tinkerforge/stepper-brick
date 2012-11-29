@@ -9,10 +9,9 @@
 #define PORT 4223
 #define UID "a4LCLTYxDK9" // Change to your UID
 
-Stepper stepper;
-
 // Use position reached callback to program random movement 
-void cb_reached(int32_t position) {
+void cb_reached(int32_t position, void *user_data) {
+	Stepper *stepper = (Stepper*)user_data;
 	int32_t steps;
 	if(rand() % 2) {
 		steps = (rand() % 4000) + 1000; // steps (forward)
@@ -27,35 +26,34 @@ void cb_reached(int32_t position) {
 	uint16_t dec = (rand() % 900) + 100; // steps/s^2
 	printf("Configuration (vel, acc, dec): %d, %d %d\n", vel, acc, dec);
 
-	stepper_set_speed_ramping(&stepper, acc, dec);
-	stepper_set_max_velocity(&stepper, vel);
-	stepper_set_steps(&stepper, steps);
+	stepper_set_speed_ramping(stepper, acc, dec);
+	stepper_set_max_velocity(stepper, vel);
+	stepper_set_steps(stepper, steps);
 }
 
 int main() {
-	// Create IP connection to brickd
+	// Create IP connection
 	IPConnection ipcon;
-	if(ipcon_create(&ipcon, HOST, PORT) < 0) {
-		fprintf(stderr, "Could not create connection\n");
-		exit(1);
-	}
+	ipcon_create(&ipcon);
 
 	// Create device object
-	stepper_create(&stepper, UID); 
+	Stepper stepper;
+	stepper_create(&stepper, UID, &ipcon);
 
-	// Add device to IP connection
-	if(ipcon_add_device(&ipcon, &stepper) < 0) {
-		fprintf(stderr, "Could not connect to Brick\n");
+	// Connect to brickd
+	if(ipcon_connect(&ipcon, HOST, PORT) < 0) {
+		fprintf(stderr, "Could not connect\n");
 		exit(1);
 	}
-	// Don't use device before it is added to a connection
+	// Don't use device before ipcon is connected
 
 	// Register "position reached callback" to cb_reached
 	// cb_reached will be called every time a position set with
 	// set_steps or set_target_position is reached
 	stepper_register_callback(&stepper, 
 	                          STEPPER_CALLBACK_POSITION_REACHED,
-	                          cb_reached);
+	                          cb_reached,
+							  (void*)&stepper);
 
 	stepper_enable(&stepper);
 	// Drive one step forward to get things going
