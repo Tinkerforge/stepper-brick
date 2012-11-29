@@ -10,6 +10,9 @@ from tinkerforge.brick_stepper import Stepper
 
 import random
 
+ipcon = IPConnection() # Create IP connection
+stepper = Stepper(UID, ipcon) # Create device object
+
 # Use position reached callback to program random movement
 def cb_reached(position):
     if random.randint(0, 1):
@@ -29,11 +32,8 @@ def cb_reached(position):
     stepper.set_steps(steps)
 
 if __name__ == "__main__":
-    ipcon = IPConnection(HOST, PORT) # Create IP connection to brickd
-
-    stepper = Stepper(UID) # Create device object
-    ipcon.add_device(stepper) # Add device to IP connection
-    # Don't use device before it is added to a connection
+    ipcon.connect(HOST, PORT) # Connect to brickd
+    # Don't use device before ipcon is connected
 
     # Register "position reached callback" to cb_reached
     # cb_reached will be called every time a position set with
@@ -44,4 +44,3 @@ if __name__ == "__main__":
     stepper.set_steps(1) # Drive one step forward to get things going
 
     raw_input('Press key to exit\n') # Use input() in Python 3
-    ipcon.destroy()
