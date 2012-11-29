@@ -33,11 +33,11 @@ function cb_reached($position)
     $stepper->setSteps($steps);
 }
 
-$ipcon = new IPConnection($host, $port); // Create IP connection to brickd
-$stepper = new BrickStepper($uid); // Create device object
+$ipcon = new IPConnection(); // Create IP connection
+$stepper = new BrickStepper($uid, $ipcon); // Create device object
 
-$ipcon->addDevice($stepper); // Add device to IP connection
-// Don't use device before it is added to a connection
+$ipcon->connect($host, $port); // Connect to brickd
+// Don't use device before ipcon is connected
 
 // Register "position reached callback" to cb_reached
 // cb_reached will be called every time a position set with

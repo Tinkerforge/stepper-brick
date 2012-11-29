@@ -10,11 +10,11 @@ $host = 'localhost';
 $port = 4223;
 $uid = '9eggGYnDtnd'; // Change to your UID
 
-$ipcon = new IPConnection($host, $port); // Create IP connection to brickd
-$stepper = new BrickStepper($uid); // Create device object
+$ipcon = new IPConnection(); // Create IP connection
+$stepper = new BrickStepper($uid, $ipcon); // Create device object
 
-$ipcon->addDevice($stepper); // Add device to IP connection
-// Don't use device before it is added to a connection
+$ipcon->connect($host, $port); // Connect to brickd
+// Don't use device before ipcon is connected
 
 $stepper->setMotorCurrent(800); // 800mA
 $stepper->setStepMode(8); // 1/8 step mode
@@ -29,6 +29,5 @@ $stepper->setSteps(60000); // Drive 60000 steps forward
 
 echo "Press key to exit\n";
 fgetc(fopen('php://stdin', 'r'));
-$ipcon->destroy();
 
 ?>
