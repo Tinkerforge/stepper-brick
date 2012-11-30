@@ -182,6 +182,11 @@ void get_remaining_steps(const ComType com, const GetRemainingSteps *data) {
 }
 
 void set_step_mode(const ComType com, const SetStepMode *data) {
+	if(data->mode != 1 && data->mode != 2 && data->mode != 4 && data->mode != 8) {
+		com_return_error(data, sizeof(MessageHeader), MESSAGE_ERROR_CODE_INVALID_PARAMETER, com);
+		return;
+	}
+
 	stepper_set_step_mode(data->mode);
 
 	com_return_setter(com, data);
