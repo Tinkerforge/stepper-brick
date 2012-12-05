@@ -6,12 +6,12 @@ class Example
 	private static int PORT = 4223;
 	private static string UID = "9yEBJVAgcoj"; // Change to your UID
 	
-	private static BrickStepper stepper;
 	private static System.Random random = new System.Random();
 
 	// Use position reached callback to program random movement 
-	static void ReachedCB(int position)
+	static void ReachedCB(object sender, int position)
 	{
+		BrickStepper stepper = (BrickStepper)sender;
 		int steps;
 		if(random.Next(0, 2) == 0)
 		{
@@ -37,21 +37,21 @@ class Example
 
 	static void Main() 
 	{
-		IPConnection ipcon = new IPConnection(HOST, PORT); // Create connection to brickd
-		stepper = new BrickStepper(UID); // Create device object
-		ipcon.AddDevice(stepper); // Add device to IP connection
-		// Don't use device before it is added to a connection
+		IPConnection ipcon = new IPConnection(); // Create IP connection
+		BrickStepper stepper = new BrickStepper(UID, ipcon); // Create device object
+
+		ipcon.Connect(HOST, PORT); // Connect to brickd
+		// Don't use device before ipcon is connected
 
 		// Register "position reached callback" to ReachedCB
 		// ReachedCB will be called every time a position set with
 		// SetSteps or SetTargetPosition is reached
-		stepper.RegisterCallback(new BrickStepper.PositionReached(ReachedCB));
+		stepper.PositionReached += ReachedCB;
 
 		stepper.Enable();
 		stepper.SetSteps(1); // Drive one step forward to get things going
 
 		System.Console.WriteLine("Press key to exit");
 		System.Console.ReadKey();
-		ipcon.Destroy();
 	}
 }

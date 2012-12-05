@@ -8,10 +8,11 @@ class Example
 
 	static void Main() 
 	{
-		IPConnection ipcon = new IPConnection(HOST, PORT); // Create connection to brickd
-		BrickStepper stepper = new BrickStepper(UID); // Create device object
-		ipcon.AddDevice(stepper); // Add device to IP connection
-		// Don't use device before it is added to a connection
+		IPConnection ipcon = new IPConnection(); // Create IP connection
+		BrickStepper stepper = new BrickStepper(UID, ipcon); // Create device object
+
+		ipcon.Connect(HOST, PORT); // Connect to brickd
+		// Don't use device before ipcon is connected
 
 		stepper.SetMotorCurrent(800); // 800mA
 		stepper.SetStepMode(8); // 1/8 step mode
@@ -26,6 +27,5 @@ class Example
 
 		System.Console.WriteLine("Press key to exit");
 		System.Console.ReadKey();
-		ipcon.Destroy();
 	}
 }
