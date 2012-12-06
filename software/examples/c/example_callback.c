@@ -11,8 +11,11 @@
 
 // Use position reached callback to program random movement 
 void cb_reached(int32_t position, void *user_data) {
-	Stepper *stepper = (Stepper*)user_data;
+	Stepper *stepper = (Stepper *)user_data;
 	int32_t steps;
+
+	(void)position;
+
 	if(rand() % 2) {
 		steps = (rand() % 4000) + 1000; // steps (forward)
 		printf("Driving forward: %d steps\n", steps);
@@ -50,10 +53,10 @@ int main() {
 	// Register "position reached callback" to cb_reached
 	// cb_reached will be called every time a position set with
 	// set_steps or set_target_position is reached
-	stepper_register_callback(&stepper, 
+	stepper_register_callback(&stepper,
 	                          STEPPER_CALLBACK_POSITION_REACHED,
 	                          cb_reached,
-							  (void*)&stepper);
+	                          &stepper);
 
 	stepper_enable(&stepper);
 	// Drive one step forward to get things going
