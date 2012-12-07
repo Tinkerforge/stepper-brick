@@ -41,9 +41,12 @@ public class ExampleCallback {
 				System.out.println("Configuration (vel, acc, dec): (" + 
 				                   vel + ", " + acc + ",  " + dec + ")");
 
-				stepper.setSpeedRamping(acc, dec);
-				stepper.setMaxVelocity(vel);
-				stepper.setSteps(steps);
+				try {
+					stepper.setSpeedRamping(acc, dec);
+					stepper.setMaxVelocity(vel);
+					stepper.setSteps(steps);
+				} catch(IPConnection.TimeoutException e) {
+				}
 			}
 		});
 
