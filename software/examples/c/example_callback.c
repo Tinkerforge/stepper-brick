@@ -55,7 +55,7 @@ int main() {
 	// set_steps or set_target_position is reached
 	stepper_register_callback(&stepper,
 	                          STEPPER_CALLBACK_POSITION_REACHED,
-	                          cb_reached,
+	                          (void *)cb_reached,
 	                          &stepper);
 
 	stepper_enable(&stepper);
