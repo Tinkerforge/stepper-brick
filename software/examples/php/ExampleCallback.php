@@ -11,9 +11,9 @@ $port = 4223;
 $uid = '9eggGYnDtnd'; // Change to your UID
 
 // Use position reached callback to program random movement
-function cb_reached($position)
+function cb_reached($position, $userData)
 {
-    global $stepper;
+    $stepper = $userData;
 
     if (rand(0, 1)) {
         $steps = rand(1000, 5000); // steps (forward)
@@ -42,7 +42,7 @@ $ipcon->connect($host, $port); // Connect to brickd
 // Register "position reached callback" to cb_reached
 // cb_reached will be called every time a position set with
 // set_steps or set_target_position is reached
-$stepper->registercallback(BrickStepper::CALLBACK_POSITION_REACHED, 'cb_reached');
+$stepper->registerCallback(BrickStepper::CALLBACK_POSITION_REACHED, 'cb_reached', $stepper);
 
 $stepper->enable();
 $stepper->setSteps(1); # Drive one step forward to get things going
