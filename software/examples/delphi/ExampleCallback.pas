@@ -12,7 +12,7 @@ type
     ipcon: TIPConnection;
     stepper: TBrickStepper;
   public
-    procedure ReachedCB(sender: TObject; const position: longint);
+    procedure ReachedCB(sender: TBrickStepper; const position: longint);
     procedure Execute;
   end;
 
@@ -25,7 +25,7 @@ var
   e: TExample;
 
 { Use position reached callback to program random movement }
-procedure TExample.ReachedCB(sender: TObject; const position: longint);
+procedure TExample.ReachedCB(sender: TBrickStepper; const position: longint);
 var steps: longint; vel: smallint; acc, dec: word;
 begin
   if (Random(2) = 0) then begin
@@ -42,9 +42,9 @@ begin
   dec := Random(900) + 100; { steps/s^2 }
   WriteLn(Format('Configuration (vel, acc, dec): %d, %d %d', [vel, acc, dec]));
 
-  stepper.SetSpeedRamping(acc, dec);
-  stepper.SetMaxVelocity(vel);
-  stepper.SetSteps(steps);
+  sender.SetSpeedRamping(acc, dec);
+  sender.SetMaxVelocity(vel);
+  sender.SetSteps(steps);
 end;
 
 procedure TExample.Execute;

@@ -9,9 +9,8 @@ class Example
 	private static System.Random random = new System.Random();
 
 	// Use position reached callback to program random movement 
-	static void ReachedCB(object sender, int position)
+	static void ReachedCB(BrickStepper sender, int position)
 	{
-		BrickStepper stepper = (BrickStepper)sender;
 		int steps;
 		if(random.Next(0, 2) == 0)
 		{
@@ -30,9 +29,9 @@ class Example
 		System.Console.WriteLine("Configuration (vel, acc, dec): (" +
 		                         vel + ", " + acc + ", " + dec + ")");
 
-		stepper.SetSpeedRamping(acc, dec);
-		stepper.SetMaxVelocity(vel);
-		stepper.SetSteps(steps);
+		sender.SetSpeedRamping(acc, dec);
+		sender.SetMaxVelocity(vel);
+		sender.SetSteps(steps);
 	}
 
 	static void Main() 
