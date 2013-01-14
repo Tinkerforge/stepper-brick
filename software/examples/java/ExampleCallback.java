@@ -46,6 +46,7 @@ public class ExampleCallback {
 					stepper.setMaxVelocity(vel);
 					stepper.setSteps(steps);
 				} catch(IPConnection.TimeoutException e) {
+				} catch(IPConnection.NotConnectedException e) {
 				}
 			}
 		});
