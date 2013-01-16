@@ -1,5 +1,7 @@
 import com.tinkerforge.BrickStepper;
 import com.tinkerforge.IPConnection;
+import com.tinkerforge.TimeoutException;
+import com.tinkerforge.NotConnectedException;
 
 import java.util.Random;
 
@@ -8,16 +10,12 @@ public class ExampleCallback {
 	private static final int port = 4223;
 	private static final String UID = "9yEBJVAgcoj"; // Change to your UID
 
-	// Declare stepper static, so the listener can use it. In a real program you probably
-	// want to make a real listener class (not the anonym inner class) and pass the stepper
-	// reference to it. But we want to keep the examples as short es possible.
-	static BrickStepper stepper;
-
 	// Note: To make the example code cleaner we do not handle exceptions. Exceptions you
 	//       might normally want to catch are described in the documentation
 	public static void main(String args[]) throws Exception {
 		IPConnection ipcon = new IPConnection(); // Create IP connection
-		stepper = new BrickStepper(UID, ipcon); // Create device object
+		// Note: Declare stepper final, so the listener can access it
+		final BrickStepper stepper = new BrickStepper(UID, ipcon); // Create device object
 
 		ipcon.connect(host, port); // Connect to brickd
 		// Don't use device before ipcon is connected
@@ -45,8 +43,8 @@ public class ExampleCallback {
 					stepper.setSpeedRamping(acc, dec);
 					stepper.setMaxVelocity(vel);
 					stepper.setSteps(steps);
-				} catch(IPConnection.TimeoutException e) {
-				} catch(IPConnection.NotConnectedException e) {
+				} catch(TimeoutException e) {
+				} catch(NotConnectedException e) {
 				}
 			}
 		});
