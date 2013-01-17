@@ -22,7 +22,7 @@ public class ExampleCallback {
 
 		// Add and implement position reached listener 
 		// (called if position set by setSteps or setTargetPosition is reached)
-		stepper.addListener(new BrickStepper.PositionReachedListener() {
+		stepper.addPositionReachedListener(new BrickStepper.PositionReachedListener() {
 			Random random = new Random();
 
 			public void positionReached(int position) {
