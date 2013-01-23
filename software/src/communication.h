@@ -307,9 +307,7 @@ typedef struct {
 } __attribute__((__packed__)) GetDecayReturn;
 
 typedef struct {
-	uint8_t stack_address;
-	uint8_t type;
-	uint16_t length;
+	MessageHeader header;
 	uint16_t voltage;
 } __attribute__((__packed__)) SetMinimumVoltage;
 
