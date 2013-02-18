@@ -23,9 +23,9 @@ class Example
 			System.Console.WriteLine("Driving backward: " + steps + " steps");
 		}
 
-		ushort vel = (ushort)random.Next(200, 2001); // steps/s
-		ushort acc = (ushort)random.Next(100, 1001); // steps/s^2
-		ushort dec = (ushort)random.Next(100, 1001); // steps/s^2
+		int vel = random.Next(200, 2001); // steps/s
+		int acc = random.Next(100, 1001); // steps/s^2
+		int dec = random.Next(100, 1001); // steps/s^2
 		System.Console.WriteLine("Configuration (vel, acc, dec): (" +
 		                         vel + ", " + acc + ", " + dec + ")");
 
