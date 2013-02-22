@@ -1,7 +1,6 @@
 import com.tinkerforge.BrickStepper;
 import com.tinkerforge.IPConnection;
-import com.tinkerforge.TimeoutException;
-import com.tinkerforge.NotConnectedException;
+import com.tinkerforge.TinkerforgeException;
 
 import java.util.Random;
 
@@ -43,8 +42,7 @@ public class ExampleCallback {
 					stepper.setSpeedRamping(acc, dec);
 					stepper.setMaxVelocity(vel);
 					stepper.setSteps(steps);
-				} catch(TimeoutException e) {
-				} catch(NotConnectedException e) {
+				} catch(TinkerforgeException e) {
 				}
 			}
 		});
