@@ -12,3 +12,5 @@
 1.1.9: Change Bricklet Context size from 250 to 256 (through bricklib)
 2.0.0: Support for protocol 2.0
 2.0.1: Add missing header to minimum voltage setter
+2.0.2: Add watchdog timer (restart after 16s of "deadlock")
+
