@@ -27,3 +27,4 @@ if __name__ == "__main__":
     stepper.set_steps(60000) # Drive 60000 steps forward
 
     raw_input('Press key to exit\n') # Use input() in Python 3
+    ipcon.disconnect()

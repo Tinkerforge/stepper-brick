@@ -29,5 +29,6 @@ $stepper->setSteps(60000); // Drive 60000 steps forward
 
 echo "Press key to exit\n";
 fgetc(fopen('php://stdin', 'r'));
+$ipcon->disconnect();
 
 ?>

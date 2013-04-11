@@ -29,3 +29,4 @@ stepper.set_steps 60000 # Drive 60000 steps forward
 
 puts 'Press key to exit'
 $stdin.gets
+ipcon.disconnect

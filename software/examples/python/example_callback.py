@@ -44,3 +44,4 @@ if __name__ == "__main__":
     stepper.set_steps(1) # Drive one step forward to get things going
 
     raw_input('Press key to exit\n') # Use input() in Python 3
+    ipcon.disconnect()

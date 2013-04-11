@@ -41,3 +41,4 @@ stepper.set_steps 1 # Drive one step forward to get things going
 
 puts 'Press key to exit'
 $stdin.gets
+ipcon.disconnect
