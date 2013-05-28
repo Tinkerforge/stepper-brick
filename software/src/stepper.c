@@ -138,7 +138,7 @@ void stepper_check_error_signals(void) {
 	    stack_voltage > STEPPER_VOLTAGE_EPSILON &&
 	    stack_voltage < stepper_minimum_voltage)) {
 		UnderVoltageSignal uvs;
-		com_make_default_header(&uvs, com_info.uid, sizeof(UnderVoltageSignal), FID_POSITION_REACHED);
+		com_make_default_header(&uvs, com_info.uid, sizeof(UnderVoltageSignal), FID_UNDER_VOLTAGE);
 		uvs.voltage = external_voltage < STEPPER_VOLTAGE_EPSILON ? stack_voltage : external_voltage;
 
 		send_blocking_with_timeout(&uvs,

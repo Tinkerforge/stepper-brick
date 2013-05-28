@@ -13,4 +13,4 @@
 2.0.0: Support for protocol 2.0
 2.0.1: Add missing header to minimum voltage setter
 2.0.2: Add watchdog timer (restart after 16s of "deadlock")
-
+2.0.3: Fix bug in under voltage callback definition (wrong FID)
