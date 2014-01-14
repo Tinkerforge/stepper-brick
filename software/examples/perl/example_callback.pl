@@ -8,7 +8,7 @@ use constant PORT => 4223;
 use constant UID => '63oL6P'; # Change to your UID
 
 my $ipcon = IPConnection->new(); # Create IP connection
-my $stepper = BrickStepper->new(&UID, $ipcon); # Create device object
+our $stepper = BrickStepper->new(&UID, $ipcon); # Create device object
 
 sub cb_reached
 {
@@ -28,14 +28,14 @@ sub cb_reached
         $steps = int(rand(5000 - 1000)) + 1000; # steps (backward)
         print"\nDriving backward: ".$steps." steps\n";
 
-    $vel = int(rand(2000 - 200)) + 200; # steps/s
-    $acc = int(rand(1000 - 100)) + 100; # steps/s^2
-    $dec = int(rand(1000 - 100)) + 100; # steps/s^2
-    print"\nConfiguration (vel, acc, dec): ".$vel.", ".$acc.", ".$dec."\n";
+        $vel = int(rand(2000 - 200)) + 200; # steps/s
+        $acc = int(rand(1000 - 100)) + 100; # steps/s^2
+        $dec = int(rand(1000 - 100)) + 100; # steps/s^2
+        print"\nConfiguration (vel, acc, dec): ".$vel.", ".$acc.", ".$dec."\n";
 
-    $stepper->set_speed_ramping($acc, $dec);
-    $stepper->set_max_velocity($vel);
-    $stepper->set_steps($steps);
+        $stepper->set_speed_ramping($acc, $dec);
+        $stepper->set_max_velocity($vel);
+        $stepper->set_steps($steps);
     }
 }
 
