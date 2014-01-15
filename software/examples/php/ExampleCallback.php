@@ -6,9 +6,9 @@ require_once('Tinkerforge/BrickStepper.php');
 use Tinkerforge\IPConnection;
 use Tinkerforge\BrickStepper;
 
-$host = 'localhost';
-$port = 4223;
-$uid = '9eggGYnDtnd'; // Change to your UID
+const HOST = 'localhost';
+const PORT = 4223;
+const UID = '9eggGYnDtnd'; // Change to your UID
 
 // Use position reached callback to program random movement
 function cb_reached($position, $userData)
@@ -34,9 +34,9 @@ function cb_reached($position, $userData)
 }
 
 $ipcon = new IPConnection(); // Create IP connection
-$stepper = new BrickStepper($uid, $ipcon); // Create device object
+$stepper = new BrickStepper(UID, $ipcon); // Create device object
 
-$ipcon->connect($host, $port); // Connect to brickd
+$ipcon->connect(HOST, PORT); // Connect to brickd
 // Don't use device before ipcon is connected
 
 // Register "position reached callback" to cb_reached
