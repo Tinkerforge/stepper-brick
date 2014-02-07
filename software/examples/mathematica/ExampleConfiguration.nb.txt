@@ -1,0 +1,27 @@
+Needs["NETLink`"]
+LoadNETAssembly["Tinkerforge",NotebookDirectory[]<>"../../.."]
+
+host="localhost"
+port=4223
+uid="6RpP4y"(* Change to your UID *)
+
+(* Create IPConnection and device object *)
+ipcon=NETNew["Tinkerforge.IPConnection"]
+s=NETNew["Tinkerforge.BrickStepper",uid,ipcon]
+ipcon@Connect[host,port]
+
+s@SetMotorCurrent[800](* 800mA *)
+s@SetStepMode[8](* 1/8 step mode *)
+s@SetMaxVelocity[2000](* Velocity 2000 steps/s *)
+
+(* Slow acceleration (500 steps/s^2), *)
+(* Fast deacceleration (5000 steps/s^2) *)
+s@SetSpeedRamping[500,5000]
+
+s@Enable[]
+s@SetSteps[60000](* Drive 60000 steps forward *)
+
+(* Clean up *)
+ipcon@Disconnect[]
+ReleaseNETObject[s]
+ReleaseNETObject[ipcon]

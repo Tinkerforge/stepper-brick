@@ -1,0 +1,44 @@
+Needs["NETLink`"]
+LoadNETAssembly["Tinkerforge",NotebookDirectory[]<>"../../.."]
+
+host="localhost"
+port=4223
+uid="6RpP4y"(* Change to your UID *)
+
+(* Create IPConnection and device object *)
+ipcon=NETNew["Tinkerforge.IPConnection"]
+s=NETNew["Tinkerforge.BrickStepper",uid,ipcon]
+ipcon@Connect[host,port]
+
+(* Use position reached callback to program random movement *)
+PositionReachedCB[sender_,position_]:=
+Module[{},
+  If[EvenQ[RandomInteger[]],
+   steps:=RandomInteger[{1000,5000}];(* steps (forward) *)
+   Print["Driving forward: "<>ToString[steps]<>" steps"],
+   steps:=RandomInteger[{-5000,-1000}];(* steps (backward) *)
+   Print["Driving backward: "<>ToString[steps]<>" steps"]
+  ];
+
+  vel=RandomInteger[{200,2000}];(* steps/s *)
+  acc=RandomInteger[{100,1000}];(* steps/s^2 *)
+  dec=RandomInteger[{100,1000}];(* steps/s^2 *)
+  Print["Configuration (vel, acc, dec): ("<>
+        ToString[vel]<>", "<>ToString[acc]<>", "<>ToString[dec]<>")"];
+
+  sender@SetSpeedRamping[acc,dec];
+  sender@SetMaxVelocity[vel];
+  sender@SetSteps[steps];
+ ]
+
+AddEventHandler[s@PositionReached,PositionReachedCB]
+
+s@Enable[]
+s@SetSteps[1](* Drive one step forward to get things going *)
+
+Input["Click OK to exit"]
+
+(* Clean up *)
+ipcon@Disconnect[]
+ReleaseNETObject[dc]
+ReleaseNETObject[ipcon]
