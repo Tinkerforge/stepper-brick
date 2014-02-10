@@ -7,8 +7,8 @@ use constant HOST => 'localhost';
 use constant PORT => 4223;
 use constant UID => '63oL6P'; # Change to your UID
 
-my $ipcon = IPConnection->new(); # Create IP connection
-my $stepper = BrickStepper->new(&UID, $ipcon); # Create device object
+my $ipcon = Tinkerforge::IPConnection->new(); # Create IP connection
+my $stepper = Tinkerforge::BrickStepper->new(&UID, $ipcon); # Create device object
 
 $ipcon->connect(&HOST, &PORT); # Connect to brickd
 # Don't use device before ipcon is connected
