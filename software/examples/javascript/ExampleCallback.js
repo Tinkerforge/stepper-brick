@@ -1,12 +1,11 @@
-var IPConnection = require('Tinkerforge/IPConnection');
-var BrickStepper = require('Tinkerforge/BrickStepper');
+var Tinkerforge = require('tinkerforge');
 
 var HOST = 'localhost';
 var PORT = 4223;
 var UID = '63oL6P';// Change to your UID
 
-var ipcon = new IPConnection();// Create IP connection
-var stepper = new BrickStepper(UID, ipcon);// Create device object
+var ipcon = new Tinkerforge.IPConnection();// Create IP connection
+var stepper = new Tinkerforge.BrickStepper(UID, ipcon);// Create device object
 
 ipcon.connect(HOST, PORT,
     function(error) {
@@ -15,7 +14,7 @@ ipcon.connect(HOST, PORT,
 );// Connect to brickd
 
 // Don't use device before ipcon is connected
-ipcon.on(IPConnection.CALLBACK_CONNECTED,
+ipcon.on(Tinkerforge.IPConnection.CALLBACK_CONNECTED,
     function(connectReason) {
         stepper.enable();
         stepper.setSteps(1);// Drive one step forward to get things going
@@ -25,7 +24,7 @@ ipcon.on(IPConnection.CALLBACK_CONNECTED,
 // Register "position reached callback",
 // the callback will be called every time a position set with
 // setSteps or setTargetPosition is reached.
-stepper.on(BrickStepper.CALLBACK_POSITION_REACHED,
+stepper.on(Tinkerforge.BrickStepper.CALLBACK_POSITION_REACHED,
     function(position) {
         if(Math.floor(Math.random()*2)) {
             var steps = Math.floor((Math.random()*5000)+1000);// steps (forward);
