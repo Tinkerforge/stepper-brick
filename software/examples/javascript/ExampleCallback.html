@@ -65,6 +65,8 @@
                         stepper.setSpeedRamping(acc, dec);
                         stepper.setMaxVelocity(vel);
                         stepper.setSteps(steps);
+						textArea.value += '\n';
+						textArea.scrollTop = textArea.scrollHeight;
                     }
                 );
             }
