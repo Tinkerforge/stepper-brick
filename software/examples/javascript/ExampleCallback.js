@@ -25,6 +25,7 @@ ipcon.on(Tinkerforge.IPConnection.CALLBACK_CONNECTED,
 // the callback will be called every time a position set with
 // setSteps or setTargetPosition is reached.
 stepper.on(Tinkerforge.BrickStepper.CALLBACK_POSITION_REACHED,
+    // Use position reached callback to program random movement
     function(position) {
         if(Math.floor(Math.random()*2)) {
             var steps = Math.floor((Math.random()*5000)+1000);// steps (forward);
