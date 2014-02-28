@@ -2,22 +2,22 @@ var Tinkerforge = require('tinkerforge');
 
 var HOST = 'localhost';
 var PORT = 4223;
-var UID = '63oL6P';// Change to your UID
+var UID = '63oL6P'; // Change to your UID
 
-var ipcon = new Tinkerforge.IPConnection();// Create IP connection
-var stepper = new Tinkerforge.BrickStepper(UID, ipcon);// Create device object
+var ipcon = new Tinkerforge.IPConnection(); // Create IP connection
+var stepper = new Tinkerforge.BrickStepper(UID, ipcon); // Create device object
 
 ipcon.connect(HOST, PORT,
     function(error) {
-        console.log('Error: '+error);        
+        console.log('Error: '+error);
     }
-);// Connect to brickd
-
+); // Connect to brickd
 // Don't use device before ipcon is connected
+
 ipcon.on(Tinkerforge.IPConnection.CALLBACK_CONNECTED,
     function(connectReason) {
         stepper.enable();
-        stepper.setSteps(1);// Drive one step forward to get things going
+        stepper.setSteps(1); // Drive one step forward to get things going
     }
 );
 
@@ -28,16 +28,16 @@ stepper.on(Tinkerforge.BrickStepper.CALLBACK_POSITION_REACHED,
     // Use position reached callback to program random movement
     function(position) {
         if(Math.floor(Math.random()*2)) {
-            var steps = Math.floor((Math.random()*5000)+1000);// steps (forward);
+            var steps = Math.floor((Math.random()*5000)+1000); // steps (forward);
             console.log('Driving forward: '+steps+' steps');
         }
         else {
-            var steps = Math.floor((Math.random()*(-1000))+(-5000));// steps (backward);
+            var steps = Math.floor((Math.random()*(-1000))+(-5000)); // steps (backward);
             console.log('Driving backward: '+steps+' steps');
         }
-        var vel = Math.floor((Math.random()*2000)+200);// steps/s
-        var acc = Math.floor((Math.random()*1000)+100);// steps/s^2
-        var dec = Math.floor((Math.random()*1000)+100);// steps/s^2
+        var vel = Math.floor((Math.random()*2000)+200); // steps/s
+        var acc = Math.floor((Math.random()*1000)+100); // steps/s^2
+        var dec = Math.floor((Math.random()*1000)+100); // steps/s^2
         console.log('Configuration (vel, acc, dec): '+vel+', '+acc+', '+dec);
 
         stepper.setSpeedRamping(acc, dec);
@@ -53,4 +53,3 @@ process.stdin.on('data',
         process.exit(0);
     }
 );
-

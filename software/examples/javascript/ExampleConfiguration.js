@@ -2,28 +2,28 @@ var Tinkerforge = require('tinkerforge');
 
 var HOST = 'localhost';
 var PORT = 4223;
-var UID = '63oL6P';// Change to your UID
+var UID = '63oL6P'; // Change to your UID
 
-var ipcon = new Tinkerforge.IPConnection();// Create IP connection
-var stepper = new Tinkerforge.BrickStepper(UID, ipcon);// Create device object
+var ipcon = new Tinkerforge.IPConnection(); // Create IP connection
+var stepper = new Tinkerforge.BrickStepper(UID, ipcon); // Create device object
 
 ipcon.connect(HOST, PORT,
     function(error) {
-        console.log('Error: '+error);        
+        console.log('Error: '+error);
     }
-);// Connect to brickd
-
+); // Connect to brickd
 // Don't use device before ipcon is connected
+
 ipcon.on(Tinkerforge.IPConnection.CALLBACK_CONNECTED,
     function(connectReason) {
-        stepper.setMotorCurrent(800);// 800mA
-        stepper.setStepMode(8);// 1/8 step mode
-        stepper.setMaxVelocity(2000);// Velocity 2000 steps/s
-        // Slow acceleration (500 steps/s^2), 
+        stepper.setMotorCurrent(800); // 800mA
+        stepper.setStepMode(8); // 1/8 step mode
+        stepper.setMaxVelocity(2000); // Velocity 2000 steps/s
+        // Slow acceleration (500 steps/s^2),
         // Fast deacceleration (5000 steps/s^2)
-        stepper.setSpeedRamping(500, 5000); 
+        stepper.setSpeedRamping(500, 5000);
         stepper.enable();
-        stepper.setSteps(60000);// Drive 60000 steps forward     
+        stepper.setSteps(60000); // Drive 60000 steps forward
     }
 );
 
@@ -34,4 +34,3 @@ process.stdin.on('data',
         process.exit(0);
     }
 );
-
