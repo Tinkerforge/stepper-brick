@@ -16,6 +16,7 @@ sub cb_reached
 
     my $steps = 0;
     my $vel = 0;
+    my $acc = 0;
     my $dec = 0;
 
     if(int(rand(1)))
