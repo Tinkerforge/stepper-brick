@@ -19,20 +19,20 @@ sub cb_reached
     my $acc = 0;
     my $dec = 0;
 
-    if(int(rand(1)))
+    if (int(rand(1)))
     {
         $steps = int(rand(5000 - 1000)) + 1000; # steps (forward)
-        print"\nDriving forward: ".$steps." steps\n";
+        print "Driving forward: $steps steps\n";
     }
     else
     {
         $steps = int(rand(5000 - 1000)) + 1000; # steps (backward)
-        print"\nDriving backward: ".$steps." steps\n";
+        print "Driving backward: $steps steps\n";
 
         $vel = int(rand(2000 - 200)) + 200; # steps/s
         $acc = int(rand(1000 - 100)) + 100; # steps/s^2
         $dec = int(rand(1000 - 100)) + 100; # steps/s^2
-        print"\nConfiguration (vel, acc, dec): ".$vel.", ".$acc.", ".$dec."\n";
+        print "Configuration (vel, acc, dec): $vel, $acc, $dec\n";
 
         $stepper->set_speed_ramping($acc, $dec);
         $stepper->set_max_velocity($vel);
@@ -51,6 +51,6 @@ $stepper->register_callback($stepper->CALLBACK_POSITION_REACHED, 'cb_reached');
 $stepper->enable();
 $stepper->set_steps(1); # Drive one step forward to get things going
 
-print "\nPress any key to exit...\n";
+print "Press any key to exit...\n";
 <STDIN>;
 $ipcon->disconnect();

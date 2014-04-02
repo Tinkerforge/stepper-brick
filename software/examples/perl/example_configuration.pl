@@ -24,6 +24,6 @@ $stepper->set_speed_ramping(500, 5000);
 $stepper->enable();
 $stepper->set_steps(60000); # Drive 60000 steps forward
 
-print "\nPress any key to exit...\n";
+print "Press any key to exit...\n";
 <STDIN>;
 $ipcon->disconnect();
