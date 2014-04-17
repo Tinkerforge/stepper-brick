@@ -7,7 +7,6 @@ function matlab_example_callback
     UID = '63oL6P'; % Change to your UID
     
     ipcon = IPConnection(); % Create IP connection
-    global stepper;
     stepper = BrickStepper(UID, ipcon); % Create device object
 
     ipcon.connect(HOST, PORT); % Connect to brickd
@@ -16,18 +15,19 @@ function matlab_example_callback
     % Register "position reached callback" to cb_reached
     % cb_reached will be called every time a position set with
     % set_steps or set_target_position is reached
-    set(stepper, 'PositionReachedCallback', @(h, e)cb_reached(e));
+    set(stepper, 'PositionReachedCallback', @(h, e) cb_reached(e));
 
     stepper.enable();
     stepper.setSteps(1); % Drive one step forward to get things going
 
-    input('\nPress any key to exit...\n', 's');
+    input('Press any key to exit...\n', 's');
     ipcon.disconnect();
 end
 
 % Use position reached callback to program random movement
-function cb_reached(position)
-    global stepper;
+function cb_reached(e)
+    stepper = e.getSource();
+
     if randi([0, 1])
         steps = randi([1000, 5000]); % steps (forward);
         fprintf('Driving forward: %g steps\n', steps);

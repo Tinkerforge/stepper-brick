@@ -6,7 +6,6 @@ function octave_example_configuration
     UID = "63oL6P"; % Change to your UID
 
     ipcon = java_new("com.tinkerforge.IPConnection"); % Create IP connection
-    global stepper;
     stepper = java_new("com.tinkerforge.BrickStepper", UID, ipcon); % Create device object
 
     ipcon.connect(HOST, PORT); % Connect to brickd
@@ -23,6 +22,6 @@ function octave_example_configuration
     stepper.enable();
     stepper.setSteps(60000); % Drive 60000 steps forward
 
-    input("\nPress any key to exit...\n", "s");
+    input("Press any key to exit...\n", "s");
     ipcon.disconnect();
 end

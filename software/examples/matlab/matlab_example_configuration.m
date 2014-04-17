@@ -23,7 +23,6 @@ function matlab_example_configuration
     stepper.enable();
     stepper.setSteps(60000); % Drive 60000 steps forward
 
-    input('\nPress any key to exit...\n', 's');
+    input('Press any key to exit...\n', 's');
     ipcon.disconnect();
 end
-
