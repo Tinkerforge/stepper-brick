@@ -1,4 +1,4 @@
-function matlab_example_callback
+function matlab_example_callback()
     import com.tinkerforge.IPConnection;
     import com.tinkerforge.BrickStepper;
 

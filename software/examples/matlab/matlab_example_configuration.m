@@ -1,4 +1,4 @@
-function matlab_example_configuration
+function matlab_example_configuration()
     import com.tinkerforge.IPConnection;
     import com.tinkerforge.BrickStepper;
 
