@@ -15,3 +15,4 @@
 2.0.2: Add watchdog timer (restart after 16s of "deadlock")
 2.0.3: Fix bug in under voltage callback definition (wrong FID)
 2.0.4: Use tick_task to detect usb connect/disconnect instead of interrupt
+2.0.5: Remove USB hotplug support (through bricklib)
