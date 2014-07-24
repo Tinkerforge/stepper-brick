@@ -26,7 +26,7 @@ public class ExampleConfiguration {
 		stepper.enable();
 		stepper.setSteps(60000); // Drive 60000 steps forward
 
-		System.console().readLine("Press key to exit\n");
+		System.out.println("Press key to exit"); System.in.read();
 		ipcon.disconnect();
 	}
 }

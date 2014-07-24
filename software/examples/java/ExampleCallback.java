@@ -50,7 +50,7 @@ public class ExampleCallback {
 		stepper.enable();
 		stepper.setSteps(1); // Drive one step forward to get things going
 
-		System.console().readLine("Press key to exit\n");
+		System.out.println("Press key to exit"); System.in.read();
 		ipcon.disconnect();
 	}
 }
