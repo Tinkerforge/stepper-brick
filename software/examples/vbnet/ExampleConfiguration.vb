@@ -24,7 +24,7 @@ Module ExampleConfiguration
         stepper.SetSteps(60000) ' Drive 60000 steps forward
 
         System.Console.WriteLine("Press key to exit")
-        System.Console.ReadKey()
+        System.Console.ReadLine()
         ipcon.Disconnect()
     End Sub
 End Module

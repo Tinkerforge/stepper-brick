@@ -46,7 +46,7 @@ Module ExampleCallback
         stepper.SetSteps(1) ' Drive one step forward to get things going
 
         System.Console.WriteLine("Press key to exit")
-        System.Console.ReadKey()
+        System.Console.ReadLine()
         ipcon.Disconnect()
     End Sub
 End Module
