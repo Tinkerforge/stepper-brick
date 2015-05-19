@@ -17,3 +17,5 @@
 2.0.4: Use tick_task to detect usb connect/disconnect instead of interrupt
 2.0.5: Remove USB hotplug support (through bricklib)
 2.3.0: Add support for new SPI protocol
+2.3.1: Add magic number for unflashed Bricklet detection (through bricklib)
+ - Update state if only one step is set
