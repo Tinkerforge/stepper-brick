@@ -192,6 +192,8 @@ void stepper_make_step_speedramp(const int32_t steps) {
 		// Just make the single step, no need for TC IRQ
 		stepper_make_step();
 		stepper_position_reached = true;
+		stepper_set_new_api_state(STEPPER_API_STATE_RUN);
+		stepper_set_new_api_state(STEPPER_API_STATE_STOP);
 		return;
 	}
 
