@@ -1,6 +1,6 @@
-update=Mo 24 Jun 2013 08:35:36 CEST
+update=Mi 24 Jun 2015 08:32:20 CEST
 version=1
-last_client=eeschema
+last_client=kicad
 [general]
 version=1
 [cvpcb]
@@ -42,12 +42,7 @@ LibName12=Logo
 LibName13=tinkerforge
 [eeschema]
 version=1
-LibDir=kicad-libraries
-NetFmtName=
-RptD_X=0
-RptD_Y=100
-RptLab=1
-LabSize=60
+LibDir=kicad-libraries.pretty
 [eeschema/libraries]
 LibName1=power
 LibName2=device
