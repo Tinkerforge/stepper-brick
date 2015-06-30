@@ -1192,8 +1192,6 @@ Text GLabel 5950 5100 0    60   Output ~ 0
 PWR-SDI_CFG1
 Text GLabel 5950 5200 0    60   Output ~ 0
 PWR-SD0_CFG0
-Text Notes 4550 4950 0    60   ~ 0
-Filter?
 Wire Wire Line
 	10600 4800 10600 5500
 Connection ~ 10400 4800

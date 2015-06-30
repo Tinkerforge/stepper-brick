@@ -210,19 +210,19 @@ F 3 "" H 8600 4350 60  0001 C CNN
 $EndComp
 Text GLabel 6550 4900 0    60   Input ~ 0
 BRICKLET-IO1_1
-Text GLabel 6550 3150 0    60   Input ~ 0
+Text GLabel 6550 3250 0    60   Input ~ 0
 BRICKLET-IO0_1
-Text GLabel 6550 3350 0    60   Input ~ 0
+Text GLabel 6550 3050 0    60   Input ~ 0
 BRICKLET-IO0_3
 Text GLabel 6550 5100 0    60   Input ~ 0
 BRICKLET-IO1_3
 Text GLabel 6550 5000 0    60   Input ~ 0
 BRICKLET-IO1_2/PWM1
-Text GLabel 6550 3250 0    60   Input ~ 0
+Text GLabel 6550 3150 0    60   Input ~ 0
 BRICKLET-IO0_2/PWM0
 Text GLabel 6550 4800 0    60   Input ~ 0
 BRICKLET-IO1_0/AD1
-Text GLabel 6550 3050 0    60   Input ~ 0
+Text GLabel 6550 3350 0    60   Input ~ 0
 BRICKLET-IO0_0/AD0
 Text GLabel 2450 3600 0    60   Input ~ 0
 BRICKLET-I2C-SCL
@@ -320,14 +320,6 @@ Wire Wire Line
 	8100 5500 8100 5400
 Wire Wire Line
 	8100 3750 8100 3650
-Wire Wire Line
-	8400 3350 8750 3350
-Wire Wire Line
-	8750 3250 8400 3250
-Wire Wire Line
-	8400 3150 8750 3150
-Wire Wire Line
-	8750 3050 8400 3050
 Wire Wire Line
 	8400 2950 8750 2950
 Wire Wire Line
@@ -564,4 +556,36 @@ Connection ~ 4000 1950
 Connection ~ 4000 1200
 Connection ~ 4800 1200
 Connection ~ 5150 1200
+Wire Wire Line
+	8750 3350 8650 3350
+Wire Wire Line
+	8650 3350 8650 3050
+Wire Wire Line
+	8650 3050 8400 3050
+Wire Wire Line
+	8750 3250 8600 3250
+Wire Wire Line
+	8600 3250 8600 3150
+Wire Wire Line
+	8600 3150 8400 3150
+Wire Wire Line
+	8750 3150 8700 3150
+Wire Wire Line
+	8700 3150 8700 3200
+Wire Wire Line
+	8700 3200 8500 3200
+Wire Wire Line
+	8500 3200 8500 3250
+Wire Wire Line
+	8500 3250 8400 3250
+Wire Wire Line
+	8750 3050 8700 3050
+Wire Wire Line
+	8700 3050 8700 3100
+Wire Wire Line
+	8700 3100 8450 3100
+Wire Wire Line
+	8450 3100 8450 3350
+Wire Wire Line
+	8450 3350 8400 3350
 $EndSCHEMATC

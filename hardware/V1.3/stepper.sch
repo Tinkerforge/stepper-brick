@@ -678,7 +678,7 @@ F 1 "82400152" V 5310 6535 60  0000 C CNN
 F 2 "kicad-libraries:SOT563-SPEC" H 4950 6535 60  0001 C CNN
 F 3 "" H 4950 6535 60  0000 C CNN
 	1    4950 6550
-	1    0    0    -1  
+	-1   0    0    -1  
 $EndComp
 $Comp
 L FUSE F101
