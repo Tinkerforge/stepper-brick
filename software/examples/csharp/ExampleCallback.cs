@@ -4,7 +4,7 @@ class Example
 {
 	private static string HOST = "localhost";
 	private static int PORT = 4223;
-	private static string UID = "9yEBJVAgcoj"; // Change to your UID
+	private static string UID = "XYZ"; // Change to your UID
 	
 	private static System.Random random = new System.Random();
 
@@ -34,7 +34,7 @@ class Example
 		sender.SetSteps(steps);
 	}
 
-	static void Main() 
+	static void Main()
 	{
 		IPConnection ipcon = new IPConnection(); // Create IP connection
 		BrickStepper stepper = new BrickStepper(UID, ipcon); // Create device object

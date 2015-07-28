@@ -4,9 +4,9 @@ class Example
 {
 	private static string HOST = "localhost";
 	private static int PORT = 4223;
-	private static string UID = "9yEBJVAgcoj"; // Change to your UID
+	private static string UID = "XYZ"; // Change to your UID
 
-	static void Main() 
+	static void Main()
 	{
 		IPConnection ipcon = new IPConnection(); // Create IP connection
 		BrickStepper stepper = new BrickStepper(UID, ipcon); // Create device object
