@@ -6,7 +6,7 @@
 
 #define HOST "localhost"
 #define PORT 4223
-#define UID "a4LCLTYxDK9" // Change to your UID
+#define UID "XYZ" // Change to your UID
 
 // Use position reached callback to program random movement 
 void cb_reached(int32_t position, void *user_data) {
