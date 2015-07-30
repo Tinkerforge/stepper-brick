@@ -19,12 +19,13 @@ if __name__ == "__main__":
     stepper.set_step_mode(8) # 1/8 step mode
     stepper.set_max_velocity(2000) # Velocity 2000 steps/s
 
-    # Slow acceleration (500 steps/s^2), 
+    # Slow acceleration (500 steps/s^2),
     # Fast deacceleration (5000 steps/s^2)
-    stepper.set_speed_ramping(500, 5000) 
+    stepper.set_speed_ramping(500, 5000)
 
     stepper.enable()
     stepper.set_steps(60000) # Drive 60000 steps forward
 
     raw_input('Press key to exit\n') # Use input() in Python 3
+    stepper.disable()
     ipcon.disconnect()

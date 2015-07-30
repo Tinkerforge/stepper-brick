@@ -19,7 +19,7 @@ public class ExampleConfiguration {
 		stepper.setStepMode((short)8); // 1/8 step mode
 		stepper.setMaxVelocity(2000); // Velocity 2000 steps/s
 
-		// Slow acceleration (500 steps/s^2), 
+		// Slow acceleration (500 steps/s^2),
 		// Fast deacceleration (5000 steps/s^2)
 		stepper.setSpeedRamping(500, 5000);
 
@@ -27,6 +27,7 @@ public class ExampleConfiguration {
 		stepper.setSteps(60000); // Drive 60000 steps forward
 
 		System.out.println("Press key to exit"); System.in.read();
+		stepper.disable();
 		ipcon.disconnect();
 	}
 }

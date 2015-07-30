@@ -27,7 +27,7 @@ int main() {
 	stepper_set_step_mode(&stepper, 8); // 1/8 step mode
 	stepper_set_max_velocity(&stepper, 2000); // Velocity 2000 steps/s
 
-	// Slow acceleration (500 steps/s^2), 
+	// Slow acceleration (500 steps/s^2),
 	// Fast deacceleration (5000 steps/s^2)
 	stepper_set_speed_ramping(&stepper, 500, 5000);
 
@@ -36,5 +36,6 @@ int main() {
 
 	printf("Press key to exit\n");
 	getchar();
+	stepper_disable(&stepper);
 	ipcon_destroy(&ipcon); // Calls ipcon_disconnect internally
 }
