@@ -6,11 +6,11 @@ PORT = 4223
 UID = "XYZ" # Change to your UID
 
 from tinkerforge.ip_connection import IPConnection
-from tinkerforge.brick_stepper import Stepper
+from tinkerforge.brick_stepper import BrickStepper
 
 if __name__ == "__main__":
     ipcon = IPConnection() # Create IP connection
-    stepper = Stepper(UID, ipcon) # Create device object
+    stepper = BrickStepper(UID, ipcon) # Create device object
 
     ipcon.connect(HOST, PORT) # Connect to brickd
     # Don't use device before ipcon is connected
