@@ -18,7 +18,7 @@ type
 const
   HOST = 'localhost';
   PORT = 4223;
-  UID = '9eggGYnDtnd'; { Change to your UID }
+  UID = 'XYZ'; { Change to your UID }
 
 var
   e: TExample;
@@ -39,7 +39,7 @@ begin
   stepper.SetStepMode(8); { 1/8 step mode }
   stepper.SetMaxVelocity(2000); { Velocity 2000 steps/s }
 
-  { Slow acceleration (500 steps/s^2), 
+  { Slow acceleration (500 steps/s^2),
     Fast deacceleration (5000 steps/s^2) }
   stepper.SetSpeedRamping(500, 5000);
 
@@ -48,6 +48,7 @@ begin
 
   WriteLn('Press key to exit');
   ReadLn;
+  stepper.Disable;
   ipcon.Destroy; { Calls ipcon.Disconnect internally }
 end;
 
