@@ -1,11 +1,11 @@
-#!/usr/bin/perl  
+#!/usr/bin/perl
 
 use Tinkerforge::IPConnection;
 use Tinkerforge::BrickStepper;
 
 use constant HOST => 'localhost';
 use constant PORT => 4223;
-use constant UID => '63oL6P'; # Change to your UID
+use constant UID => 'XYZ'; # Change to your UID
 
 my $ipcon = Tinkerforge::IPConnection->new(); # Create IP connection
 our $stepper = Tinkerforge::BrickStepper->new(&UID, $ipcon); # Create device object
