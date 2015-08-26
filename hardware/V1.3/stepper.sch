@@ -700,7 +700,7 @@ F 1 "744230900" H 4100 5490 60  0000 C CNN
 F 2 "kicad-libraries:WE-CNSW-0603" H 4100 5640 60  0001 C CNN
 F 3 "" H 4100 5640 60  0000 C CNN
 	1    4100 5650
-	-1   0    0    -1  
+	1    0    0    -1  
 $EndComp
 Wire Wire Line
 	5500 4800 6050 4800
