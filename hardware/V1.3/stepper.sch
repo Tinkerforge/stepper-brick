@@ -64,10 +64,6 @@ Wire Wire Line
 Wire Wire Line
 	1700 3000 2750 3000
 Wire Wire Line
-	3850 1700 3850 1800
-Wire Wire Line
-	3850 1700 1700 1700
-Wire Wire Line
 	1700 3400 2750 3400
 Wire Wire Line
 	1700 2500 2750 2500
@@ -186,8 +182,6 @@ Wire Wire Line
 	1700 3700 2750 3700
 Wire Wire Line
 	1700 1200 2750 1200
-Wire Wire Line
-	3850 1800 3900 1800
 Wire Wire Line
 	4300 1500 4450 1500
 Wire Wire Line
@@ -665,9 +659,7 @@ Wire Wire Line
 	5500 5300 5500 5250
 Connection ~ 4800 4800
 Wire Wire Line
-	1700 1600 3850 1600
-Wire Wire Line
-	3850 1600 3850 1500
+	3850 1500 3850 1700
 NoConn ~ 3900 1600
 $Comp
 L TVS_ARRAY4 U102
@@ -790,4 +782,12 @@ Text Notes 3850 1250 0    60   ~ 0
 USART0
 Wire Wire Line
 	1700 2400 2750 2400
+Wire Wire Line
+	3900 1800 3750 1800
+Wire Wire Line
+	3750 1800 3750 1600
+Wire Wire Line
+	3750 1600 1700 1600
+Wire Wire Line
+	3850 1700 1700 1700
 $EndSCHEMATC
