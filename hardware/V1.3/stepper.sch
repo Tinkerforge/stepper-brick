@@ -790,4 +790,6 @@ Wire Wire Line
 	3750 1600 1700 1600
 Wire Wire Line
 	3850 1700 1700 1700
+Text Notes 2000 3100 0    512  ~ 0
+TODO\nDetermine max Voltage
 $EndSCHEMATC
