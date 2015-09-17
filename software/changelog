@@ -58,3 +58,6 @@
 2.3.1:
 - Add magic number for unflashed Bricklet detection (through bricklib)
 - Update state if only one step is set
+
+2.3.2:
+- Increase external detection voltage to 6V
