@@ -6,14 +6,14 @@
 
 #define HOST "localhost"
 #define PORT 4223
-#define UID "XYZ" // Change to your UID
+#define UID "XXYYZZ" // Change to your UID
 
-// Use position reached callback to program random movement 
-void cb_reached(int32_t position, void *user_data) {
+// Use position reached callback to program random movement
+void cb_position_reached(int32_t position, void *user_data) {
 	Stepper *stepper = (Stepper *)user_data;
 	int32_t steps;
 
-	(void)position;
+	(void)position; // avoid unused parameter warning
 
 	if(rand() % 2) {
 		steps = (rand() % 4000) + 1000; // steps (forward)
@@ -49,20 +49,18 @@ int main(void) {
 	}
 	// Don't use device before ipcon is connected
 
-	// Register "position reached callback" to cb_reached
-	// cb_reached will be called every time a position set with
-	// set_steps or set_target_position is reached
+	// Register position reached callback to function cb_position_reached
 	stepper_register_callback(&stepper,
 	                          STEPPER_CALLBACK_POSITION_REACHED,
-	                          (void *)cb_reached,
+	                          (void *)cb_position_reached,
 	                          &stepper);
 
-	stepper_enable(&stepper);
-	// Drive one step forward to get things going
-	stepper_set_steps(&stepper, 1);
+	stepper_enable(&stepper); // Enable motor power
+	stepper_set_steps(&stepper, 1); // Drive one step forward to get things going
 
 	printf("Press key to exit\n");
 	getchar();
+	stepper_disable(&stepper);
 	ipcon_destroy(&ipcon); // Calls ipcon_disconnect internally
 	return 0;
 }

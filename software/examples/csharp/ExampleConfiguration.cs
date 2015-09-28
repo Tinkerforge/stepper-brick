@@ -1,10 +1,11 @@
+using System;
 using Tinkerforge;
 
 class Example
 {
 	private static string HOST = "localhost";
 	private static int PORT = 4223;
-	private static string UID = "XYZ"; // Change to your UID
+	private static string UID = "XXYYZZ"; // Change to your UID
 
 	static void Main()
 	{
@@ -22,11 +23,11 @@ class Example
 		// Fast deacceleration (5000 steps/s^2)
 		stepper.SetSpeedRamping(500, 5000);
 
-		stepper.Enable();
+		stepper.Enable(); // Enable motor power
 		stepper.SetSteps(60000); // Drive 60000 steps forward
 
-		System.Console.WriteLine("Press enter to exit");
-		System.Console.ReadLine();
+		Console.WriteLine("Press enter to exit");
+		Console.ReadLine();
 		stepper.Disable();
 		ipcon.Disconnect();
 	}

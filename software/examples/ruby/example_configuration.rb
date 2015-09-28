@@ -8,7 +8,7 @@ include Tinkerforge
 
 HOST = 'localhost'
 PORT = 4223
-UID = 'XYZ' # Change to your UID
+UID = 'XXYYZZ' # Change to your UID
 
 ipcon = IPConnection.new # Create IP connection
 stepper = BrickStepper.new UID, ipcon # Create device object
@@ -24,7 +24,7 @@ stepper.set_max_velocity 2000 # Velocity 2000 steps/s
 # Fast deacceleration (5000 steps/s^2)
 stepper.set_speed_ramping 500, 5000
 
-stepper.enable
+stepper.enable # Enable motor power
 stepper.set_steps 60000 # Drive 60000 steps forward
 
 puts 'Press key to exit'

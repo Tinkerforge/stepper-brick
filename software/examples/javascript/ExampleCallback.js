@@ -2,31 +2,29 @@ var Tinkerforge = require('tinkerforge');
 
 var HOST = 'localhost';
 var PORT = 4223;
-var UID = '63oL6P'; // Change to your UID
+var UID = 'XXYYZZ'; // Change to your UID
 
 var ipcon = new Tinkerforge.IPConnection(); // Create IP connection
 var stepper = new Tinkerforge.BrickStepper(UID, ipcon); // Create device object
 
 ipcon.connect(HOST, PORT,
-    function(error) {
-        console.log('Error: '+error);
+    function (error) {
+        console.log('Error: ' + error);
     }
 ); // Connect to brickd
 // Don't use device before ipcon is connected
 
 ipcon.on(Tinkerforge.IPConnection.CALLBACK_CONNECTED,
-    function(connectReason) {
-        stepper.enable();
+    function (connectReason) {
+        stepper.enable(); // Enable motor power
         stepper.setSteps(1); // Drive one step forward to get things going
     }
 );
 
-// Register "position reached callback",
-// the callback will be called every time a position set with
-// setSteps or setTargetPosition is reached.
+// Register position reached callback
 stepper.on(Tinkerforge.BrickStepper.CALLBACK_POSITION_REACHED,
     // Use position reached callback to program random movement
-    function(position) {
+    function (position) {
         if(Math.floor(Math.random()*2)) {
             var steps = Math.floor((Math.random()*5000)+1000); // steps (forward);
             console.log('Driving forward: '+steps+' steps');
@@ -46,9 +44,10 @@ stepper.on(Tinkerforge.BrickStepper.CALLBACK_POSITION_REACHED,
     }
 );
 
-console.log("Press any key to exit ...");
+console.log('Press key to exit');
 process.stdin.on('data',
-    function(data) {
+    function (data) {
+        stepper.disable();
         ipcon.disconnect();
         process.exit(0);
     }

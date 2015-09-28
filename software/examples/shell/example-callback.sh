@@ -1,15 +1,9 @@
 #!/bin/sh
-# connects to localhost:4223 by default, use --host and --port to change it
+# Connects to localhost:4223 by default, use --host and --port to change this
 
-# change to your UID
-uid=XYZ
+uid=XXYYZZ # Change to your UID
 
-tinkerforge call stepper-brick $uid enable
-
-# drive some steps forward to get things going
-tinkerforge call stepper-brick $uid set-steps 100
-
-# use position-reached callback to program random movement 
+# Use position reached callback to program random movement
 tinkerforge dispatch stepper-brick $uid position-reached\
  --execute "echo Changing configuration;
             tinkerforge call stepper-brick $uid set-max-velocity $(((RANDOM%1800)+1200));
@@ -17,4 +11,13 @@ tinkerforge dispatch stepper-brick $uid position-reached\
             if [ $((RANDOM % 2)) -eq 1 ];
             then tinkerforge call stepper-brick $uid set-steps $(((RANDOM%4000)+1000));
             else tinkerforge call stepper-brick $uid set-steps $(((RANDOM%4000)-5000));
-            fi"
+            fi" &
+
+tinkerforge call stepper-brick $uid enable # Enable motor power
+tinkerforge call stepper-brick $uid set-steps 1 # Drive one step forward to get things going
+
+echo "Press key to exit"; read dummy
+
+tinkerforge call stepper-brick $uid disable
+
+kill -- -$$ # Stop callback dispatch in background

@@ -5,12 +5,13 @@ use Tinkerforge::BrickStepper;
 
 use constant HOST => 'localhost';
 use constant PORT => 4223;
-use constant UID => 'XYZ'; # Change to your UID
+use constant UID => 'XXYYZZ'; # Change to your UID
 
 my $ipcon = Tinkerforge::IPConnection->new(); # Create IP connection
 our $stepper = Tinkerforge::BrickStepper->new(&UID, $ipcon); # Create device object
 
-sub cb_reached
+# Use position reached callback to program random movement
+sub cb_position_reached
 {
     my ($position) = @_;
 
@@ -43,14 +44,13 @@ sub cb_reached
 $ipcon->connect(&HOST, &PORT); # Connect to brickd
 # Don't use device before ipcon is connected
 
-# Register "position reached callback" to cb_reached
-# cb_reached will be called every time a position set with
-# set_steps or set_target_position is reached
-$stepper->register_callback($stepper->CALLBACK_POSITION_REACHED, 'cb_reached');
+# Register position reached callback to subroutine cb_position_reached
+$stepper->register_callback($stepper->CALLBACK_POSITION_REACHED, 'cb_position_reached');
 
-$stepper->enable();
+$stepper->enable(); # Enable motor power
 $stepper->set_steps(1); # Drive one step forward to get things going
 
-print "Press any key to exit...\n";
+print "Press key to exit\n";
 <STDIN>;
+$stepper->disable();
 $ipcon->disconnect();

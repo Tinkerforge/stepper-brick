@@ -8,7 +8,7 @@ include Tinkerforge
 
 HOST = 'localhost'
 PORT = 4223
-UID = 'XYZ' # Change to your UID
+UID = 'XXYYZZ' # Change to your UID
 
 ipcon = IPConnection.new # Create IP connection
 stepper = BrickStepper.new UID, ipcon # Create device object
@@ -36,9 +36,10 @@ stepper.register_callback(BrickStepper::CALLBACK_POSITION_REACHED) do |position|
   stepper.set_steps steps
 end
 
-stepper.enable
+stepper.enable # Enable motor power
 stepper.set_steps 1 # Drive one step forward to get things going
 
 puts 'Press key to exit'
 $stdin.gets
+stepper.disable
 ipcon.disconnect

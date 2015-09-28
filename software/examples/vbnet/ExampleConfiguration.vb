@@ -1,9 +1,10 @@
+Imports System
 Imports Tinkerforge
 
 Module ExampleConfiguration
     Const HOST As String = "localhost"
     Const PORT As Integer = 4223
-    Const UID As String = "XYZ" ' Change to your UID
+    Const UID As String = "XXYYZZ" ' Change to your UID
 
     Sub Main()
         Dim ipcon As New IPConnection() ' Create IP connection
@@ -20,11 +21,11 @@ Module ExampleConfiguration
         ' Fast deacceleration (5000 steps/s^2)
         stepper.SetSpeedRamping(500, 5000)
 
-        stepper.Enable()
+        stepper.Enable() ' Enable motor power
         stepper.SetSteps(60000) ' Drive 60000 steps forward
 
-        System.Console.WriteLine("Press key to exit")
-        System.Console.ReadLine()
+        Console.WriteLine("Press key to exit")
+        Console.ReadLine()
         stepper.Disable()
         ipcon.Disconnect()
     End Sub

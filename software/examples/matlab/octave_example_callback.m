@@ -1,9 +1,9 @@
 function octave_example_callback()
     more off;
-    
+
     HOST = "localhost";
     PORT = 4223;
-    UID = "63oL6P"; % Change to your UID
+    UID = "XXYYZZ"; % Change to your UID
 
     ipcon = java_new("com.tinkerforge.IPConnection"); % Create IP connection
     stepper = java_new("com.tinkerforge.BrickStepper", UID, ipcon); % Create device object
@@ -11,20 +11,19 @@ function octave_example_callback()
     ipcon.connect(HOST, PORT); % Connect to brickd
     % Don't use device before ipcon is connected
 
-    % Register "position reached callback" to cb_reached
-    % cb_reached will be called every time a position set with
-    % set_steps or set_target_position is reached
-    stepper.addPositionReachedCallback(@cb_reached);
+    % Register position reached callback to function cb_position_reached
+    stepper.addPositionReachedCallback(@cb_position_reached);
 
-    stepper.enable();
+    stepper.enable(); % Enable motor power
     stepper.setSteps(1); % Drive one step forward to get things going
 
-    input("Press any key to exit...\n", "s");
+    input("Press key to exit\n", "s");
+    stepper.disable();
     ipcon.disconnect();
 end
 
 % Use position reached callback to program random movement
-function cb_reached(e)
+function cb_position_reached(e)
     stepper = e.getSource();
 
     if randi([0, 1])

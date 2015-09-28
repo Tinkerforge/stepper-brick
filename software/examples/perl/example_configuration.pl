@@ -5,7 +5,7 @@ use Tinkerforge::BrickStepper;
 
 use constant HOST => 'localhost';
 use constant PORT => 4223;
-use constant UID => 'XYZ'; # Change to your UID
+use constant UID => 'XXYYZZ'; # Change to your UID
 
 my $ipcon = Tinkerforge::IPConnection->new(); # Create IP connection
 my $stepper = Tinkerforge::BrickStepper->new(&UID, $ipcon); # Create device object
@@ -21,10 +21,10 @@ $stepper->set_max_velocity(2000); # Velocity 2000 steps/s
 # Fast deacceleration (5000 steps/s^2)
 $stepper->set_speed_ramping(500, 5000);
 
-$stepper->enable();
+$stepper->enable(); # Enable motor power
 $stepper->set_steps(60000); # Drive 60000 steps forward
 
-print "Press any key to exit...\n";
+print "Press key to exit\n";
 <STDIN>;
 $stepper->disable();
 $ipcon->disconnect();

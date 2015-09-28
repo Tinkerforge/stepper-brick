@@ -18,7 +18,7 @@ type
 const
   HOST = 'localhost';
   PORT = 4223;
-  UID = 'XYZ'; { Change to your UID }
+  UID = 'XXYYZZ'; { Change to your UID }
 
 var
   e: TExample;
@@ -43,7 +43,7 @@ begin
     Fast deacceleration (5000 steps/s^2) }
   stepper.SetSpeedRamping(500, 5000);
 
-  stepper.Enable;
+  stepper.Enable; { Enable motor power }
   stepper.SetSteps(60000); { Drive 60000 steps forward }
 
   WriteLn('Press key to exit');

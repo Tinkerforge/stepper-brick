@@ -3,10 +3,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[         0,          0]
-NotebookDataLength[      9079,        210]
-NotebookOptionsPosition[      8646,        189]
-NotebookOutlinePosition[      8984,        204]
-CellTagsIndexPosition[      8941,        201]
+NotebookDataLength[      9002,        212]
+NotebookOptionsPosition[      8575,        191]
+NotebookOutlinePosition[      8907,        206]
+CellTagsIndexPosition[      8864,        203]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -26,31 +26,31 @@ Cell[BoxData[{
    3.600685362498796*^9}],
 
 Cell[BoxData[{
- RowBox[{"host", "=", "\"\<localhost\>\""}], "\[IndentingNewLine]", 
- RowBox[{"port", "=", "4223"}], "\[IndentingNewLine]", 
+ RowBox[{"host", "=", "\"\<localhost\>\""}], "\n", 
+ RowBox[{"port", "=", "4223"}], "\n", 
  RowBox[{
-  RowBox[{"uid", "=", "\"\<6RpP4y\>\""}], 
-  RowBox[{"(*", " ", 
-   RowBox[{"Change", " ", "to", " ", "your", " ", "UID"}], " ", "*)"}], 
-  "\[IndentingNewLine]", "\[IndentingNewLine]", 
-  RowBox[{"(*", " ", 
+  RowBox[{"uid", "=", "\"\<XXYYZZ\>\""}], 
+  RowBox[{"(*", 
+   RowBox[{"Change", " ", "to", " ", "your", " ", "UID"}], "*)"}], "\n", 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", 
    RowBox[{
    "Create", " ", "IPConnection", " ", "and", " ", "device", " ", "object"}], 
-   " ", "*)"}]}], "\[IndentingNewLine]", 
+   "*)"}]}], "\[IndentingNewLine]", 
  RowBox[{"ipcon", "=", 
   RowBox[{"NETNew", "[", "\"\<Tinkerforge.IPConnection\>\"", "]"}]}], "\n", 
- RowBox[{"s", "=", 
+ RowBox[{"stepper", "=", 
   RowBox[{"NETNew", "[", 
    RowBox[{"\"\<Tinkerforge.BrickStepper\>\"", ",", "uid", ",", "ipcon"}], 
-   "]"}]}], "\[IndentingNewLine]", 
+   "]"}]}], "\n", 
  RowBox[{
   RowBox[{"ipcon", "@", 
    RowBox[{"Connect", "[", 
-    RowBox[{"host", ",", "port"}], "]"}]}], "\n", "\n", 
-  RowBox[{"(*", " ", 
+    RowBox[{"host", ",", "port"}], "]"}]}], "\n", "\[IndentingNewLine]", 
+  RowBox[{"(*", 
    RowBox[{
    "Use", " ", "position", " ", "reached", " ", "callback", " ", "to", " ", 
-    "program", " ", "random", " ", "movement"}], " ", 
+    "program", " ", "random", " ", "movement"}], 
    "*)"}]}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{
@@ -70,10 +70,9 @@ Cell[BoxData[{
           RowBox[{"RandomInteger", "[", 
            RowBox[{"{", 
             RowBox[{"1000", ",", "5000"}], "}"}], "]"}]}], ";", 
-         RowBox[{"(*", " ", 
+         RowBox[{"(*", 
           RowBox[{"steps", " ", 
-           RowBox[{"(", "forward", ")"}]}], " ", "*)"}], 
-         "\[IndentingNewLine]", 
+           RowBox[{"(", "forward", ")"}]}], "*)"}], "\[IndentingNewLine]", 
          RowBox[{"Print", "[", 
           RowBox[{"\"\<Driving forward: \>\"", "<>", 
            RowBox[{"ToString", "[", "steps", "]"}], "<>", "\"\< steps\>\""}], 
@@ -85,43 +84,41 @@ Cell[BoxData[{
             RowBox[{
              RowBox[{"-", "5000"}], ",", 
              RowBox[{"-", "1000"}]}], "}"}], "]"}]}], ";", 
-         RowBox[{"(*", " ", 
+         RowBox[{"(*", 
           RowBox[{"steps", " ", 
-           RowBox[{"(", "backward", ")"}]}], " ", "*)"}], 
-         "\[IndentingNewLine]", 
+           RowBox[{"(", "backward", ")"}]}], "*)"}], "\[IndentingNewLine]", 
          RowBox[{"Print", "[", 
           RowBox[{"\"\<Driving backward: \>\"", "<>", 
            RowBox[{"ToString", "[", "steps", "]"}], "<>", "\"\< steps\>\""}], 
-          "]"}]}]}], "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]",
-       "\[IndentingNewLine]", 
+          "]"}]}]}], "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
       RowBox[{"vel", "=", 
        RowBox[{"RandomInteger", "[", 
         RowBox[{"{", 
          RowBox[{"200", ",", "2000"}], "}"}], "]"}]}], ";", 
-      RowBox[{"(*", " ", 
-       RowBox[{"steps", "/", "s"}], " ", "*)"}], "\[IndentingNewLine]", 
+      RowBox[{"(*", 
+       RowBox[{"steps", "/", "s"}], "*)"}], "\[IndentingNewLine]", 
       RowBox[{"acc", "=", 
        RowBox[{"RandomInteger", "[", 
         RowBox[{"{", 
          RowBox[{"100", ",", "1000"}], "}"}], "]"}]}], ";", 
-      RowBox[{"(*", " ", 
+      RowBox[{"(*", 
        RowBox[{"steps", "/", 
-        RowBox[{"s", "^", "2"}]}], " ", "*)"}], "\[IndentingNewLine]", 
+        RowBox[{"s", "^", "2"}]}], "*)"}], "\[IndentingNewLine]", 
       RowBox[{"dec", "=", 
        RowBox[{"RandomInteger", "[", 
         RowBox[{"{", 
          RowBox[{"100", ",", "1000"}], "}"}], "]"}]}], ";", 
-      RowBox[{"(*", " ", 
+      RowBox[{"(*", 
        RowBox[{"steps", "/", 
-        RowBox[{"s", "^", "2"}]}], " ", "*)"}], "\[IndentingNewLine]", 
+        RowBox[{"s", "^", "2"}]}], "*)"}], "\[IndentingNewLine]", 
       RowBox[{"Print", "[", 
        RowBox[{
        "\"\<Configuration (vel, acc, dec): (\>\"", "<>", 
-        "\[IndentingNewLine]", "        ", 
+        "\[IndentingNewLine]", 
         RowBox[{"ToString", "[", "vel", "]"}], "<>", "\"\<, \>\"", "<>", 
         RowBox[{"ToString", "[", "acc", "]"}], "<>", "\"\<, \>\"", "<>", 
         RowBox[{"ToString", "[", "dec", "]"}], "<>", "\"\<)\>\""}], "]"}], 
-      ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+      ";", "\[IndentingNewLine]", 
       RowBox[{"sender", "@", 
        RowBox[{"SetSpeedRamping", "[", 
         RowBox[{"acc", ",", "dec"}], "]"}]}], ";", "\[IndentingNewLine]", 
@@ -129,31 +126,35 @@ Cell[BoxData[{
        RowBox[{"SetMaxVelocity", "[", "vel", "]"}]}], ";", 
       "\[IndentingNewLine]", 
       RowBox[{"sender", "@", 
-       RowBox[{"SetSteps", "[", "steps", "]"}]}], ";"}]}], 
-    "\[IndentingNewLine]", "]"}]}], "\n"}], "\n", 
+       RowBox[{"SetSteps", "[", "steps", "]"}]}]}]}], "\[IndentingNewLine]", 
+    "]"}]}], "\n"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"AddEventHandler", "[", 
    RowBox[{
-    RowBox[{"s", "@", "PositionReached"}], ",", "PositionReachedCB"}], "]"}], 
-  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
- RowBox[{"s", "@", 
-  RowBox[{"Enable", "[", "]"}]}], "\n", 
+    RowBox[{"stepper", "@", "PositionReached"}], ",", "PositionReachedCB"}], 
+   "]"}], "\n"}], "\[IndentingNewLine]", 
  RowBox[{
-  RowBox[{"s", "@", 
+  RowBox[{"stepper", "@", 
+   RowBox[{"Enable", "[", "]"}]}], 
+  RowBox[{"(*", 
+   RowBox[{"Enable", " ", "motor", " ", "power"}], "*)"}]}], "\n", 
+ RowBox[{
+  RowBox[{"stepper", "@", 
    RowBox[{"SetSteps", "[", "1", "]"}]}], 
-  RowBox[{"(*", " ", 
+  RowBox[{"(*", 
    RowBox[{
    "Drive", " ", "one", " ", "step", " ", "forward", " ", "to", " ", "get", 
-    " ", "things", " ", "going"}], " ", "*)"}], 
-  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+    " ", "things", " ", "going"}], "*)"}], "\n"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"Input", "[", "\"\<Click OK to exit\>\"", "]"}], 
   "\[IndentingNewLine]", "\[IndentingNewLine]", 
-  RowBox[{"(*", " ", 
-   RowBox[{"Clean", " ", "up"}], " ", "*)"}]}], "\[IndentingNewLine]", 
+  RowBox[{"(*", 
+   RowBox[{"Clean", " ", "up"}], "*)"}]}], "\n", 
+ RowBox[{"stepper", "@", 
+  RowBox[{"Disable", "[", "]"}]}], "\n", 
  RowBox[{"ipcon", "@", 
-  RowBox[{"Disconnect", "[", "]"}]}], "\[IndentingNewLine]", 
- RowBox[{"ReleaseNETObject", "[", "dc", "]"}], "\[IndentingNewLine]", 
+  RowBox[{"Disconnect", "[", "]"}]}], "\n", 
+ RowBox[{"ReleaseNETObject", "[", "stepper", "]"}], "\n", 
  RowBox[{"ReleaseNETObject", "[", "ipcon", "]"}]}], "Input",
  CellChangeTimes->{{3.600075175574196*^9, 3.600075177574486*^9}, {
    3.600075518821967*^9, 3.60007554243471*^9}, {3.600075580562348*^9, 
@@ -185,11 +186,12 @@ Cell[BoxData[{
    3.6007741805508223`*^9}, {3.6007743308622513`*^9, 3.60077436378906*^9}, {
    3.600774427110879*^9, 3.600774555837899*^9}, {3.600774618109309*^9, 
    3.600774726120483*^9}, {3.600774860713876*^9, 3.6007749357146673`*^9}, 
-   3.600775250401923*^9, {3.6007752828131733`*^9, 3.600775284521426*^9}}]
+   3.600775250401923*^9, {3.6007752828131733`*^9, 3.600775284521426*^9}, {
+   3.652422305349154*^9, 3.6524223368060226`*^9}}]
 },
 WindowSize->{1521, 867},
-WindowMargins->{{333, Automatic}, {53, Automatic}},
-FrontEndVersion->"9.0 for Linux x86 (64-bit) (February 7, 2013)",
+WindowMargins->{{332, 65}, {52, Automatic}},
+FrontEndVersion->"9.0 for Linux x86 (64-bit) (November 20, 2012)",
 StyleDefinitions->"Default.nb"
 ]
 (* End of Notebook Content *)
@@ -204,7 +206,7 @@ CellTagsIndex->{}
 (*NotebookFileOutline
 Notebook[{
 Cell[400, 13, 652, 12, 55, "Input"],
-Cell[1055, 27, 7587, 160, 913, "Input"]
+Cell[1055, 27, 7516, 162, 891, "Input"]
 }
 ]
 *)

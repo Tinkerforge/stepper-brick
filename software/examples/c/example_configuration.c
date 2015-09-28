@@ -5,7 +5,7 @@
 
 #define HOST "localhost"
 #define PORT 4223
-#define UID "XYZ" // Change to your UID
+#define UID "XXYYZZ" // Change to your UID
 
 int main(void) {
 	// Create IP connection
@@ -31,7 +31,7 @@ int main(void) {
 	// Fast deacceleration (5000 steps/s^2)
 	stepper_set_speed_ramping(&stepper, 500, 5000);
 
-	stepper_enable(&stepper);
+	stepper_enable(&stepper); // Enable motor power
 	stepper_set_steps(&stepper, 60000); // Drive 60000 steps forward
 
 	printf("Press key to exit\n");

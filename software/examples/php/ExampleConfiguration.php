@@ -8,7 +8,7 @@ use Tinkerforge\BrickStepper;
 
 const HOST = 'localhost';
 const PORT = 4223;
-const UID = '9eggGYnDtnd'; // Change to your UID
+const UID = 'XXYYZZ'; // Change to your UID
 
 $ipcon = new IPConnection(); // Create IP connection
 $stepper = new BrickStepper(UID, $ipcon); // Create device object
@@ -20,15 +20,16 @@ $stepper->setMotorCurrent(800); // 800mA
 $stepper->setStepMode(8); // 1/8 step mode
 $stepper->setMaxVelocity(2000); // Velocity 2000 steps/s
 
-// Slow acceleration (500 steps/s^2), 
+// Slow acceleration (500 steps/s^2),
 // Fast deacceleration (5000 steps/s^2)
 $stepper->setSpeedRamping(500, 5000);
 
-$stepper->enable();
+$stepper->enable(); // Enable motor power
 $stepper->setSteps(60000); // Drive 60000 steps forward
 
 echo "Press key to exit\n";
 fgetc(fopen('php://stdin', 'r'));
+$stepper->disable();
 $ipcon->disconnect();
 
 ?>

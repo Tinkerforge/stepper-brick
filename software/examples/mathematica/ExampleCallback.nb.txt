@@ -3,14 +3,14 @@ LoadNETAssembly["Tinkerforge",NotebookDirectory[]<>"../../.."]
 
 host="localhost"
 port=4223
-uid="6RpP4y"(* Change to your UID *)
+uid="XXYYZZ"(*Change to your UID*)
 
-(* Create IPConnection and device object *)
+(*Create IPConnection and device object*)
 ipcon=NETNew["Tinkerforge.IPConnection"]
-s=NETNew["Tinkerforge.BrickStepper",uid,ipcon]
+stepper=NETNew["Tinkerforge.BrickStepper",uid,ipcon]
 ipcon@Connect[host,port]
 
-(* Use position reached callback to program random movement *)
+(*Use position reached callback to program random movement*)
 PositionReachedCB[sender_,position_]:=
 Module[{},
   If[EvenQ[RandomInteger[]],
@@ -28,17 +28,18 @@ Module[{},
 
   sender@SetSpeedRamping[acc,dec];
   sender@SetMaxVelocity[vel];
-  sender@SetSteps[steps];
+  sender@SetSteps[steps]
  ]
 
-AddEventHandler[s@PositionReached,PositionReachedCB]
+AddEventHandler[stepper@PositionReached,PositionReachedCB]
 
-s@Enable[]
-s@SetSteps[1](* Drive one step forward to get things going *)
+stepper@Enable[](*Enable motor power*)
+stepper@SetSteps[1](*Drive one step forward to get things going*)
 
 Input["Click OK to exit"]
 
-(* Clean up *)
+(*Clean up*)
+stepper@Disable[]
 ipcon@Disconnect[]
-ReleaseNETObject[dc]
+ReleaseNETObject[stepper]
 ReleaseNETObject[ipcon]

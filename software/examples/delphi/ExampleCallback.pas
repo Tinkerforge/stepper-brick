@@ -12,20 +12,20 @@ type
     ipcon: TIPConnection;
     stepper: TBrickStepper;
   public
-    procedure ReachedCB(sender: TBrickStepper; const position: longint);
+    procedure PositionReachedCB(sender: TBrickStepper; const position: longint);
     procedure Execute;
   end;
 
 const
   HOST = 'localhost';
   PORT = 4223;
-  UID = 'XYZ'; { Change to your UID }
+  UID = 'XXYYZZ'; { Change to your UID }
 
 var
   e: TExample;
 
 { Use position reached callback to program random movement }
-procedure TExample.ReachedCB(sender: TBrickStepper; const position: longint);
+procedure TExample.PositionReachedCB(sender: TBrickStepper; const position: longint);
 var steps: longint; vel: smallint; acc, dec: word;
 begin
   if (Random(2) = 0) then begin
@@ -59,18 +59,15 @@ begin
   ipcon.Connect(HOST, PORT);
   { Don't use device before ipcon is connected }
 
-  { Register "position reached callback" to procedure ReachedCB.
-    ReachedCB will be called every time a position set with
-    SetSteps or SetTargetPosition is reached }
-  stepper.OnPositionReached := {$ifdef FPC}@{$endif}ReachedCB;
+  { Register position reached callback to procedure PositionReachedCB }
+  stepper.OnPositionReached := {$ifdef FPC}@{$endif}PositionReachedCB;
 
-  stepper.Enable;
-
-  { Drive one step forward to get things going }
-  stepper.SetSteps(1);
+  stepper.Enable; { Enable motor power }
+  stepper.SetSteps(1); { Drive one step forward to get things going }
 
   WriteLn('Press key to exit');
   ReadLn;
+  stepper.Disable;
   ipcon.Destroy; { Calls ipcon.Disconnect internally }
 end;
 

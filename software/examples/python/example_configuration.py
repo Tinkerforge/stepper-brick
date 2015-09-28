@@ -3,7 +3,7 @@
 
 HOST = "localhost"
 PORT = 4223
-UID = "XYZ" # Change to your UID
+UID = "XXYYZZ" # Change to your UID
 
 from tinkerforge.ip_connection import IPConnection
 from tinkerforge.brick_stepper import BrickStepper
@@ -23,9 +23,9 @@ if __name__ == "__main__":
     # Fast deacceleration (5000 steps/s^2)
     stepper.set_speed_ramping(500, 5000)
 
-    stepper.enable()
+    stepper.enable() # Enable motor power
     stepper.set_steps(60000) # Drive 60000 steps forward
 
-    raw_input('Press key to exit\n') # Use input() in Python 3
+    raw_input("Press key to exit\n") # Use input() in Python 3
     stepper.disable()
     ipcon.disconnect()
