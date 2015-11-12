@@ -7,7 +7,7 @@ function matlab_example_callback()
     UID = 'XXYYZZ'; % Change to your UID
 
     ipcon = IPConnection(); % Create IP connection
-    stepper = BrickStepper(UID, ipcon); % Create device object
+    stepper = handle(BrickStepper(UID, ipcon), 'CallbackProperties'); % Create device object
 
     ipcon.connect(HOST, PORT); % Connect to brickd
     % Don't use device before ipcon is connected
