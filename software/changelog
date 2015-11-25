@@ -1,63 +1,63 @@
-1.0.0:
+2011-12-15: 1.0.0 (35935ef)
 - Initial version
 
-1.0.1:
+2012-01-02: 1.0.1 (01d2743)
 - Add code for voltage divider to allow motor current below 100mA
 
-1.1.0:
+2012-02-15: 1.1.0 (ef71419)
 - Add support for tick types
 
-1.1.1:
+2012-03-05: 1.1.1 (d898cbf)
 - Fix bug with timeouts on Windows (through bricklib)
 
-1.1.2:
+2012-03-11: 1.1.2 (2539276)
 - Fix bug with ADC calibration readout (through bricklib)
 
-1.1.3:
+2012-04-03: 1.1.3 (0d5a8e3)
 - Add averaging for current measurement
 
-1.1.4:
+2012-04-27: 1.1.4 (6a8b43f)
 - Add get_chip_temperature and reset function
 
-1.1.5:
+2012-07-02: 1.1.5 (aa1e9e2)
 - Add USB hotplug support (through bricklib)
 
-1.1.6:
+2012-07-03: 1.1.6 (f510f97)
 - Add time base API, add all-data function and callback, add state callback
 
-1.1.7:
+2012-07-24: 1.1.7 (74637b6)
 - Stop state machine after disable call, don't drive if max velocity = 0
 
-1.1.8:
+2012-07-27: 1.1.8 (d41a6e4)
 - Stop completely if max velocity is set to 0 while in drive mode
 
-1.1.9:
+2012-10-26: 1.1.9 (0990448)
 - Change Bricklet Context size from 250 to 256 (through bricklib)
 
-2.0.0:
+2013-01-17: 2.0.0 (c53a3b5)
 - Support for Protocol 2.0
 
-2.0.1:
+2013-01-23: 2.0.1 (456df76)
 - Add missing header to minimum voltage setter
 
-2.0.2:
+2013-04-11: 2.0.2 (019d2cc)
 - Add watchdog timer (restart after 16s of "deadlock")
 
-2.0.3:
+2013-05-28: 2.0.3 (6af702f)
 - Fix bug in under voltage callback definition (wrong FID)
 
-2.0.4:
+2013-06-27: 2.0.4 (ce91778)
 - Use tick_task to detect USB connect/disconnect instead of interrupt
 
-2.0.5:
+2014-07-24: 2.0.5 (7ec8e10)
 - Remove USB hotplug support (through bricklib)
 
-2.3.0:
+2014-11-25: 2.3.0 (4f88c2f)
 - Add support for new SPI protocol
 
-2.3.1:
+2015-05-19: 2.3.1 (7967f4b)
 - Add magic number for unflashed Bricklet detection (through bricklib)
 - Update state if only one step is set
 
-2.3.2:
+2015-09-17: 2.3.2 (be8e75f)
 - Increase external detection voltage to 6V
