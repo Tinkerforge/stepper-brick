@@ -40,7 +40,8 @@ $ipcon->connect(HOST, PORT); // Connect to brickd
 // Don't use device before ipcon is connected
 
 // Register position reached callback to function cb_positionReached
-$stepper->registerCallback(BrickStepper::CALLBACK_POSITION_REACHED, 'cb_positionReached', $stepper);
+$stepper->registerCallback(BrickStepper::CALLBACK_POSITION_REACHED, 'cb_positionReached',
+                           $stepper);
 
 $stepper->enable(); // Enable motor power
 $stepper->setSteps(1); // Drive one step forward to get things going
