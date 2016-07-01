@@ -1,7 +1,7 @@
 #!/bin/sh
 # Connects to localhost:4223 by default, use --host and --port to change this
 
-uid=XXYYZZ # Change to your UID
+uid=XXYYZZ # Change XXYYZZ to the UID of your Stepper Brick
 
 # Use position reached callback to program random movement
 tinkerforge dispatch stepper-brick $uid position-reached\

@@ -4,7 +4,7 @@ Imports Tinkerforge
 Module ExampleConfiguration
     Const HOST As String = "localhost"
     Const PORT As Integer = 4223
-    Const UID As String = "XXYYZZ" ' Change to your UID
+    Const UID As String = "XXYYZZ" ' Change XXYYZZ to the UID of your Stepper Brick
 
     Sub Main()
         Dim ipcon As New IPConnection() ' Create IP connection

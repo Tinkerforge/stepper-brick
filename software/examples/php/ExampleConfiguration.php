@@ -8,7 +8,7 @@ use Tinkerforge\BrickStepper;
 
 const HOST = 'localhost';
 const PORT = 4223;
-const UID = 'XXYYZZ'; // Change to your UID
+const UID = 'XXYYZZ'; // Change XXYYZZ to the UID of your Stepper Brick
 
 $ipcon = new IPConnection(); // Create IP connection
 $stepper = new BrickStepper(UID, $ipcon); // Create device object

@@ -1,7 +1,7 @@
 #!/bin/sh
 # Connects to localhost:4223 by default, use --host and --port to change this
 
-uid=XXYYZZ # Change to your UID
+uid=XXYYZZ # Change XXYYZZ to the UID of your Stepper Brick
 
 tinkerforge call stepper-brick $uid set-motor-current 800 # 800mA
 tinkerforge call stepper-brick $uid set-step-mode eighth-step # 1/8 step mode

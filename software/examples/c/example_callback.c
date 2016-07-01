@@ -6,7 +6,7 @@
 
 #define HOST "localhost"
 #define PORT 4223
-#define UID "XXYYZZ" // Change to your UID
+#define UID "XXYYZZ" // Change XXYYZZ to the UID of your Stepper Brick
 
 // Use position reached callback to program random movement
 void cb_position_reached(int32_t position, void *user_data) {

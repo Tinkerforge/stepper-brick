@@ -5,7 +5,7 @@ use Tinkerforge::BrickStepper;
 
 use constant HOST => 'localhost';
 use constant PORT => 4223;
-use constant UID => 'XXYYZZ'; # Change to your UID
+use constant UID => 'XXYYZZ'; # Change XXYYZZ to the UID of your Stepper Brick
 
 my $ipcon = Tinkerforge::IPConnection->new(); # Create IP connection
 our $stepper = Tinkerforge::BrickStepper->new(&UID, $ipcon); # Create device object

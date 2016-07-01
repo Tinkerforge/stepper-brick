@@ -2,7 +2,7 @@ var Tinkerforge = require('tinkerforge');
 
 var HOST = 'localhost';
 var PORT = 4223;
-var UID = 'XXYYZZ'; // Change to your UID
+var UID = 'XXYYZZ'; // Change XXYYZZ to the UID of your Stepper Brick
 
 var ipcon = new Tinkerforge.IPConnection(); // Create IP connection
 var stepper = new Tinkerforge.BrickStepper(UID, ipcon); // Create device object

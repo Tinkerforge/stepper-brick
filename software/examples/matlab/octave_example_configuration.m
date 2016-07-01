@@ -3,7 +3,7 @@ function octave_example_configuration()
 
     HOST = "localhost";
     PORT = 4223;
-    UID = "XXYYZZ"; % Change to your UID
+    UID = "XXYYZZ"; % Change XXYYZZ to the UID of your Stepper Brick
 
     ipcon = java_new("com.tinkerforge.IPConnection"); % Create IP connection
     stepper = java_new("com.tinkerforge.BrickStepper", UID, ipcon); % Create device object
