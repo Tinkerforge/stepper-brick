@@ -61,3 +61,6 @@
 
 2015-09-17: 2.3.2 (be8e75f)
 - Increase external detection voltage to 6V
+
+2016-29-08: 2.3.3 (?)
+- Make sure to use all chunks when writing firmware
