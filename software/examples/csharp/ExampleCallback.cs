@@ -44,7 +44,7 @@ class Example
 		// Don't use device before ipcon is connected
 
 		// Register position reached callback to function PositionReachedCB
-		stepper.PositionReached += PositionReachedCB;
+		stepper.PositionReachedCallback += PositionReachedCB;
 
 		stepper.Enable(); // Enable motor power
 		stepper.SetSteps(1); // Drive one step forward to get things going
