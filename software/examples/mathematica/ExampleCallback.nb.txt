@@ -23,6 +23,7 @@ Module[{},
   vel=RandomInteger[{200,2000}];(* steps/s *)
   acc=RandomInteger[{100,1000}];(* steps/s^2 *)
   dec=RandomInteger[{100,1000}];(* steps/s^2 *)
+
   Print["Configuration (vel, acc, dec): ("<>
         ToString[vel]<>", "<>ToString[acc]<>", "<>ToString[dec]<>")"];
 

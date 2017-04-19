@@ -27,6 +27,7 @@ public class ExampleCallback {
 
 			public void positionReached(int position) {
 				int steps = 0;
+
 				if(random.nextInt(2) == 1) {
 					steps = random.nextInt(4001) + 1000; // steps (forward)
 				} else {
@@ -36,6 +37,7 @@ public class ExampleCallback {
 				int vel = random.nextInt(1801) + 200; // steps/s
 				int acc = random.nextInt(901) + 100; // steps/s^2
 				int dec = random.nextInt(901) + 100; // steps/s^2
+
 				System.out.println("Configuration (vel, acc, dec): (" + 
 				                   vel + ", " + acc + ",  " + dec + ")");
 

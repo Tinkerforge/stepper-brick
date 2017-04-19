@@ -26,6 +26,7 @@ void cb_position_reached(int32_t position, void *user_data) {
 	int16_t vel = (rand() % 1800) + 200; // steps/s
 	uint16_t acc = (rand() % 900) + 100; // steps/s^2
 	uint16_t dec = (rand() % 900) + 100; // steps/s^2
+
 	printf("Configuration (vel, acc, dec): %d, %d %d\n", vel, acc, dec);
 
 	stepper_set_speed_ramping(stepper, acc, dec);

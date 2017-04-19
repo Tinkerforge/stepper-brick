@@ -11,6 +11,7 @@ Module ExampleCallback
     ' Use position reached callback to program random movement
     Sub PositionReachedCB(ByVal sender As BrickStepper, ByVal position As Integer)
         Dim steps As Integer
+
         If rand.Next(0, 2) = 0 Then
             steps = rand.Next(1000, 5001) ' steps (forward)
             Console.WriteLine("Driving forward: " + steps.ToString() + " steps")
@@ -22,6 +23,7 @@ Module ExampleCallback
         Dim vel As Integer = rand.Next(200, 2001) ' steps/s
         Dim acc As Integer = rand.Next(100, 1001) ' steps/s^2
         Dim dec As Integer = rand.Next(100, 1001) ' steps/s^2
+
         Console.WriteLine("Configuration (vel, acc, dec): (" + vel.ToString() + ", " + _
                           acc.ToString() + ", " + dec.ToString() + ")")
 

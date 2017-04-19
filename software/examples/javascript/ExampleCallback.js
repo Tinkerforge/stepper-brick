@@ -33,6 +33,7 @@ stepper.on(Tinkerforge.BrickStepper.CALLBACK_POSITION_REACHED,
             var steps = Math.floor((Math.random()*(-1000))+(-5000)); // steps (backward);
             console.log('Driving backward: '+steps+' steps');
         }
+
         var vel = Math.floor((Math.random()*2000)+200); // steps/s
         var acc = Math.floor((Math.random()*1000)+100); // steps/s^2
         var dec = Math.floor((Math.random()*1000)+100); // steps/s^2

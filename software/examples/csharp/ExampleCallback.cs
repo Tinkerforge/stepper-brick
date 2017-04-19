@@ -13,6 +13,7 @@ class Example
 	static void PositionReachedCB(BrickStepper sender, int position)
 	{
 		int steps;
+
 		if(random.Next(0, 2) == 0)
 		{
 			steps = random.Next(1000, 5001); // steps (forward)
@@ -27,6 +28,7 @@ class Example
 		int vel = random.Next(200, 2001); // steps/s
 		int acc = random.Next(100, 1001); // steps/s^2
 		int dec = random.Next(100, 1001); // steps/s^2
+
 		Console.WriteLine("Configuration (vel, acc, dec): (" +
 		                  vel + ", " + acc + ", " + dec + ")");
 
