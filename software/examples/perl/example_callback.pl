@@ -29,16 +29,16 @@ sub cb_position_reached
     {
         $steps = int(rand(5000 - 1000)) + 1000; # steps (backward)
         print "Driving backward: $steps steps\n";
-
-        $vel = int(rand(2000 - 200)) + 200; # steps/s
-        $acc = int(rand(1000 - 100)) + 100; # steps/s^2
-        $dec = int(rand(1000 - 100)) + 100; # steps/s^2
-        print "Configuration (vel, acc, dec): $vel, $acc, $dec\n";
-
-        $stepper->set_speed_ramping($acc, $dec);
-        $stepper->set_max_velocity($vel);
-        $stepper->set_steps($steps);
     }
+
+    $vel = int(rand(2000 - 200)) + 200; # steps/s
+    $acc = int(rand(1000 - 100)) + 100; # steps/s^2
+    $dec = int(rand(1000 - 100)) + 100; # steps/s^2
+    print "Configuration (vel, acc, dec): $vel, $acc, $dec\n";
+
+    $stepper->set_speed_ramping($acc, $dec);
+    $stepper->set_max_velocity($vel);
+    $stepper->set_steps($steps);
 }
 
 $ipcon->connect(&HOST, &PORT); # Connect to brickd
