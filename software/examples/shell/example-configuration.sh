@@ -4,7 +4,7 @@
 uid=XXYYZZ # Change XXYYZZ to the UID of your Stepper Brick
 
 tinkerforge call stepper-brick $uid set-motor-current 800 # 800mA
-tinkerforge call stepper-brick $uid set-step-mode eighth-step # 1/8 step mode
+tinkerforge call stepper-brick $uid set-step-mode step-mode-eighth-step # 1/8 step mode
 tinkerforge call stepper-brick $uid set-max-velocity 2000 # Velocity 2000 steps/s
 
 # Slow acceleration (500 steps/s^2),
