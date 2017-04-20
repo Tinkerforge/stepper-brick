@@ -38,7 +38,7 @@ public class ExampleCallback {
 				int acc = random.nextInt(901) + 100; // steps/s^2
 				int dec = random.nextInt(901) + 100; // steps/s^2
 
-				System.out.println("Configuration (vel, acc, dec): (" + 
+				System.out.println("Configuration (vel, acc, dec): (" +
 				                   vel + ", " + acc + ",  " + dec + ")");
 
 				try {
