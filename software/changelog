@@ -64,3 +64,6 @@
 
 2016-08-29: 2.3.3 (6ad7c40)
 - Make sure to use all chunks when writing Bricklet plugin (through bricklib)
+
+2017-05-11: 2.3.4 (TBD)
+- Add support for co-mcu Bricklets
