@@ -11,7 +11,7 @@ from tinkerforge.ip_connection import IPConnection
 from tinkerforge.brick_stepper import BrickStepper
 
 # Use position reached callback to program random movement
-def cb_position_reached(position):
+def cb_position_reached(position, stepper):
     if random.randint(0, 1):
         steps = random.randint(1000, 5000) # steps (forward)
         print("Driving forward: " + str(steps) + " steps")
