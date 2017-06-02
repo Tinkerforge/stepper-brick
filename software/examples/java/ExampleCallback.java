@@ -28,7 +28,7 @@ public class ExampleCallback {
 			public void positionReached(int position) {
 				int steps = 0;
 
-				if(random.nextInt(2) == 1) {
+				if (random.nextInt(2) == 1) {
 					steps = random.nextInt(4001) + 1000; // steps (forward)
 				} else {
 					steps = random.nextInt(5001) - 6000; // steps (backward)
