@@ -5,8 +5,8 @@ function octave_example_callback()
     PORT = 4223;
     UID = "XXYYZZ"; % Change XXYYZZ to the UID of your Stepper Brick
 
-    ipcon = java_new("com.tinkerforge.IPConnection"); % Create IP connection
-    stepper = java_new("com.tinkerforge.BrickStepper", UID, ipcon); % Create device object
+    ipcon = javaObject("com.tinkerforge.IPConnection"); % Create IP connection
+    stepper = javaObject("com.tinkerforge.BrickStepper", UID, ipcon); % Create device object
 
     ipcon.connect(HOST, PORT); % Connect to brickd
     % Don't use device before ipcon is connected
