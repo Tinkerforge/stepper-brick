@@ -40,7 +40,7 @@ Module ExampleCallback
         ' Don't use device before ipcon is connected
 
         ' Register position reached callback to subroutine PositionReachedCB
-        AddHandler stepper.PositionReached, AddressOf PositionReachedCB
+        AddHandler stepper.PositionReachedCallback, AddressOf PositionReachedCB
 
         stepper.Enable() ' Enable motor power
         stepper.SetSteps(1) ' Drive one step forward to get things going

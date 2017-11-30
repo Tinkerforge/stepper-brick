@@ -32,7 +32,7 @@ Module[{},
   sender@SetSteps[steps]
  ]
 
-AddEventHandler[stepper@PositionReached,PositionReachedCB]
+AddEventHandler[stepper@PositionReachedCallback,PositionReachedCB]
 
 stepper@Enable[](*Enable motor power*)
 stepper@SetSteps[1](*Drive one step forward to get things going*)
