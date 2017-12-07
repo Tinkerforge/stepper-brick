@@ -12,17 +12,17 @@ ipcon@Connect[host,port]
 
 (*Use position reached callback to program random movement*)
 PositionReachedCB[sender_,position_]:=
-Module[{},
+ Module[{},
   If[EvenQ[RandomInteger[]],
-   steps:=RandomInteger[{1000,5000}];(* steps (forward) *)
+   steps:=RandomInteger[{1000,5000}];(*steps (forward)*)
    Print["Driving forward: "<>ToString[steps]<>" steps"],
-   steps:=RandomInteger[{-5000,-1000}];(* steps (backward) *)
+   steps:=RandomInteger[{-5000,-1000}];(*steps (backward)*)
    Print["Driving backward: "<>ToString[steps]<>" steps"]
   ];
 
-  vel=RandomInteger[{200,2000}];(* steps/s *)
-  acc=RandomInteger[{100,1000}];(* steps/s^2 *)
-  dec=RandomInteger[{100,1000}];(* steps/s^2 *)
+  vel=RandomInteger[{200,2000}];(*steps/s*)
+  acc=RandomInteger[{100,1000}];(*steps/s^2*)
+  dec=RandomInteger[{100,1000}];(*steps/s^2*)
 
   Print["Configuration (vel, acc, dec): ("<>
         ToString[vel]<>", "<>ToString[acc]<>", "<>ToString[dec]<>")"];
