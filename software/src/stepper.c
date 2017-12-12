@@ -251,8 +251,6 @@ void stepper_make_step_speedramp(const int32_t steps) {
 }
 
 void tick_task(const uint8_t tick_type) {
-	static int8_t message_counter = 0;
-
 	if(tick_type == TICK_TASK_TYPE_CALCULATION) {
 		stepper_tick_calc_counter++;
 		stepper_current_sum += adc_channel_get_data(STEPPER_CURRENT_CHANNEL);
