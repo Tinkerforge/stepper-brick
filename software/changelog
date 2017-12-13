@@ -71,6 +71,6 @@
 2017-06-28: 2.3.5 (71ce9db)
 - Fix incompatibility between co-mcu support and LED Strip Bricklet (through bricklib)
 
-2017-12-TBD 2.3.6 (TBD)
+2017-12-13: 2.3.6 (e4a4953)
 - Make sure Brick does not restart on suspend/resume (through bricklib)
 - Refactor initial enumeration handling, fix double-enumeration bugs (through bricklib)
