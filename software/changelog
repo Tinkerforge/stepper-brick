@@ -75,5 +75,5 @@
 - Make sure Brick does not restart on suspend/resume (through bricklib)
 - Refactor initial enumeration handling, fix double-enumeration bugs (through bricklib)
 
-2018-01-11: 2.3.7 (TBD)
+2018-01-11: 2.3.7 (ac2fdd6)
 - Fix message duplication bug (through bricklib)
