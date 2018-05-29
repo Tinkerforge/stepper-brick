@@ -10,10 +10,10 @@
 
 // Use position reached callback to program random movement
 void cb_position_reached(int32_t position, void *user_data) {
+	(void)position; // avoid unused parameter warning
+
 	Stepper *stepper = (Stepper *)user_data;
 	int32_t steps;
-
-	(void)position; // avoid unused parameter warning
 
 	if(rand() % 2) {
 		steps = (rand() % 4000) + 1000; // steps (forward)
