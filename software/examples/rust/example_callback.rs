@@ -1,6 +1,6 @@
 use rand::{thread_rng, Rng};
 use std::{error::Error, io, thread};
-use tinkerforge::{ipconnection::IpConnection, stepper_brick::*};
+use tinkerforge::{ip_connection::IpConnection, stepper_brick::*};
 
 const HOST: &str = "127.0.0.1";
 const PORT: u16 = 4223;
@@ -8,19 +8,19 @@ const UID: &str = "XXYYZZ"; // Change XXYYZZ to the UID of your Stepper Brick
 
 fn main() -> Result<(), Box<dyn Error>> {
     let ipcon = IpConnection::new(); // Create IP connection
-    let stepper_brick = StepperBrick::new(UID, &ipcon); // Create device object
+    let stepper = StepperBrick::new(UID, &ipcon); // Create device object
 
-    ipcon.connect(HOST, PORT).recv()??; // Connect to brickd
-                                        // Don't use device before ipcon is connected
+    ipcon.connect((HOST, PORT)).recv()??; // Connect to brickd
+                                          // Don't use device before ipcon is connected
 
-    //Create listener for position reached events.
-    let position_reached_listener = stepper_brick.get_position_reached_receiver();
-    // Spawn thread to handle received events. This thread ends when the stepper_brick
+    //Create receiver for position reached events.
+    let position_reached_receiver = stepper.get_position_reached_receiver();
+    // Spawn thread to handle received events. This thread ends when the stepper
     // is dropped, so there is no need for manual cleanup.
-    let stepper_brick_copy = stepper_brick.clone(); //Device objects don't implement Sync, so they can't be shared between threads (by reference). So clone the device and move the copy.
+    let stepper_copy = stepper.clone(); //Device objects don't implement Sync, so they can't be shared between threads (by reference). So clone the device and move the copy.
     thread::spawn(move || {
         let mut rng = thread_rng();
-        for _event in position_reached_listener {
+        for position_reached in position_reached_receiver {
             let steps = if rng.gen() {
                 let steps = rng.gen_range(1000, 5001); // steps (forward)
                 println!("Driving forward: {} steps", steps);
@@ -37,19 +37,19 @@ fn main() -> Result<(), Box<dyn Error>> {
 
             println!("Configuration (vel, acc, dec): ({}, {}, {})", vel, acc, dec);
 
-            stepper_brick_copy.set_speed_ramping(acc, dec);
-            stepper_brick_copy.set_max_velocity(vel);
-            stepper_brick_copy.set_steps(steps);
+            stepper_copy.set_speed_ramping(acc, dec);
+            stepper_copy.set_max_velocity(vel);
+            stepper_copy.set_steps(steps);
         }
     });
 
-    stepper_brick.enable(); // Enable motor power
-    stepper_brick.set_steps(1); // Drive one step forward to get things going
+    stepper.enable(); // Enable motor power
+    stepper.set_steps(1); // Drive one step forward to get things going
 
     println!("Press enter to exit.");
     let mut _input = String::new();
     io::stdin().read_line(&mut _input)?;
-    stepper_brick.disable();
+    stepper.disable();
     ipcon.disconnect();
     Ok(())
 }
