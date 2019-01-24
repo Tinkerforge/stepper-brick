@@ -2,10 +2,10 @@ package main
 
 import (
 	"fmt"
+	"github.com/Tinkerforge/go-api-bindings/ipconnection"
+	"github.com/Tinkerforge/go-api-bindings/stepper_brick"
 	"math/rand"
 	"time"
-	"github.com/Tinkerforge/go-api-bindings/ipconnection"
-    "github.com/Tinkerforge/go-api-bindings/stepper_brick"
 )
 
 const ADDR string = "localhost:4223"
@@ -13,33 +13,33 @@ const UID string = "XXYYZZ" // Change XXYYZZ to the UID of your Stepper Brick.
 
 func main() {
 	ipcon := ipconnection.New()
-    defer ipcon.Close()
+	defer ipcon.Close()
 	stepper, _ := stepper_brick.New(UID, &ipcon) // Create device object.
 
 	ipcon.Connect(ADDR) // Connect to brickd.
-    defer ipcon.Disconnect()
+	defer ipcon.Disconnect()
 	// Don't use device before ipcon is connected.
 
-    rng := rand.New(rand.NewSource(time.Now().UnixNano()))
-    
+	rng := rand.New(rand.NewSource(time.Now().UnixNano()))
+
 	stepper.RegisterPositionReachedCallback(func(position int32) {
-        steps := int32(0)
-		if rng.Int31() % 2 == 0 {
-            steps = rng.Int31n(4001) + 1000
-            fmt.Printf("Driving forward: %d steps\n", steps)
-        } else {
-            steps = -(rng.Int31n(4001) + 1000)
-            fmt.Printf("Driving backward: %d steps\n", steps)
-        }
-        
-        vel := uint16(rng.Int31n(1800) + 200)
-        acc := uint16(rng.Int31n(900) + 100)
-        dec := uint16(rng.Int31n(900) + 100)
-        
-        fmt.Printf("Configuration: (vel, acc, dec): (%d, %d, %d)\n", vel, acc, dec)
-        stepper.SetSpeedRamping(acc, dec)
-        stepper.SetMaxVelocity(vel)
-        stepper.SetSteps(steps)
+		steps := int32(0)
+		if rng.Int31()%2 == 0 {
+			steps = rng.Int31n(4001) + 1000
+			fmt.Printf("Driving forward: %d steps\n", steps)
+		} else {
+			steps = -(rng.Int31n(4001) + 1000)
+			fmt.Printf("Driving backward: %d steps\n", steps)
+		}
+
+		vel := uint16(rng.Int31n(1800) + 200)
+		acc := uint16(rng.Int31n(900) + 100)
+		dec := uint16(rng.Int31n(900) + 100)
+
+		fmt.Printf("Configuration: (vel, acc, dec): (%d, %d, %d)\n", vel, acc, dec)
+		stepper.SetSpeedRamping(acc, dec)
+		stepper.SetMaxVelocity(vel)
+		stepper.SetSteps(steps)
 	})
 
 	stepper.Enable()    // Enable motor power
@@ -49,5 +49,4 @@ func main() {
 	fmt.Scanln()
 
 	stepper.Disable()
-	ipcon.Disconnect()
 }
