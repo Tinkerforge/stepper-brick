@@ -1,0 +1,33 @@
+# Change XXYYZZ to the UID of your Stepper Brick
+
+setup:
+    # Use position reached callback to program random movement
+    subscribe to tinkerforge/callback/stepper_brick/XXYYZZ/position_reached
+        if a message arives
+            # message contains the current position as int
+            generate random numbers r,
+                    steps [1000;5000],
+                    vel [200; 2000],
+                    acc [100; 1000]
+                and dec [100; 1000]
+                
+            if r is even
+                # Driving forward        
+            else
+                # Driving backward
+                set steps to -steps
+            endif
+            publish '{"acceleration": acc, "deceleration": dec}' to tinkerforge/request/stepper_brick/XXYYZZ/set_speed_ramping
+            publish '{"velocity": vel}' to tinkerforge/request/stepper_brick/XXYYZZ/set_max_velocity
+            publish '{"steps": steps}' to tinkerforge/request/stepper_brick/XXYYZZ/set_steps
+        endif
+    endsubscribe
+    
+    publish '{"register": true}' to tinkerforge/register/stepper_brick/XXYYZZ/position_reached # Register position_reached callback
+
+    publish '' to tinkerforge/request/stepper_brick/XXYYZZ/enable  # Enable motor power
+    publish '{"steps": 1}' to tinkerforge/request/stepper_brick/XXYYZZ/set_steps  # Drive one step forward to get things going
+    
+cleanup:
+    # If you are done, run this to clean up
+    publish '' to tinkerforge/request/stepper_brick/XXYYZZ/disable 

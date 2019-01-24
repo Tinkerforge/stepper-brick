@@ -1,0 +1,18 @@
+
+
+# Change XXYYZZ to the UID of your Stepper Brick
+
+setup:
+	publish '{"current": 800}' to tinkerforge/request/stepper_brick/XXYYZZ/set_motor_current  # 800mA
+	publish '{"mode": "eighth_step"}' to tinkerforge/request/stepper_brick/XXYYZZ/set_step_mode  # 1/8 step mode
+	publish '{"velocity": 2000}' to tinkerforge/request/stepper_brick/XXYYZZ/set_max_velocity  # Velocity 2000 steps/s
+	# Slow acceleration (500 steps/s^2),
+	# Fast deacceleration (5000 steps/s^2)
+	publish '{"acceleration": 500, "deacceleration": 5000}' to tinkerforge/request/stepper_brick/XXYYZZ/set_speed_ramping 
+	
+	publish '' to tinkerforge/request/stepper_brick/XXYYZZ/enable  # Enable motor power
+	publish '{"steps": 60000}' to tinkerforge/request/stepper_brick/XXYYZZ/set_steps  # Drive 60000 steps forward
+
+cleanup:
+	# If you are done, run this to clean up
+	publish '' to tinkerforge/request/stepper_brick/XXYYZZ/disable 
