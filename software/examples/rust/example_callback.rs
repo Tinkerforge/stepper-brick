@@ -20,7 +20,7 @@ fn main() -> Result<(), Box<dyn Error>> {
     let stepper_copy = stepper.clone(); //Device objects don't implement Sync, so they can't be shared between threads (by reference). So clone the device and move the copy.
     thread::spawn(move || {
         let mut rng = thread_rng();
-        for position_reached in position_reached_receiver {
+        for _position_reached in position_reached_receiver {
             let steps = if rng.gen() {
                 let steps = rng.gen_range(1000, 5001); // steps (forward)
                 println!("Driving forward: {} steps", steps);
