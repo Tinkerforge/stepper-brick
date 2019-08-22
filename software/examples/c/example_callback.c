@@ -53,7 +53,7 @@ int main(void) {
 	// Register position reached callback to function cb_position_reached
 	stepper_register_callback(&stepper,
 	                          STEPPER_CALLBACK_POSITION_REACHED,
-	                          (void *)cb_position_reached,
+	                          (void (*)(void))cb_position_reached,
 	                          &stepper);
 
 	stepper_enable(&stepper); // Enable motor power
