@@ -26,6 +26,6 @@ if __name__ == "__main__":
     stepper.enable() # Enable motor power
     stepper.set_steps(60000) # Drive 60000 steps forward
 
-    raw_input("Press key to exit\n") # Use input() in Python 3
+    input("Press key to exit\n") # Use raw_input() in Python 2
     stepper.disable()
     ipcon.disconnect()
