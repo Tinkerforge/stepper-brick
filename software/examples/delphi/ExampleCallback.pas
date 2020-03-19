@@ -67,7 +67,14 @@ begin
 
   WriteLn('Press key to exit');
   ReadLn;
-  stepper.Disable;
+
+  { Stop motor before disabling motor power }
+  stepper.Stop; { Request motor stop }
+  stepper.SetSpeedRamping(500,
+                          5000); { Fast deacceleration (5000 steps/s^2) for stopping }
+  Sleep(400); { Wait for motor to actually stop: max velocity (2000 steps/s) / decceleration (5000 steps/s^2) = 0.4 s }
+  stepper.Disable; { Disable motor power }
+
   ipcon.Destroy; { Calls ipcon.Disconnect internally }
 end;
 

@@ -18,7 +18,7 @@ Notebook[{
    RowBox[{"ipcon", "@", RowBox[{"Connect", "[", RowBox[{"host", ",", "port"}], "]"}]}],
    RowBox[{"
 "}],
-   RowBox[{"stepper", "@", RowBox[{"SetMotorCurrent", "[", "800", "]"}], RowBox[{"(*", "800mA", "*)"}]}],
+   RowBox[{"stepper", "@", RowBox[{"SetMotorCurrent", "[", "800", "]"}], RowBox[{"(*", "800 mA", "*)"}]}],
    RowBox[{"stepper", "@", RowBox[{"SetStepMode", "[", "8", "]"}], RowBox[{"(*", "1/8 step mode", "*)"}]}],
    RowBox[{"stepper", "@", RowBox[{"SetMaxVelocity", "[", "2000", "]"}], RowBox[{"(*", "Velocity 2000 steps/s", "*)"}]}],
    RowBox[{"
@@ -35,8 +35,13 @@ Notebook[{
    RowBox[{"Input", "[", "\"\<Click OK to exit\>\"", "]"}],
    RowBox[{"
 "}],
-   RowBox[{"(*", "Clean up", "*)"}],
-   RowBox[{"stepper", "@", RowBox[{"Disable", "[", "]"}]}],
+   RowBox[{"(*", "Stop motor before disabling motor power", "*)"}],
+   RowBox[{"stepper", "@", RowBox[{"Stop", "[", "]"}], RowBox[{"(*", "Request motor stop", "*)"}]}],
+   RowBox[{"stepper", "@", RowBox[{"SetSpeedRamping", "[", RowBox[{"500", ",", "5000"}], "]"}], RowBox[{"(*", "Fast deacceleration (5000 steps/s^2) for stopping", "*)"}]}],
+   RowBox[{RowBox[{"Pause", "[", "0.4", "]"}], RowBox[{"(*", "Wait for motor to actually stop: max velocity (2000 steps/s) / decceleration (5000 steps/s^2) = 0.4 s", "*)"}]}],
+   RowBox[{"stepper", "@", RowBox[{"Disable", "[", "]"}], RowBox[{"(*", "Disable motor power", "*)"}]}],
+   RowBox[{"
+"}],
    RowBox[{"ipcon", "@", RowBox[{"Disconnect", "[", "]"}]}],
    RowBox[{"ReleaseNETObject", "[", "stepper", "]"}],
    RowBox[{"ReleaseNETObject", "[", "ipcon", "]"}]

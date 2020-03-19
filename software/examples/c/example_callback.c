@@ -1,3 +1,5 @@
+#define IPCON_EXPOSE_MILLISLEEP
+
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -61,7 +63,14 @@ int main(void) {
 
 	printf("Press key to exit\n");
 	getchar();
-	stepper_disable(&stepper);
+
+	// Stop motor before disabling motor power
+	stepper_stop(&stepper); // Request motor stop
+	stepper_set_speed_ramping(&stepper, 500,
+	                          5000); // Fast deacceleration (5000 steps/s^2) for stopping
+	millisleep(400); // Wait for motor to actually stop: max velocity (2000 steps/s) / decceleration (5000 steps/s^2) = 0.4 s
+	stepper_disable(&stepper); // Disable motor power
+
 	stepper_destroy(&stepper);
 	ipcon_destroy(&ipcon); // Calls ipcon_disconnect internally
 	return 0;

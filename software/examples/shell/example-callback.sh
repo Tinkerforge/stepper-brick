@@ -18,6 +18,10 @@ tinkerforge call stepper-brick $uid set-steps 1 # Drive one step forward to get 
 
 echo "Press key to exit"; read dummy
 
-tinkerforge call stepper-brick $uid disable
+# Stop motor before disabling motor power
+tinkerforge call stepper-brick $uid stop # Request motor stop
+tinkerforge call stepper-brick $uid set-speed-ramping 500 5000 # Fast deacceleration (5000 steps/s^2) for stopping
+sleep 0.4 # Wait for motor to actually stop: max velocity (2000 steps/s) / decceleration (5000 steps/s^2) = 0.4 s
+tinkerforge call stepper-brick $uid disable # Disable motor power
 
 kill -- -$$ # Stop callback dispatch in background

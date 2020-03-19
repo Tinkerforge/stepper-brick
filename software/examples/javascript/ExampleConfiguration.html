@@ -41,7 +41,7 @@
 
                 ipcon.on(Tinkerforge.IPConnection.CALLBACK_CONNECTED,
                     function (connectReason) {
-                        stepper.setMotorCurrent(800); // 800mA
+                        stepper.setMotorCurrent(800); // 800 mA
                         stepper.setStepMode(8); // 1/8 step mode
                         stepper.setMaxVelocity(2000); // Velocity 2000 steps/s
 

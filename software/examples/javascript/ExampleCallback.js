@@ -48,8 +48,16 @@ stepper.on(Tinkerforge.BrickStepper.CALLBACK_POSITION_REACHED,
 console.log('Press key to exit');
 process.stdin.on('data',
     function (data) {
-        stepper.disable();
-        ipcon.disconnect();
-        process.exit(0);
+        // Stop motor before disabling motor power
+        stepper.stop(); // Request motor stop
+        stepper.setSpeedRamping(500,
+                                5000); // Fast deacceleration (5000 steps/s^2) for stopping
+
+        setTimeout(function () {
+            stepper.disable(); // Disable motor power
+
+            ipcon.disconnect();
+            process.exit(0);
+        }, 400); // Wait for motor to actually stop: max velocity (2000 steps/s) / decceleration (5000 steps/s^2) = 0.4 s
     }
 );

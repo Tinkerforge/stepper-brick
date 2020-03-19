@@ -16,7 +16,7 @@ ipcon.connect(HOST, PORT,
 
 ipcon.on(Tinkerforge.IPConnection.CALLBACK_CONNECTED,
     function (connectReason) {
-        stepper.setMotorCurrent(800); // 800mA
+        stepper.setMotorCurrent(800); // 800 mA
         stepper.setStepMode(8); // 1/8 step mode
         stepper.setMaxVelocity(2000); // Velocity 2000 steps/s
 
@@ -32,8 +32,16 @@ ipcon.on(Tinkerforge.IPConnection.CALLBACK_CONNECTED,
 console.log('Press key to exit');
 process.stdin.on('data',
     function (data) {
-        stepper.disable();
-        ipcon.disconnect();
-        process.exit(0);
+        // Stop motor before disabling motor power
+        stepper.stop(); // Request motor stop
+        stepper.setSpeedRamping(500,
+                                5000); // Fast deacceleration (5000 steps/s^2) for stopping
+
+        setTimeout(function () {
+            stepper.disable(); // Disable motor power
+
+            ipcon.disconnect();
+            process.exit(0);
+        }, 400); // Wait for motor to actually stop: max velocity (2000 steps/s) / decceleration (5000 steps/s^2) = 0.4 s
     }
 );

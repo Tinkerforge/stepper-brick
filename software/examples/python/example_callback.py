@@ -5,6 +5,7 @@ HOST = "localhost"
 PORT = 4223
 UID = "XXYYZZ" # Change XXYYZZ to the UID of your Stepper Brick
 
+import time
 import random
 
 from tinkerforge.ip_connection import IPConnection
@@ -43,5 +44,12 @@ if __name__ == "__main__":
     stepper.set_steps(1) # Drive one step forward to get things going
 
     input("Press key to exit\n") # Use raw_input() in Python 2
-    stepper.disable()
+
+    # Stop motor before disabling motor power
+    stepper.stop() # Request motor stop
+    stepper.set_speed_ramping(500,
+                              5000) # Fast deacceleration (5000 steps/s^2) for stopping
+    time.sleep(0.4) # Wait for motor to actually stop: max velocity (2000 steps/s) / decceleration (5000 steps/s^2) = 0.4 s
+    stepper.disable() # Disable motor power
+
     ipcon.disconnect()

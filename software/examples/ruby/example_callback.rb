@@ -41,5 +41,11 @@ stepper.set_steps 1 # Drive one step forward to get things going
 
 puts 'Press key to exit'
 $stdin.gets
-stepper.disable
+
+# Stop motor before disabling motor power
+stepper.stop # Request motor stop
+stepper.set_speed_ramping 500, 5000 # Fast deacceleration (5000 steps/s^2) for stopping
+sleep 0.4 # Wait for motor to actually stop: max velocity (2000 steps/s) / decceleration (5000 steps/s^2) = 0.4 s
+stepper.disable # Disable motor power
+
 ipcon.disconnect

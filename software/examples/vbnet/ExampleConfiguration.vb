@@ -13,7 +13,7 @@ Module ExampleConfiguration
         ipcon.Connect(HOST, PORT) ' Connect to brickd
         ' Don't use device before ipcon is connected
 
-        stepper.SetMotorCurrent(800) ' 800mA
+        stepper.SetMotorCurrent(800) ' 800 mA
         stepper.SetStepMode(8) ' 1/8 step mode
         stepper.SetMaxVelocity(2000) ' Velocity 2000 steps/s
 
@@ -26,7 +26,14 @@ Module ExampleConfiguration
 
         Console.WriteLine("Press key to exit")
         Console.ReadLine()
-        stepper.Disable()
+
+        ' Stop motor before disabling motor power
+        stepper.Stop() ' Request motor stop
+        stepper.SetSpeedRamping(500, _
+                                5000) ' Fast deacceleration (5000 steps/s^2) for stopping
+        Thread.Sleep(400) ' Wait for motor to actually stop: max velocity (2000 steps/s) / decceleration (5000 steps/s^2) = 0.4 s
+        stepper.Disable() ' Disable motor power
+
         ipcon.Disconnect()
     End Sub
 End Module

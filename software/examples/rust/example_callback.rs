@@ -50,7 +50,13 @@ fn main() -> Result<(), Box<dyn Error>> {
     println!("Press enter to exit.");
     let mut _input = String::new();
     io::stdin().read_line(&mut _input)?;
-    stepper.disable();
+
+    // Stop motor before disabling motor power
+    stepper.stop(); // Request motor stop
+    stepper.set_speed_ramping(500, 5000); // Fast deacceleration (5000 steps/s^2) for stopping
+    thread::sleep(Duration::from_millis(400)); // Wait for motor to actually stop: max velocity (2000 steps/s) / decceleration (5000 steps/s^2) = 0.4 s
+    stepper.disable(); // Disable motor power
+
     ipcon.disconnect();
     Ok(())
 }
