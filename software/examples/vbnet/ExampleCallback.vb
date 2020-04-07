@@ -1,4 +1,5 @@
 Imports System
+Imports System.Threading
 Imports Tinkerforge
 
 Module ExampleCallback
