@@ -53,7 +53,7 @@ fn main() -> Result<(), Box<dyn Error>> {
 
     // Stop motor before disabling motor power
     stepper.stop(); // Request motor stop
-    stepper.set_speed_ramping(500, 5000); // Fast deacceleration (5000 steps/s^2) for stopping
+    stepper.set_speed_ramping(500, 5000).recv()?; // Fast deacceleration (5000 steps/s^2) for stopping; use recv()? to block until the command is sent to the brick.
     thread::sleep(Duration::from_millis(400)); // Wait for motor to actually stop: max velocity (2000 steps/s) / decceleration (5000 steps/s^2) = 0.4 s
     stepper.disable(); // Disable motor power
 
