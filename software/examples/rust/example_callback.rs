@@ -23,18 +23,18 @@ fn main() -> Result<(), Box<dyn Error>> {
         let mut rng = thread_rng();
         for _position_reached in position_reached_receiver {
             let steps = if rng.gen() {
-                let steps = rng.gen_range(1000, 5001); // steps (forward)
+                let steps = rng.gen_range(1000..5001); // steps (forward)
                 println!("Driving forward: {} steps", steps);
                 steps
             } else {
-                let steps = rng.gen_range(-5000, -999); // steps (backward)
+                let steps = rng.gen_range(-5000..-999); // steps (backward)
                 println!("Driving backward: {} steps", steps);
                 steps
             };
 
-            let vel = rng.gen_range(200, 2001); // steps/s
-            let acc = rng.gen_range(100, 1001); // steps/s^2
-            let dec = rng.gen_range(100, 1001); // steps/s^2
+            let acc = rng.gen_range(100..1001); // steps/s^2
+            let dec = rng.gen_range(100..1001); // steps/s^2
+            let vel = rng.gen_range(200..2001); // steps/s
 
             println!("Configuration (vel, acc, dec): ({}, {}, {})", vel, acc, dec);
 
